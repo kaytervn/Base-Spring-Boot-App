@@ -37,3 +37,4 @@ build/
 application-dev.properties
 src/test
 logs
+.mvn
