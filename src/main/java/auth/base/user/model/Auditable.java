@@ -39,5 +39,5 @@ public abstract class Auditable<T> extends ReuseId {
     @LastModifiedDate
     @Column(name = "modified_date", nullable = false)
     Date modifiedDate;
-    int status = 1;
+    Integer status = 1;
 }

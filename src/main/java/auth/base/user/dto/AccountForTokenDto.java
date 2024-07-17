@@ -1,4 +1,4 @@
-package auth.base.user.dto.account;
+package auth.base.user.dto;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -6,12 +6,11 @@ import lombok.experimental.FieldDefaults;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AccountDto {
+public class AccountForTokenDto {
     Long id;
     Integer kind;
     String username;
-    String phone;
     String email;
     String fullName;
-    String avatarPath;
+    Boolean isSuperAdmin;
 }

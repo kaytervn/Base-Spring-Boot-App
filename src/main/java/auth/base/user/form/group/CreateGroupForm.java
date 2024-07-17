@@ -1,25 +1,27 @@
 package auth.base.user.form.group;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
 @Data
-@ApiModel
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateGroupForm {
-    @NotEmpty(message = "Name cant not be null")
-    @ApiModelProperty(name = "name", required = true)
-    private String name;
-    @NotEmpty(message = "description cant not be null")
-    @ApiModelProperty(name = "description", required = true)
-    private String description;
-    @NotNull(message = "permissions cant not be null")
-    @ApiModelProperty(name = "permissions", required = true)
-    private Long[] permissions;
-    @NotNull(message = "kind cant not be null")
-    @ApiModelProperty(name = "kind", required = true)
-    private Integer kind;
+    @NotEmpty(message = "Name cannot be null")
+    @Schema(requiredMode = REQUIRED)
+    String name;
+    @NotEmpty(message = "description cannot be null")
+    @Schema(requiredMode = REQUIRED)
+    String description;
+    @NotNull(message = "permissions cannot be null")
+    @Schema(requiredMode = REQUIRED)
+    Long[] permissions;
+    @NotNull(message = "kind cannot be null")
+    @Schema(requiredMode = REQUIRED)
+    Integer kind;
 }

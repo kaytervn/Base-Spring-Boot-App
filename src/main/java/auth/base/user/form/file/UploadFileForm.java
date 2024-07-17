@@ -1,26 +1,22 @@
-package auth.base.user.form.group;
+package auth.base.user.form.file;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
+import org.springframework.web.multipart.MultipartFile;
 
 import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
-
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UpdateGroupForm {
-    @NotNull(message = "id cannot be null")
+public class UploadFileForm {
+    @NotEmpty(message = "type is required")
     @Schema(requiredMode = REQUIRED)
-    Long id;
-    @NotNull(message = "name cannot be null")
+    String type;
+    @NotNull(message = "file is required")
     @Schema(requiredMode = REQUIRED)
-    String name;
-    @Schema(requiredMode = REQUIRED)
-    String description;
-    @NotNull(message = "permissions cannot be null")
-    @Schema(requiredMode = REQUIRED)
-    Long[] permissions;
+    MultipartFile file;
 }

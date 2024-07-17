@@ -1,33 +1,33 @@
 package auth.base.user.form.permission;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
 @Data
-@ApiModel
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreatePermissionForm {
-
-    @NotEmpty(message = "name cant not be null")
-    @ApiModelProperty(name = "name", required = true)
-    private String name;
-    @NotEmpty(message = "action cant not be null")
-    @ApiModelProperty(name = "action", required = true)
-    private String action;
-    @NotNull(message = "showMenu cant not be null")
-    @ApiModelProperty(name = "showMenu", required = true)
-    private Boolean showMenu;
-    @NotEmpty(message = "description cant not be null")
-    @ApiModelProperty(name = "description", required = true)
-    private String description;
-    @NotEmpty(message = "nameGroup cant not be null")
-    @ApiModelProperty(name = "nameGroup", required = true)
-    private String nameGroup;
-
-    @NotEmpty(message = "permissionCode cant not be null")
-    @ApiModelProperty(name = "permissionCode", required = true)
-    private String permissionCode;
+    @NotEmpty(message = "name cannot be null")
+    @Schema(requiredMode = REQUIRED)
+    String name;
+    @NotEmpty(message = "action cannot be null")
+    @Schema(requiredMode = REQUIRED)
+    String action;
+    @NotNull(message = "showMenu cannot be null")
+    @Schema(requiredMode = REQUIRED)
+    Boolean showMenu;
+    @NotEmpty(message = "description cannot be null")
+    @Schema(requiredMode = REQUIRED)
+    String description;
+    @NotEmpty(message = "groupName cannot be null")
+    @Schema(requiredMode = REQUIRED)
+    String groupName;
+    @NotEmpty(message = "permissionCode cannot be null")
+    @Schema(requiredMode = REQUIRED)
+    String permissionCode;
 }
