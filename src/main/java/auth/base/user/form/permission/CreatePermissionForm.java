@@ -1,33 +1,33 @@
 package auth.base.user.form.permission;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreatePermissionForm {
-    @NotEmpty(message = "name cannot be null")
-    @Schema(requiredMode = REQUIRED)
+    @NotEmpty(message = "name is required")
+    @ApiModelProperty(required = true)
     String name;
-    @NotEmpty(message = "action cannot be null")
-    @Schema(requiredMode = REQUIRED)
+    @NotEmpty(message = "action is required")
+    @ApiModelProperty(required = true)
     String action;
-    @NotNull(message = "showMenu cannot be null")
-    @Schema(requiredMode = REQUIRED)
+    @NotNull(message = "showMenu is required")
+    @ApiModelProperty(required = true)
     Boolean showMenu;
-    @NotEmpty(message = "description cannot be null")
-    @Schema(requiredMode = REQUIRED)
+    @NotEmpty(message = "description is required")
+    @ApiModelProperty(required = true)
     String description;
-    @NotEmpty(message = "groupName cannot be null")
-    @Schema(requiredMode = REQUIRED)
+    @NotEmpty(message = "groupName is required")
+    @ApiModelProperty(required = true)
     String groupName;
-    @NotEmpty(message = "permissionCode cannot be null")
-    @Schema(requiredMode = REQUIRED)
+    @NotEmpty(message = "permissionCode is required")
+    @ApiModelProperty(required = true)
     String permissionCode;
 }

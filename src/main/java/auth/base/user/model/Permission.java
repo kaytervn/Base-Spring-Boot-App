@@ -1,10 +1,11 @@
 package auth.base.user.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Getter
 @Setter
@@ -21,5 +22,6 @@ public class Permission extends Auditable<String> {
     Boolean showMenu;
     String description;
     String groupName;
+    @Column(unique = true)
     String permissionCode;
 }

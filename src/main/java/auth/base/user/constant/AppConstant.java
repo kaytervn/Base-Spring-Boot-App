@@ -1,7 +1,8 @@
 package auth.base.user.constant;
 
 public interface AppConstant {
-    String ID_GENERATOR = "idGenerator";
+    String ID_GENERATOR_NAME = "idGenerator";
+    String ID_GENERATOR_STRATEGY = "auth.base.user.service.id.IdGenerator";
 
     String DATE_FORMAT = "dd/MM/yyyy";
     String DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";

@@ -12,7 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * SnowFlakeIdService - A distributed unique ID generator inspired by Twitter's Snowflake
- *
+ * <p>
  * Structure: 0 - 0000000000 0000000000 0000000000 0000000000 0 - 00000 - 00000 - 000000000000
  * 1 bit: Unused (sign bit)
  * 41 bits: Timestamp (milliseconds since epoch)
@@ -48,10 +48,12 @@ public class SnowFlakeIdService {
     private final ReentrantLock lock = new ReentrantLock();
 
     // Private constructor for singleton
-    private SnowFlakeIdService() {}
+    private SnowFlakeIdService() {
+    }
 
     /**
      * Get the singleton instance of SnowFlakeIdService
+     *
      * @return SnowFlakeIdService instance
      */
     public static SnowFlakeIdService getInstance() {
@@ -67,6 +69,7 @@ public class SnowFlakeIdService {
 
     /**
      * Set the worker ID
+     *
      * @param nodeId Worker ID (0-63)
      */
     public void setNodeId(@Range(min = 0, max = 63) int nodeId) {
@@ -78,6 +81,7 @@ public class SnowFlakeIdService {
 
     /**
      * Set the data center ID
+     *
      * @param dataCenterId Data center ID (0-31)
      */
     public void setDataCenterId(@Range(min = 0, max = 32) int dataCenterId) {
@@ -89,6 +93,7 @@ public class SnowFlakeIdService {
 
     /**
      * Generate the next unique ID
+     *
      * @return Unique ID
      */
     public long nextId() {
@@ -123,6 +128,7 @@ public class SnowFlakeIdService {
 
     /**
      * Wait until the next millisecond
+     *
      * @param lastTimestamp Last timestamp
      * @return Next millisecond timestamp
      */
@@ -137,6 +143,7 @@ public class SnowFlakeIdService {
 
     /**
      * Generate current timestamp in milliseconds
+     *
      * @return Current timestamp
      */
     protected long timeGen() {
@@ -145,6 +152,7 @@ public class SnowFlakeIdService {
 
     /**
      * Generate a worker ID based on host address
+     *
      * @return Generated worker ID
      */
     private static Long getWorkId() {
@@ -163,6 +171,7 @@ public class SnowFlakeIdService {
 
     /**
      * Generate a data center ID based on host name
+     *
      * @return Generated data center ID
      */
     private static Long getDataCenterId() {

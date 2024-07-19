@@ -1,19 +1,18 @@
 package auth.base.user.form.account;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RequestForgetPasswordForm {
     @Email
-    @NotEmpty(message = "email cannot be null.")
-    @Schema(requiredMode = REQUIRED)
+    @NotEmpty(message = "email is required")
+    @ApiModelProperty(required = true)
     String email;
 }

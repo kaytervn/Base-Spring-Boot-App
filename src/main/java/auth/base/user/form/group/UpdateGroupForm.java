@@ -1,26 +1,25 @@
 package auth.base.user.form.group;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
-
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpdateGroupForm {
-    @NotNull(message = "id cannot be null")
-    @Schema(requiredMode = REQUIRED)
+    @NotNull(message = "id is required")
+    @ApiModelProperty(required = true)
     Long id;
-    @NotNull(message = "name cannot be null")
-    @Schema(requiredMode = REQUIRED)
+    @NotEmpty(message = "name is required")
+    @ApiModelProperty(required = true)
     String name;
-    @Schema(requiredMode = REQUIRED)
+    @ApiModelProperty(required = true)
     String description;
-    @NotNull(message = "permissions cannot be null")
-    @Schema(requiredMode = REQUIRED)
+    @NotNull(message = "permissions is required")
+    @ApiModelProperty(required = true)
     Long[] permissions;
 }

@@ -1,11 +1,6 @@
 package auth.base.user.model;
 
 import auth.base.user.constant.AppConstant;
-import auth.base.user.service.id.IdGenerator;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +11,10 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.util.Date;
 
 @Getter
@@ -24,20 +23,20 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class Auditable<T> extends ReuseId {
     @Id
-    @GeneratedValue(generator = AppConstant.ID_GENERATOR)
-    @GenericGenerator(name = AppConstant.ID_GENERATOR, type = IdGenerator.class)
+    @GeneratedValue(generator = AppConstant.ID_GENERATOR_NAME)
+    @GenericGenerator(name = AppConstant.ID_GENERATOR_NAME, strategy = AppConstant.ID_GENERATOR_STRATEGY)
     Long id;
+    Integer status = 1;
     @CreatedBy
-    @Column(name = "created_by", nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false)
     T createdBy;
     @CreatedDate
-    @Column(name = "created_date", nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false)
     Date createdDate;
     @LastModifiedBy
-    @Column(name = "modified_by", nullable = false)
+    @Column(nullable = false)
     T modifiedBy;
     @LastModifiedDate
-    @Column(name = "modified_date", nullable = false)
+    @Column(nullable = false)
     Date modifiedDate;
-    Integer status = 1;
 }

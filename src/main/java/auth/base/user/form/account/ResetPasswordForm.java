@@ -1,25 +1,24 @@
 package auth.base.user.form.account;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ResetPasswordForm {
-    @NotEmpty(message = "otp cannot be null")
-    @Schema(requiredMode = REQUIRED)
+    @NotEmpty(message = "otp is required")
+    @ApiModelProperty(required = true)
     String otp;
-    @NotEmpty(message = "userId cannot be null")
-    @Schema(requiredMode = REQUIRED)
+    @NotEmpty(message = "userId is required")
+    @ApiModelProperty(required = true)
     String userId;
-    @Size(min = 6, message = "newPassword minimum 6 character.")
-    @NotEmpty(message = "newPassword cannot be null")
-    @Schema(requiredMode = REQUIRED)
+    @Size(min = 6, message = "newPassword minimum 6 character")
+    @NotEmpty(message = "newPassword is required")
+    @ApiModelProperty(required = true)
     String newPassword;
 }

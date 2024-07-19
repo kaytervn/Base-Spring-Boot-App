@@ -1,23 +1,22 @@
 package auth.base.user.form.account;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
+import javax.validation.constraints.NotEmpty;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoginAccountForm {
-    @NotEmpty(message = "username cannot be null")
-    @Schema(requiredMode = REQUIRED)
+    @NotEmpty(message = "username is required")
+    @ApiModelProperty(required = true)
     String username;
-    @NotEmpty(message = "password cannot be null")
-    @Schema(requiredMode = REQUIRED)
+    @NotEmpty(message = "password is required")
+    @ApiModelProperty(required = true)
     String password;
-    @NotEmpty(message = "grant_type cannot be null")
-    @Schema(requiredMode = REQUIRED)
+    @NotEmpty(message = "grant_type is required")
+    @ApiModelProperty(required = true)
     String grant_type;
 }
