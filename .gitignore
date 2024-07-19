@@ -34,7 +34,7 @@ build/
 .vscode/
 
 # Source Ignore
-application-dev.properties
+#application-dev.properties
 src/test
 logs
 .mvn
