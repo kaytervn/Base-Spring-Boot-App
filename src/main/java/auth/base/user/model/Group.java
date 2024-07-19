@@ -18,7 +18,7 @@ import java.util.List;
 public class Group extends Auditable<String> {
     @Column(unique = true)
     String name;
-    @Column(length = 1000)
+    @Column(columnDefinition = "text")
     String description;
     Integer kind;
     Boolean isSystemRole = false;

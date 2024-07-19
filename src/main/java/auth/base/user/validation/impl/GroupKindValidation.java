@@ -1,7 +1,7 @@
 package auth.base.user.validation.impl;
 
 import auth.base.user.constant.EnumDef;
-import auth.base.user.validation.AccountKind;
+import auth.base.user.validation.GroupKind;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 
@@ -10,11 +10,11 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.Set;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AccountKindValidation implements ConstraintValidator<AccountKind, Integer> {
+public class GroupKindValidation implements ConstraintValidator<GroupKind, Integer> {
     boolean allowNull;
 
     @Override
-    public void initialize(AccountKind constraintAnnotation) {
+    public void initialize(GroupKind constraintAnnotation) {
         allowNull = constraintAnnotation.allowNull();
     }
 
@@ -23,6 +23,6 @@ public class AccountKindValidation implements ConstraintValidator<AccountKind, I
         if (value == null) {
             return allowNull;
         }
-        return Set.of(EnumDef.ACCOUNT_KIND_ADMIN, EnumDef.ACCOUNT_KIND_MANAGER, EnumDef.ACCOUNT_KIND_USER).contains(value);
+        return Set.of(EnumDef.GROUP_KIND_ADMIN, EnumDef.GROUP_KIND_MANAGER, EnumDef.GROUP_KIND_USER).contains(value);
     }
 }

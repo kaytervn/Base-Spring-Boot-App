@@ -10,10 +10,10 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = AccountKindValidation.class)
 @Documented
-public @interface AccountKind {
+public @interface GroupKind {
     boolean allowNull() default false;
 
-    String message() default "Account kind is invalid";
+    String message() default "Group kind is invalid";
 
     Class<?>[] groups() default {};
 
