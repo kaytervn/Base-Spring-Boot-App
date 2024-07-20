@@ -1,5 +1,6 @@
 package auth.base.user.form.account;
 
+import auth.base.user.validation.AccountKind;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -29,6 +30,7 @@ public class CreateAccountAdminForm {
     String email;
     String phone;
     @NotNull(message = "kind is required")
+    @AccountKind
     @ApiModelProperty(required = true)
     Integer kind;
     @NotNull(message = "status is required")

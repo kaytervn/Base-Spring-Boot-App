@@ -1,5 +1,6 @@
 package auth.base.user.configuration;
 
+import auth.base.user.constant.AppConstant;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,14 +10,13 @@ import java.util.concurrent.Executor;
 
 @Configuration
 public class ThreadConfig {
-
     @Value("${thread.pool.size:10}")
     private int threadPoolSize;
 
     @Value("${thread.pool.queue.size:150}")
     private int threadQueuePoolSize;
 
-    @Bean(name = "threadPoolExecutor")
+    @Bean(name = AppConstant.APP_THREAD_POOL_EXECUTOR)
     public Executor threadPoolTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(threadPoolSize);

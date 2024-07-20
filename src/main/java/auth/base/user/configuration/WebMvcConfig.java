@@ -26,7 +26,6 @@ import java.util.List;
 @EnableWebMvc
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class WebMvcConfig implements WebMvcConfigurer {
-
     LogInterceptor logInterceptor;
 
     public WebMvcConfig(LogInterceptor logInterceptor) {

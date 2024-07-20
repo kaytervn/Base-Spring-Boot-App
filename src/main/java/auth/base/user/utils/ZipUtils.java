@@ -13,7 +13,6 @@ import java.util.zip.InflaterInputStream;
 
 @Slf4j
 public class ZipUtils {
-
     public static String zipString(String input) {
         try (ByteArrayOutputStream stream = new ByteArrayOutputStream();
              DeflaterOutputStream zip = new DeflaterOutputStream(stream, new Deflater())) {

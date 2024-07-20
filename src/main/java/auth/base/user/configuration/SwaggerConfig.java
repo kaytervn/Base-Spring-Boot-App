@@ -20,7 +20,6 @@ import java.util.Set;
 @Import(BeanValidatorPluginsConfiguration.class)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SwaggerConfig {
-
     static Set<String> CONSUMES_PRODUCES = Set.of("application/json");
 
     @Bean

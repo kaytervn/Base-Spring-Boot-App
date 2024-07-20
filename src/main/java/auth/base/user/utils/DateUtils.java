@@ -10,7 +10,6 @@ import java.util.TimeZone;
 
 @Slf4j
 public final class DateUtils {
-
     public static Date convertToDateViaInstant(LocalDate dateToConvert) {
         return Date.from(dateToConvert.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 @Slf4j
 public class LogInterceptor implements HandlerInterceptor {
-
     @Override
     public boolean preHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) {
         long startTime = System.currentTimeMillis();

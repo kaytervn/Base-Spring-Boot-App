@@ -1,7 +1,6 @@
 package auth.base.user.utils;
 
 public final class ConvertUtils {
-
     public static Long convertStringToLong(String input) {
         try {
             return Long.parseLong(input);
