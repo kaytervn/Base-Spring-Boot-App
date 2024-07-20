@@ -26,11 +26,7 @@ import java.util.TimeZone;
 @EnableAsync
 @EnableScheduling
 @EnableAspectJAutoProxy
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequiredArgsConstructor
 public class Application {
-    RabbitMQService rabbitMQService;
-
     @Bean
     public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory) {
         return new RabbitAdmin(connectionFactory);
