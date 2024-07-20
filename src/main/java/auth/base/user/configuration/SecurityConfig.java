@@ -1,8 +1,10 @@
 package auth.base.user.configuration;
 
+import auth.base.user.constant.AppConstant;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,14 +21,16 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @NonFinal
+    @Resource(name = AppConstant.APP_USER_SERVICE)
     UserDetailsService userDetailsService;
 
     @Bean

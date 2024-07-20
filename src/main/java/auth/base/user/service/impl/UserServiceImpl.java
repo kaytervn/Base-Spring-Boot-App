@@ -29,7 +29,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Transactional
-@Service(AppConstant.APP_USER_SERVICE)
+@Service(value = AppConstant.APP_USER_SERVICE)
 @Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
