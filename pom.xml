@@ -15,10 +15,12 @@
     <description>Base authentication project for Spring Boot</description>
 
     <properties>
-        <java.version>11</java.version>
+        <!-- Liquibase Configuration -->
         <liquibase.url>jdbc:mysql://localhost:3306/db_base_auth</liquibase.url>
         <liquibase.username>root</liquibase.username>
         <liquibase.password>1234</liquibase.password>
+
+        <java.version>11</java.version>
         <maven.build.timestamp.format>yyyy_MM_dd-HH_mm_ss</maven.build.timestamp.format>
         <spring-boot.version>2.3.0.RELEASE</spring-boot.version>
         <spring-cloud.version>Hoxton.SR8</spring-cloud.version>

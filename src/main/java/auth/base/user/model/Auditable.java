@@ -23,8 +23,8 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class Auditable<T> extends ReuseId {
     @Id
-    @GeneratedValue(generator = AppConstant.ID_GENERATOR_NAME)
-    @GenericGenerator(name = AppConstant.ID_GENERATOR_NAME, strategy = AppConstant.ID_GENERATOR_STRATEGY)
+    @GeneratedValue(generator = AppConstant.APP_ID_GENERATOR_NAME)
+    @GenericGenerator(name = AppConstant.APP_ID_GENERATOR_NAME, strategy = AppConstant.APP_ID_GENERATOR_STRATEGY)
     Long id;
     Integer status = 1;
     @CreatedBy

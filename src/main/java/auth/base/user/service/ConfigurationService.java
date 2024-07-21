@@ -1,4 +1,4 @@
-package auth.base.user.utils;
+package auth.base.user.service;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;

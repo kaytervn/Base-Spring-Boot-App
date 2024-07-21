@@ -1,12 +1,14 @@
 package auth.base.user.constant;
 
-import auth.base.user.utils.ConfigurationService;
+import auth.base.user.service.ConfigurationService;
 
 import java.util.AbstractMap;
 import java.util.Map;
 
 public interface AppConstant {
     String APP_CONTROLLER_PACKAGE = "auth.base.user.controller";
+    String APP_ID_GENERATOR_STRATEGY = "auth.base.user.service.id.IdGenerator";
+    String APP_ID_GENERATOR_NAME = "idGenerator";
     String APP_THREAD_POOL_EXECUTOR = "threadPoolExecutor";
     String APP_USER_SERVICE = "userService";
 
@@ -15,9 +17,6 @@ public interface AppConstant {
 
     String GRANT_TYPE_PASSWORD = "password";
     String GRANT_TYPE_USER = "user";
-
-    String ID_GENERATOR_NAME = "idGenerator";
-    String ID_GENERATOR_STRATEGY = "auth.base.user.service.id.IdGenerator";
 
     String DATE_FORMAT = "dd/MM/yyyy";
     String DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
