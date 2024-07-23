@@ -4,7 +4,7 @@ import auth.base.user.constant.AppConstant;
 import auth.base.user.constant.EnumDef;
 import auth.base.user.model.Account;
 import auth.base.user.repository.AccountRepository;
-import auth.base.user.service.AppJwt;
+import auth.base.user.utils.JwtUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserDetailsService {
     }
 
     @SuppressWarnings("unchecked")
-    public AppJwt getAddInfoFromToken() {
+    public JwtUtils getAddInfoFromToken() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             OAuth2AuthenticationDetails oauthDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserDetailsService {
                 Map<String, Object> decodedDetails = (Map<String, Object>) oauthDetails.getDecodedDetails();
                 String encodedData = (String) decodedDetails.get("additional_info");
                 if (encodedData != null && !encodedData.isEmpty()) {
-                    return AppJwt.decode(encodedData);
+                    return JwtUtils.decode(encodedData);
                 }
             }
         }

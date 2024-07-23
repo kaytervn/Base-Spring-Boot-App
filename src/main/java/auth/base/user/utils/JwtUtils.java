@@ -1,19 +1,17 @@
-package auth.base.user.service;
+package auth.base.user.utils;
 
-import auth.base.user.utils.ZipUtils;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AppJwt {
+public class JwtUtils {
     static final String DELIM = "\\|";
     static final String EMPTY_STRING = "<>";
 
@@ -37,11 +35,11 @@ public class AppJwt {
                 isSuperAdmin.toString(), tenantId));
     }
 
-    public static AppJwt decode(String input) {
+    public static JwtUtils decode(String input) {
         try {
             String[] items = Objects.requireNonNull(ZipUtils.unzipString(input)).split(DELIM, 11);
             if (items.length >= 10) {
-                AppJwt result = new AppJwt();
+                JwtUtils result = new JwtUtils();
                 result.setAccountId(parseLong(items[0]));
                 result.setStoreId(parseLong(items[1]));
                 result.setKind(checkString(items[2]));
