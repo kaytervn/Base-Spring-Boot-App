@@ -1,6 +1,8 @@
-package com.finance.config;
+package auth.base.user.configuration;
 
 import auth.base.user.service.id.IdGenerator;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.AuthenticationKeyGenerator;
@@ -13,9 +15,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CustomAuthenticationKeyGenerator implements AuthenticationKeyGenerator {
-
-    private static final String[] KEY_ELEMENTS = {"client_id", "scope", "username", "device_id"};
+    static String[] KEY_ELEMENTS = {"client_id", "scope", "username", "device_id"};
 
     @Override
     public String extractKey(OAuth2Authentication authentication) {

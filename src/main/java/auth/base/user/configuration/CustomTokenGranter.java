@@ -11,18 +11,11 @@ import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.token.AbstractTokenGranter;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 
-import java.util.Map;
-
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CustomTokenGranter extends AbstractTokenGranter {
     UserServiceImpl userService;
 
-    public CustomTokenGranter(AuthenticationManager authenticationManager,
-                              AuthorizationServerTokenServices tokenServices,
-                              ClientDetailsService clientDetailsService,
-                              OAuth2RequestFactory requestFactory,
-                              String grantType,
-                              UserServiceImpl userService) {
+    public CustomTokenGranter(AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory, String grantType, UserServiceImpl userService) {
         super(tokenServices, clientDetailsService, requestFactory, grantType);
         this.userService = userService;
     }

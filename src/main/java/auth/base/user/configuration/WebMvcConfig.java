@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,13 +25,10 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
+@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class WebMvcConfig implements WebMvcConfigurer {
     LogInterceptor logInterceptor;
-
-    public WebMvcConfig(LogInterceptor logInterceptor) {
-        this.logInterceptor = logInterceptor;
-    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

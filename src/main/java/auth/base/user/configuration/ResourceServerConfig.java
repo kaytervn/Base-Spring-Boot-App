@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Configuration
 @EnableResourceServer
 @RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     JwtAccessTokenConverter jwtAccessTokenConverter;
     JsonToUrlEncodedAuthenticationFilter jsonFilter;

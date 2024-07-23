@@ -5,12 +5,15 @@ import auth.base.user.dto.ApiResponse;
 import auth.base.user.form.ErrorForm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
+import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -28,14 +31,24 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     static String ERROR = "ERROR";
     ObjectMapper mapper = new ObjectMapper();
 
-    @ExceptionHandler({NotFoundException.class, NoHandlerFoundException.class})
-    public ResponseEntity<ApiMessageDto<String>> handleNotFoundException(Exception ex) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ApiMessageDto<String>> handleNotFoundException(NotFoundException ex) {
         return createApiResponse(ERROR, ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @NonNull
+    @Override
+    protected ResponseEntity<Object> handleNoHandlerFoundException(@NonNull NoHandlerFoundException ex, @NonNull HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setCode(ERROR);
+        apiMessageDto.setResult(false);
+        apiMessageDto.setMessage(ex.getMessage());
+        return new ResponseEntity<>(apiMessageDto, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({AccessDeniedException.class, ForbiddenException.class})
     public ResponseEntity<ApiMessageDto<String>> handleAccessDeniedException(Exception ex) {
-        return createApiResponse("ERROR forbidden", ex.getMessage(), HttpStatus.FORBIDDEN);
+        return createApiResponse("ERROR Forbidden", ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler({BadRequestException.class, Exception.class})
@@ -83,7 +96,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CustomizeOverallException.class)
     public ResponseEntity<ApiMessageDto<String>> handleCustomizeOverallException(CustomizeOverallException ex) {
-        return createApiResponse("internalServerError", ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return createApiResponse("Internal Server Error", ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private ResponseEntity<ApiMessageDto<String>> createApiResponse(String code, String message, HttpStatus status) {

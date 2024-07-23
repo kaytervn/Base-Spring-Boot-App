@@ -3,7 +3,6 @@ package auth.base.user.configuration;
 import auth.base.user.constant.AppConstant;
 import auth.base.user.exception.oauth2.CustomOauthException;
 import auth.base.user.service.impl.UserServiceImpl;
-import com.finance.config.CustomAuthenticationKeyGenerator;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -90,8 +89,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     private TokenGranter tokenGranter(AuthorizationServerEndpointsConfigurer endpoints) {
         List<TokenGranter> granters = new ArrayList<>(Collections.singletonList(endpoints.getTokenGranter()));
-        granters.add(new CustomTokenGranter(authenticationManager, endpoints.getTokenServices(), endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory(), AppConstant.GRANT_TYPE_PASSWORD, userService));
-        granters.add(new CustomTokenGranter(authenticationManager, endpoints.getTokenServices(), endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory(), AppConstant.GRANT_TYPE_USER, userService));
+        granters.add(new CustomTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory(), AppConstant.GRANT_TYPE_PASSWORD, userService));
+        granters.add(new CustomTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory(), AppConstant.GRANT_TYPE_USER, userService));
         return new CompositeTokenGranter(granters);
     }
 

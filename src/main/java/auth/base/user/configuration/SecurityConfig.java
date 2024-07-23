@@ -27,9 +27,8 @@ import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @NonFinal
     @Resource(name = AppConstant.APP_USER_SERVICE)
     UserDetailsService userDetailsService;
 
