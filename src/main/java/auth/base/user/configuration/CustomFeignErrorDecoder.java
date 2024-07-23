@@ -1,5 +1,9 @@
 package auth.base.user.configuration;
 
+import auth.base.user.exception.BadRequestException;
+import auth.base.user.exception.ForbiddenException;
+import auth.base.user.exception.NotFoundException;
+import auth.base.user.exception.UnauthorizationException;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;

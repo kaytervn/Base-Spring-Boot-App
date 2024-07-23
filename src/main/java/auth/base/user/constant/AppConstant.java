@@ -21,6 +21,9 @@ public interface AppConstant {
     String DATE_FORMAT = "dd/MM/yyyy";
     String DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
 
+    String BACKEND_POST_NOTIFICATION_COMMAND = "BACKEND_POST_NOTIFICATION";
+    String BACKEND_APP = "BACKEND_APP";
+
     Map<String, String> TIMEZONE = Map.ofEntries(
             new AbstractMap.SimpleEntry<>("Asia/Ho_Chi_Minh", "+07:00"),
             new AbstractMap.SimpleEntry<>("Asia/Bangkok", "+07:00")

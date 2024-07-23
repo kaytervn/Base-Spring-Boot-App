@@ -1,4 +1,4 @@
-package auth.base.user.service;
+package auth.base.user.service.rabbitMQ;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
