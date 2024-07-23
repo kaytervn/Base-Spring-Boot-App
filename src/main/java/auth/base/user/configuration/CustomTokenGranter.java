@@ -29,13 +29,12 @@ public class CustomTokenGranter extends AbstractTokenGranter {
 
     @Override
     protected OAuth2AccessToken getAccessToken(ClientDetails client, TokenRequest tokenRequest) {
-        Map<String, String> parameters = tokenRequest.getRequestParameters();
-        String username = parameters.get("username");
-        String password = parameters.get("password");
-        try {
-            return userService.getAccessToken(client, tokenRequest, username, password, getTokenServices());
-        } catch (Exception e) {
-            throw new InvalidTokenException("Account or tenant invalid", e);
+        if (AppConstant.GRANT_TYPE_PASSWORD.equalsIgnoreCase(tokenRequest.getGrantType())) {
+            return userService.getAccessToken(client, tokenRequest, getTokenServices());
+        } else if (AppConstant.GRANT_TYPE_USER.equalsIgnoreCase(tokenRequest.getGrantType())) {
+            return userService.getAccessTokenForUser(client, tokenRequest, getTokenServices());
+        } else {
+            throw new InvalidTokenException("Invalid grant type: " + tokenRequest.getGrantType());
         }
     }
 }

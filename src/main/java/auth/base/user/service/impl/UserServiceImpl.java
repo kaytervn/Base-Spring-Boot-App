@@ -1,6 +1,7 @@
 package auth.base.user.service.impl;
 
 import auth.base.user.constant.AppConstant;
+import auth.base.user.constant.EnumDef;
 import auth.base.user.model.Account;
 import auth.base.user.repository.AccountRepository;
 import auth.base.user.service.AppJwt;
@@ -55,13 +56,24 @@ public class UserServiceImpl implements UserDetailsService {
                 .collect(Collectors.toSet());
     }
 
-    public OAuth2AccessToken getAccessToken(ClientDetails client, TokenRequest tokenRequest, String username, String password, AuthorizationServerTokenServices tokenServices) {
-        Map<String, String> requestParameters = new HashMap<>();
-        requestParameters.put("grantType", AppConstant.GRANT_TYPE_PASSWORD);
-        OAuth2Request oAuth2Request = new OAuth2Request(requestParameters, client.getClientId(),
-                loadUserByUsername(username).getAuthorities(), true, client.getScope(),
-                client.getResourceIds(), null, new HashSet<>(Collections.singletonList("code")), new HashMap<>());
+    public OAuth2AccessToken getAccessToken(ClientDetails client, TokenRequest tokenRequest, AuthorizationServerTokenServices tokenServices) {
+        String username = tokenRequest.getRequestParameters().get("username");
         UserDetails userDetails = loadUserByUsername(username);
+        return createAccessToken(client, userDetails, AppConstant.GRANT_TYPE_PASSWORD, tokenServices);
+    }
+
+    public OAuth2AccessToken getAccessTokenForUser(ClientDetails client, TokenRequest tokenRequest, AuthorizationServerTokenServices tokenServices) {
+        String phone = tokenRequest.getRequestParameters().get("phone");
+        Account user = accountRepository.findAccountByPhone(phone)
+                .filter(u -> Objects.equals(EnumDef.STATUS_ACTIVE, u.getStatus()))
+                .orElseThrow(() -> new UsernameNotFoundException("Invalid phone"));
+        UserDetails userDetails = loadUserByUsername(user.getUsername());
+        return createAccessToken(client, userDetails, AppConstant.GRANT_TYPE_USER, tokenServices);
+    }
+
+    private OAuth2AccessToken createAccessToken(ClientDetails client, UserDetails userDetails, String grantType, AuthorizationServerTokenServices tokenServices) {
+        Map<String, String> requestParameters = Map.of("grantType", grantType);
+        OAuth2Request oAuth2Request = new OAuth2Request(requestParameters, client.getClientId(), userDetails.getAuthorities(), true, client.getScope(), client.getResourceIds(), null, Set.of("code"), Map.of());
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         OAuth2Authentication auth = new OAuth2Authentication(oAuth2Request, authenticationToken);
         return tokenServices.createAccessToken(auth);
