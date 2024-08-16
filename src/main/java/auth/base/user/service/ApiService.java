@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -19,7 +20,6 @@ import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,18 +31,19 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = false)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ApiService {
     static String[] UPLOAD_TYPES = {"LOGO", "AVATAR", "IMAGE", "DOCUMENT"};
     static Map<String, Long> storeQRCodeRandom = new ConcurrentHashMap<>();
-    OTPService financeOTPService;
+    static long MAX_FILE_SIZE_MB = 2;
+    OTPService otpService;
     CommonAsyncService commonAsyncService;
 
     public ApiMessageDto<UploadFileDto> storeFile(UploadFileForm uploadFileForm) {
         ApiMessageDto<UploadFileDto> apiMessageDto = new ApiMessageDto<>();
         if (!Arrays.asList(UPLOAD_TYPES).contains(uploadFileForm.getType().toUpperCase())) {
             apiMessageDto.setResult(false);
-            apiMessageDto.setMessage("Type is required in AVATAR or LOGO");
+            apiMessageDto.setMessage("Type is required in LOGO, AVATAR, IMAGE or DOCUMENT.");
             return apiMessageDto;
         }
         try {
@@ -50,12 +51,16 @@ public class ApiService {
             String ext = FilenameUtils.getExtension(fileName);
             String finalFile = uploadFileForm.getType() + "_" + RandomStringUtils.randomAlphanumeric(10) + "." + ext;
             String typeFolder = File.separator + uploadFileForm.getType();
-
             Path fileStorageLocation = Paths.get(AppConstant.ROOT_DIRECTORY + typeFolder).toAbsolutePath().normalize();
             Files.createDirectories(fileStorageLocation);
             Path targetLocation = fileStorageLocation.resolve(finalFile);
+            long fileSizeMB = uploadFileForm.getFile().getSize() / (1024 * 1024);
+            if (fileSizeMB > MAX_FILE_SIZE_MB) {
+                apiMessageDto.setResult(false);
+                apiMessageDto.setMessage("File size exceeds the maximum limit of " + MAX_FILE_SIZE_MB + " MB.");
+                return apiMessageDto;
+            }
             Files.copy(uploadFileForm.getFile().getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
             UploadFileDto uploadFileDto = new UploadFileDto();
             uploadFileDto.setFilePath(typeFolder + File.separator + finalFile);
             apiMessageDto.setData(uploadFileDto);
@@ -98,11 +103,11 @@ public class ApiService {
     }
 
     public String getOTPForgetPassword() {
-        return financeOTPService.generate(4);
+        return otpService.generate(4);
     }
 
     public synchronized Long getOrderHash() {
-        return Long.parseLong(financeOTPService.generate(9)) + System.currentTimeMillis();
+        return Long.parseLong(otpService.generate(9)) + System.currentTimeMillis();
     }
 
     public void sendEmail(String email, String msg, String subject, boolean html) {
@@ -117,13 +122,12 @@ public class ApiService {
     }
 
     public String getOrderStt(Long storeId) {
-        return financeOTPService.orderStt(storeId);
+        return otpService.orderStt(storeId);
     }
 
     public synchronized boolean checkCodeValid(String code) {
         long currentTime = System.currentTimeMillis();
         storeQRCodeRandom.entrySet().removeIf(entry -> (currentTime - entry.getValue()) > 60000);
-
         if (storeQRCodeRandom.containsKey(code)) {
             return false;
         }

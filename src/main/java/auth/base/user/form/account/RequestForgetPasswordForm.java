@@ -6,13 +6,13 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RequestForgetPasswordForm {
     @Email
-    @NotEmpty(message = "email is required")
+    @NotBlank(message = "email is required")
     @ApiModelProperty(required = true)
     String email;
 }

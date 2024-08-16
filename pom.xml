@@ -19,6 +19,9 @@
         <liquibase.url>jdbc:mysql://localhost:3306/db_base_auth</liquibase.url>
         <liquibase.username>root</liquibase.username>
         <liquibase.password>1234</liquibase.password>
+        <liquibase.referenceUrl>
+            hibernate:spring:auth.base.user.model,auth.base.user.repository?dialect=org.hibernate.dialect.MySQL5InnoDBDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        </liquibase.referenceUrl>
 
         <java.version>11</java.version>
         <maven.build.timestamp.format>yyyy_MM_dd-HH_mm_ss</maven.build.timestamp.format>
@@ -306,9 +309,7 @@
                     <url>${liquibase.url}</url>
                     <username>${liquibase.username}</username>
                     <password>${liquibase.password}</password>
-                    <referenceUrl>
-                        hibernate:spring:com.finance.model,com.finance.repository?dialect=org.hibernate.dialect.MySQL5InnoDBDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
-                    </referenceUrl>
+                    <referenceUrl>${liquibase.referenceUrl}</referenceUrl>
                     <verbose>true</verbose>
                     <logging>debug</logging>
                 </configuration>

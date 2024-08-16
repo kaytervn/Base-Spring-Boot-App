@@ -1,22 +1,18 @@
 package auth.base.user.form.account;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoginAccountForm {
-    @NotEmpty(message = "username is required")
-    @ApiModelProperty(required = true)
+    @NotBlank(message = "username is required")
     String username;
-    @NotEmpty(message = "password is required")
-    @ApiModelProperty(required = true)
+    @NotBlank(message = "password is required")
     String password;
-    @NotEmpty(message = "grant_type is required")
-    @ApiModelProperty(required = true)
+    @NotBlank(message = "grant_type is required")
     String grant_type;
 }

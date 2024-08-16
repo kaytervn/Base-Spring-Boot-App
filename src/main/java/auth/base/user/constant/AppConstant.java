@@ -24,6 +24,9 @@ public interface AppConstant {
     String BACKEND_POST_NOTIFICATION_COMMAND = "BACKEND_POST_NOTIFICATION";
     String BACKEND_APP = "BACKEND_APP";
 
+    String PHONE_PATTERN = "^0[35789][0-9]{8}$";
+    String EMAIL_PATTERN = "^(?!.*[.]{2,})[a-zA-Z0-9.%]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
     Map<String, String> TIMEZONE = Map.ofEntries(
             new AbstractMap.SimpleEntry<>("Asia/Ho_Chi_Minh", "+07:00"),
             new AbstractMap.SimpleEntry<>("Asia/Bangkok", "+07:00")

@@ -7,36 +7,29 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateAccountAdminForm {
-    @NotEmpty(message = "username is required")
-    @ApiModelProperty(required = true)
+    @NotBlank(message = "username is required")
     String username;
-    @NotEmpty(message = "password is required")
-    @ApiModelProperty(required = true)
+    @NotBlank(message = "password is required")
     String password;
-    @NotEmpty(message = "fullName is required")
-    @ApiModelProperty(required = true)
+    @NotBlank(message = "fullName is required")
     String fullName;
     String avatarPath;
     @Email
-    @NotEmpty(message = "email is required")
-    @ApiModelProperty(required = true)
+    @NotBlank(message = "email is required")
     String email;
     String phone;
     @NotNull(message = "kind is required")
     @AccountKind
-    @ApiModelProperty(required = true)
     Integer kind;
     @NotNull(message = "status is required")
-    @ApiModelProperty(required = true)
     Integer status;
     @NotNull(message = "groupId is required")
-    @ApiModelProperty(required = true)
     Long groupId;
 }

@@ -6,9 +6,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-
-import java.util.concurrent.Executor;
 
 @Configuration
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -20,7 +19,7 @@ public class ThreadConfig {
     int threadQueuePoolSize;
 
     @Bean(name = AppConstant.APP_THREAD_POOL_EXECUTOR)
-    public Executor threadPoolTaskExecutor() {
+    public TaskExecutor threadPoolTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(threadPoolSize);
         executor.setMaxPoolSize(threadPoolSize);

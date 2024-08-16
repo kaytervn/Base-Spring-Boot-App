@@ -3,6 +3,7 @@ package auth.base.user.utils;
 import auth.base.user.constant.AppConstant;
 import lombok.extern.slf4j.Slf4j;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
@@ -96,6 +97,12 @@ public final class DateUtils {
 
     public static Date convertUTCToVN(Date utcDate) {
         return Date.from(utcDate.toInstant().atZone(ZoneOffset.UTC).plusHours(7).toInstant());
+    }
+
+    public static String convertDoubleToString(Double value) {
+        NumberFormat numberFormat = NumberFormat.getInstance();
+        numberFormat.setMaximumFractionDigits(0);
+        return numberFormat.format(value);
     }
 }
 

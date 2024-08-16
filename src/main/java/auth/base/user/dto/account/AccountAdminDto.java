@@ -18,7 +18,7 @@ public class AccountAdminDto extends ABasicAdminDto {
     String phone;
     String email;
     String fullName;
-    String avatar;
+    String avatarPath;
     Boolean isSuperAdmin;
     Date lastLogin;
     GroupDto group;

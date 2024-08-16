@@ -5,29 +5,22 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreatePermissionForm {
-    @NotEmpty(message = "name is required")
-    @ApiModelProperty(required = true)
+    @NotBlank(message = "name is required")
     String name;
-    @NotEmpty(message = "action is required")
-    @ApiModelProperty(required = true)
+    @NotBlank(message = "action is required")
     String action;
     @NotNull(message = "showMenu is required")
-    @ApiModelProperty(required = true)
     Boolean showMenu;
-    @NotEmpty(message = "description is required")
-    @ApiModelProperty(required = true)
+    @NotBlank(message = "description is required")
     String description;
-    @NotEmpty(message = "groupName is required")
-    @ApiModelProperty(required = true)
+    @NotBlank(message = "groupName is required")
     String groupName;
-    @NotEmpty(message = "permissionCode is required")
-    @ApiModelProperty(required = true)
+    @NotBlank(message = "permissionCode is required")
     String permissionCode;
 }

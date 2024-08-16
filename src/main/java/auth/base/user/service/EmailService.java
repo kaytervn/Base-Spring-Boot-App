@@ -24,11 +24,9 @@ public class EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(message,
                     MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                     StandardCharsets.UTF_8.name());
-
             helper.setTo(email);
             helper.setSubject(subject);
             helper.setText(msg, html);
-
             emailSender.send(message);
         } catch (Exception e) {
             log.error("Failed to send email: {}", e.getMessage(), e);

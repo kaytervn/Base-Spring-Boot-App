@@ -16,6 +16,6 @@ public class AccountDto {
     String phone;
     String email;
     String fullName;
-    String avatar;
+    String avatarPath;
     GroupDto group;
 }

@@ -1,6 +1,14 @@
 package auth.base.user.mapper;
 
+import auth.base.user.dto.account.AccountAdminDto;
+import auth.base.user.dto.account.AccountDto;
+import auth.base.user.form.account.CreateAccountAdminForm;
+import auth.base.user.form.account.UpdateAccountAdminForm;
+import auth.base.user.form.account.UpdateProfileAdminForm;
+import auth.base.user.model.Account;
 import org.mapstruct.*;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
