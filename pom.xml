@@ -8,23 +8,23 @@
         <version>2.3.0.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>auth.base</groupId>
-    <artifactId>user</artifactId>
+    <groupId>com.app</groupId>
+    <artifactId>spring</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>base-auth-user</name>
-    <description>Base authentication project for Spring Boot</description>
+    <name>spring-app</name>
+    <description>Spring Boot Application</description>
 
     <properties>
         <!-- Liquibase Configuration -->
-        <liquibase.url>jdbc:mysql://localhost:3306/db_base_auth</liquibase.url>
+        <liquibase.url>jdbc:mysql://localhost:3306/db_spring_app</liquibase.url>
         <liquibase.username>root</liquibase.username>
         <liquibase.password>1234</liquibase.password>
         <liquibase.referenceUrl>
-            hibernate:spring:auth.base.user.model,auth.base.user.repository?dialect=org.hibernate.dialect.MySQL5InnoDBDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+            hibernate:spring:com.app.model,com.app.repository?dialect=org.hibernate.dialect.MySQL5InnoDBDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
         </liquibase.referenceUrl>
 
         <java.version>11</java.version>
-        <maven.build.timestamp.format>yyyy_MM_dd-HH_mm_ss</maven.build.timestamp.format>
+        <maven.build.timestamp.format>yyyyMMdd_HHmmss</maven.build.timestamp.format>
         <spring-boot.version>2.3.0.RELEASE</spring-boot.version>
         <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
         <mapstruct.version>1.3.1.Final</mapstruct.version>
@@ -74,6 +74,10 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <exclusions>
                 <exclusion>
@@ -85,10 +89,6 @@
                     <artifactId>logback-classic</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
