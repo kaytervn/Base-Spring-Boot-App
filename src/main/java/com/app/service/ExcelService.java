@@ -58,10 +58,4 @@ public class ExcelService {
         Cell cell = row.getCell(cellIndex);
         return cell != null ? DATE_FORMAT.parse(cell.getStringCellValue()) : null;
     }
-
-    public void skipRows(Iterator<Row> rows, int numberOfRows) {
-        for (int i = 0; i < numberOfRows && rows.hasNext(); i++) {
-            rows.next();
-        }
-    }
 }

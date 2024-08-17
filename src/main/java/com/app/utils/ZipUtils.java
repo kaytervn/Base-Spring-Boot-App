@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.zip.Deflater;
@@ -17,9 +18,10 @@ public class ZipUtils {
         try (ByteArrayOutputStream stream = new ByteArrayOutputStream();
              DeflaterOutputStream zip = new DeflaterOutputStream(stream, new Deflater())) {
             zip.write(input.getBytes(StandardCharsets.UTF_8));
+            zip.finish();
             return Base64.getEncoder().encodeToString(stream.toByteArray());
-        } catch (Exception e) {
-            log.error("Error zipping string", e);
+        } catch (IOException e) {
+            log.error("Error compressing string", e);
             return null;
         }
     }

@@ -62,17 +62,23 @@ public class JwtUtils {
     }
 
     private static Long parseLong(String input) {
-        return Optional.ofNullable(input)
-                .map(Long::parseLong)
-                .filter(value -> value > 0)
-                .orElse(null);
+        try {
+            long value = Long.parseLong(input);
+            return value > 0 ? value : null;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
     }
 
     private static Integer parseInt(String input) {
-        return Optional.ofNullable(input)
-                .map(Integer::parseInt)
-                .filter(value -> value > 0)
-                .orElse(null);
+        try {
+            int value = Integer.parseInt(input);
+            return value > 0 ? value : null;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
     }
 
     private static String checkString(String input) {

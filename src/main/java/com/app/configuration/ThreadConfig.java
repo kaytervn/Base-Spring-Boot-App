@@ -23,7 +23,7 @@ public class ThreadConfig {
         executor.setCorePoolSize(threadPoolSize);
         executor.setMaxPoolSize(threadPoolSize);
         executor.setQueueCapacity(threadQueuePoolSize);
-        executor.setThreadNamePrefix("app-auth-invoke-");
+        executor.setThreadNamePrefix("spring-app-invoke-");
         executor.initialize();
         return executor;
     }

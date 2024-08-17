@@ -28,21 +28,20 @@ import java.util.stream.Collectors;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-    static String ERROR = "ERROR";
     ObjectMapper mapper = new ObjectMapper();
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiMessageDto<String>> handleNotFoundException(NotFoundException ex) {
-        return createApiResponse(ERROR, ex.getMessage(), HttpStatus.NOT_FOUND);
+        return createApiResponse("ERROR", ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @NonNull
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(@NonNull NoHandlerFoundException ex, @NonNull HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
         ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
-        apiMessageDto.setCode(ERROR);
+        apiMessageDto.setCode("ERROR >> handleNoHandlerFoundException");
         apiMessageDto.setResult(false);
-        apiMessageDto.setMessage(ex.getMessage());
+        apiMessageDto.setMessage("[Ex3]: 404 - " + ex.getMessage());
         return new ResponseEntity<>(apiMessageDto, HttpStatus.NOT_FOUND);
     }
 
@@ -51,13 +50,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return createApiResponse("ERROR Forbidden", ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler({BadRequestException.class, Exception.class})
+    @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public ApiMessageDto<List<ErrorForm>> handleBadRequestException(Exception ex) {
+    public ApiMessageDto<List<ErrorForm>> exceptionHandler(Exception ex) {
         log.error(ex.getMessage(), ex);
         ApiMessageDto<List<ErrorForm>> apiMessageDto = new ApiMessageDto<>();
-        apiMessageDto.setCode(ERROR);
+        apiMessageDto.setCode("ERROR");
         apiMessageDto.setResult(false);
         if (ex instanceof MyBindingException) {
             try {
@@ -68,14 +67,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 log.error(e.getMessage());
             }
         } else {
-            apiMessageDto.setMessage(ex.getMessage());
+            apiMessageDto.setMessage("[Ex2]: " + ex.getMessage());
         }
         return apiMessageDto;
     }
 
+    @ExceptionHandler({BadRequestException.class})
+    public ResponseEntity<ApiMessageDto<String>> handleBadRequestException(BadRequestException ex) {
+        return createApiResponse(ex.getCode() != null ? ex.getCode() : "ERROR-400", ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(UnauthorizationException.class)
     public ResponseEntity<ApiMessageDto<String>> handleUnauthorizationException(UnauthorizationException ex) {
-        return createApiResponse("ERROR 401", ex.getMessage(), HttpStatus.UNAUTHORIZED);
+        return createApiResponse("ERROR-401", ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)

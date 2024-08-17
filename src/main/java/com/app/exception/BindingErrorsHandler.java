@@ -1,6 +1,7 @@
 package com.app.exception;
 
 import com.app.form.ErrorForm;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,25 +29,21 @@ public class BindingErrorsHandler {
 
     @Before("@within(org.springframework.web.bind.annotation.RestController)")
     public void logBefore(JoinPoint joinPoint) {
-        for (Object arg : joinPoint.getArgs()) {
-            if (arg instanceof BindingResult) {
-                handleBindingResult((BindingResult) arg);
-            }
-        }
-    }
-
-    private void handleBindingResult(BindingResult errors) {
-        if (errors.hasErrors()) {
-            List<ErrorForm> errorForms = errors.getAllErrors().stream()
-                    .map(error -> new ErrorForm(((FieldError) error).getField(), error.getDefaultMessage()))
-                    .collect(Collectors.toList());
-            try {
-                String json = mapper.writeValueAsString(errorForms);
-                throw new MyBindingException(json);
-            } catch (Exception e) {
-                log.error("Error processing binding result", e);
-                throw new RuntimeException("Error processing binding result", e);
-            }
-        }
+        Arrays.stream(joinPoint.getArgs())
+                .filter(BindingResult.class::isInstance)
+                .map(BindingResult.class::cast)
+                .filter(BindingResult::hasErrors)
+                .map(errors -> errors.getAllErrors().stream()
+                        .map(it -> new ErrorForm(((FieldError) it).getField(), it.getDefaultMessage()))
+                        .collect(Collectors.toList()))
+                .findFirst()
+                .ifPresent(errorForms -> {
+                    try {
+                        String json = mapper.writeValueAsString(errorForms);
+                        throw new MyBindingException(json);
+                    } catch (JsonProcessingException jPE) {
+                        log.error(jPE.getMessage(), jPE);
+                    }
+                });
     }
 }

@@ -24,7 +24,7 @@ public class CustomTokenGranter extends AbstractTokenGranter {
     protected OAuth2AccessToken getAccessToken(ClientDetails client, TokenRequest tokenRequest) {
         if (AppConstant.GRANT_TYPE_PASSWORD.equalsIgnoreCase(tokenRequest.getGrantType())) {
             return userService.getAccessToken(client, tokenRequest, getTokenServices());
-        } else if (AppConstant.GRANT_TYPE_PHONE.equalsIgnoreCase(tokenRequest.getGrantType())) {
+        } else if (AppConstant.GRANT_TYPE_USER.equalsIgnoreCase(tokenRequest.getGrantType())) {
             return userService.getAccessTokenForUser(client, tokenRequest, getTokenServices());
         } else {
             throw new InvalidTokenException("Invalid grant type: " + tokenRequest.getGrantType());

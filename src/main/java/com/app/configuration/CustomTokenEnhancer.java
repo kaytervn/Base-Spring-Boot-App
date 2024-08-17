@@ -45,18 +45,16 @@ public class CustomTokenEnhancer implements TokenEnhancer {
         additionalInfo.put("user_kind", account.getKind());
         additionalInfo.put("grant_type", grantType);
         String additionalInfoStr = ZipUtils.zipString(
-                String.join(DELIM,
-                        account.getId().toString(),
-                        "-1", // storeId
-                        account.getKind().toString(),
-                        "<>", // permission
-                        "-1", // deviceId
-                        account.getKind().toString(),
-                        username,
-                        "-1", // tabletKind
-                        "-1", // orderId
-                        account.getIsSuperAdmin().toString()
-                )
+                account.getId() + DELIM
+                        + -1L + DELIM                        // storeId
+                        + account.getKind() + DELIM          // kind: token kind
+                        + "<>" + DELIM                       // permission
+                        + -1L + DELIM                        // deviceId: lưu ở table device để get firebase url
+                        + account.getKind() + DELIM          // userKind: loại user (admin hay gì?)
+                        + username + DELIM                   // username
+                        + -1 + DELIM                         // tabletKind: loại máy tính bảng
+                        + -1L + DELIM                        // orderId
+                        + account.getIsSuperAdmin()          // isSuperAdmin
         );
         additionalInfo.put("additional_info", additionalInfoStr);
         return additionalInfo;
@@ -64,7 +62,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
 
     private AccountForTokenDto getAccountByUsername(String username) {
         String query = "SELECT id, kind, username, email, full_name, is_super_admin " +
-                "FROM db_fn_account WHERE username = ? and status = 1 limit 1";
+                "FROM db_app_account WHERE username = ? and status = 1 limit 1";
         try {
             return jdbcTemplate.queryForObject(query, new Object[]{username}, new BeanPropertyRowMapper<>(AccountForTokenDto.class));
         } catch (Exception e) {
