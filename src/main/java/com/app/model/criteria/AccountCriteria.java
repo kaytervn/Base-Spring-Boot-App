@@ -44,6 +44,9 @@ public class AccountCriteria {
                 if (StringUtils.isNoneBlank(getEmail())) {
                     predicates.add(cb.like(cb.lower(root.get("email")), "%" + getEmail().toLowerCase() + "%"));
                 }
+                if (StringUtils.isNoneBlank(getPhone())) {
+                    predicates.add(cb.like(cb.lower(root.get("phone")), "%" + getPhone().toLowerCase() + "%"));
+                }
                 if (StringUtils.isNoneBlank(getFullName())) {
                     predicates.add(cb.like(cb.lower(root.get("fullName")), "%" + getFullName().toLowerCase() + "%"));
                 }

@@ -47,9 +47,11 @@ public class PermissionController extends ABasicController {
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('PER_C')")
     public ApiMessageDto<String> create(@Valid @RequestBody CreatePermissionForm createPermissionForm, BindingResult bindingResult) {
-        Permission permissionByName = permissionRepository.findFirstByName(createPermissionForm.getName());
-        if (permissionByName != null) {
-            return makeErrorResponse(ErrorCode.PERMISSION_ERROR_NAME_EXISTED, "Name existed");
+        if (permissionRepository.findFirstByName(createPermissionForm.getName()).isPresent()) {
+            return makeErrorResponse(ErrorCode.PERMISSION_ERROR_NAME_EXISTED, "Permission name existed");
+        }
+        if (permissionRepository.findFirstByPermissionCode(createPermissionForm.getPermissionCode()).isPresent()) {
+            return makeErrorResponse(ErrorCode.PERMISSION_ERROR_CODE_EXISTED, "Permission code existed");
         }
         Permission permission = permissionMapper.fromCreatePermissionFormToEntity(createPermissionForm);
         permissionRepository.save(permission);

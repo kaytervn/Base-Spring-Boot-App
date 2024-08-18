@@ -1,8 +1,8 @@
 package com.app.model;
 
-import com.app.constant.AppConstant;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,10 +11,9 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "db_app_group")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@EntityListeners(AuditingEntityListener.class)
 public class Group extends Auditable<String> {
     @Column(unique = true)
     String name;

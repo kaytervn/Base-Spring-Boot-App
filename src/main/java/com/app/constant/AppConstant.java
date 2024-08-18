@@ -27,6 +27,7 @@ public interface AppConstant {
     String DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
 
     String PHONE_PATTERN = "^0[35789][0-9]{8}$";
+    String PASSWORD_PATTERN = "^.{6,}$";
     String USERNAME_PATTERN = "^(?=.{3,20}$)(?!.*[_.]{2})[a-zA-Z][a-zA-Z0-9_]*[a-zA-Z0-9]$";
     String EMAIL_PATTERN = "^(?!.*[.]{2,})[a-zA-Z0-9.%]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 }

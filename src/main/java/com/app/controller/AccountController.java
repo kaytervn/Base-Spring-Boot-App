@@ -92,7 +92,6 @@ public class AccountController extends ABasicController {
         }
         Account account = accountMapper.fromCreateAccountAdminFormToEntity(createAccountAdminForm);
         account.setPassword(passwordEncoder.encode(createAccountAdminForm.getPassword()));
-        account.setKind(AppEnum.ACCOUNT_KIND_ADMIN);
         account.setGroup(group);
         accountRepository.save(account);
         return makeSuccessResponse(null, "Create account admin success");

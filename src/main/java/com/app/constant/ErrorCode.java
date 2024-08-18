@@ -1,7 +1,9 @@
 package com.app.constant;
 
 public interface ErrorCode {
-    /** Starting error code Account **/
+    /**
+     * Starting error code Account
+     **/
     String ACCOUNT_ERROR_NOT_FOUND = "ERROR-ACCOUNT-0000";
     String ACCOUNT_ERROR_USERNAME_EXISTED = "ERROR-ACCOUNT-0001";
     String ACCOUNT_ERROR_EMAIL_EXISTED = "ERROR-ACCOUNT-0002";
@@ -14,12 +16,13 @@ public interface ErrorCode {
 
     /**
      * Starting error code Group
-     */
+     **/
     String GROUP_ERROR_NOT_FOUND = "ERROR-GROUP-0000";
     String GROUP_ERROR_NAME_EXISTED = "ERROR-GROUP-0001";
 
     /**
      * Starting error code Permission
-     */
+     **/
     String PERMISSION_ERROR_NAME_EXISTED = "ERROR-PERMISSION-0000";
+    String PERMISSION_ERROR_CODE_EXISTED = "ERROR-PERMISSION-0001";
 }
