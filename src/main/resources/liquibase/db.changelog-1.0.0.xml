@@ -366,7 +366,7 @@
             <column name="action" value="/v1/file/upload"/>
             <column name="show_menu" valueBoolean="false"/>
             <column name="description" value="Upload file"/>
-            <column name="group_name" value="file"/>
+            <column name="group_name" value="File"/>
             <column name="permission_code" value="FIL_U"/>
             <column name="status" valueNumeric="1"/>
             <column name="created_by" value="admin"/>
