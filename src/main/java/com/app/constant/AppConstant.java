@@ -2,9 +2,6 @@ package com.app.constant;
 
 import com.app.service.ConfigurationService;
 
-import java.util.AbstractMap;
-import java.util.Map;
-
 public interface AppConstant {
     String APP_CONTROLLER_PACKAGE = "com.app.controller";
     String APP_ID_GENERATOR_STRATEGY = "com.app.service.id.IdGenerator";
@@ -21,7 +18,7 @@ public interface AppConstant {
     String ROOT_DIRECTORY = ConfigurationService.getInstance().getString("file.upload-dir", "/tmp/upload");
 
     String BACKEND_POST_NOTIFICATION_COMMAND = "BACKEND_POST_NOTIFICATION";
-    String BACKEND_APP = "BACKEND_APP";
+    String SPRING_APP = "SPRING_APP";
 
     String GRANT_TYPE_PASSWORD = "password";
     String GRANT_TYPE_USER = "user";

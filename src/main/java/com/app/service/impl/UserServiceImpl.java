@@ -18,7 +18,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
@@ -35,6 +37,7 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserServiceImpl implements UserDetailsService {
     AccountRepository accountRepository;
+    PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String userId) {
@@ -62,9 +65,16 @@ public class UserServiceImpl implements UserDetailsService {
 
     public OAuth2AccessToken getAccessTokenForUser(ClientDetails client, TokenRequest tokenRequest, AuthorizationServerTokenServices tokenServices) {
         String phone = tokenRequest.getRequestParameters().get("phone");
+        String password = tokenRequest.getRequestParameters().get("password");
+        if (phone.isBlank()) {
+            throw new RuntimeException("Phone is required");
+        }
         Account user = accountRepository.findFirstByPhone(phone)
                 .filter(u -> Objects.equals(AppEnum.STATUS_ACTIVE, u.getStatus()))
-                .orElseThrow(() -> new UsernameNotFoundException("Invalid phone"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with this phone number"));
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("Invalid password");
+        }
         UserDetails userDetails = loadUserByUsername(user.getUsername());
         return createAccessToken(client, userDetails, AppConstant.GRANT_TYPE_USER, tokenServices);
     }

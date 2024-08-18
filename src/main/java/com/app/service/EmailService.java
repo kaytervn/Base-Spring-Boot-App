@@ -24,6 +24,7 @@ public class EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(message,
                     MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                     StandardCharsets.UTF_8.name());
+            helper.setFrom("No-Reply <noreply@example.com>");
             helper.setTo(email);
             helper.setSubject(subject);
             helper.setText(msg, html);

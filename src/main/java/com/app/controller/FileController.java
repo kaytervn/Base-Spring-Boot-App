@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -43,7 +42,7 @@ public class FileController {
 
     @GetMapping("/download/{folder}/{fileName:.+}")
     @Cacheable("images")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String folder, @PathVariable String fileName, HttpServletRequest request) throws FileNotFoundException {
+    public ResponseEntity<Resource> downloadFile(@PathVariable String folder, @PathVariable String fileName, HttpServletRequest request) {
         Resource resource = apiService.loadFileAsResource(folder, fileName);
         String contentType = "application/octet-stream";
         try {

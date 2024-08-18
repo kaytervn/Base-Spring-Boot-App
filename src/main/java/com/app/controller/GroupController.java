@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -63,7 +64,7 @@ public class GroupController extends ABasicController {
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('GRO_C')")
-    public ApiMessageDto<String> create(@Valid @RequestBody CreateGroupForm createGroupForm) {
+    public ApiMessageDto<String> create(@Valid @RequestBody CreateGroupForm createGroupForm, BindingResult bindingResult) {
         if (groupRepository.findFirstByName(createGroupForm.getName()).isPresent()) {
             return makeErrorResponse(ErrorCode.GROUP_ERROR_NAME_EXISTED, "Group name existed");
         }
@@ -80,7 +81,7 @@ public class GroupController extends ABasicController {
 
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('GRO_U')")
-    public ApiMessageDto<String> update(@Valid @RequestBody UpdateGroupForm updateGroupForm) {
+    public ApiMessageDto<String> update(@Valid @RequestBody UpdateGroupForm updateGroupForm, BindingResult bindingResult) {
         Group group = groupRepository.findById(updateGroupForm.getId()).orElse(null);
         if (group == null) {
             return makeErrorResponse(ErrorCode.GROUP_ERROR_NOT_FOUND, "Not found group");

@@ -43,7 +43,7 @@ public interface AccountMapper extends ABasicMapper {
     @Mapping(source = "email", target = "email")
     @Mapping(source = "fullName", target = "fullName")
     @Mapping(source = "avatar", target = "avatar")
-    @Mapping(source = "group", target = "group", qualifiedByName = "fromEntityToGroupDto")
+    @Mapping(source = "group", target = "group", qualifiedByName = "fromEntityToGroupDtoForAccount")
     @Mapping(source = "lastLogin", target = "lastLogin")
     @Mapping(source = "isSuperAdmin", target = "isSuperAdmin")
     @Mapping(source = "status", target = "status")
@@ -62,6 +62,7 @@ public interface AccountMapper extends ABasicMapper {
     @Mapping(source = "phone", target = "phone")
     @Mapping(source = "email", target = "email")
     @Mapping(source = "fullName", target = "fullName")
+    @Mapping(source = "group", target = "group", qualifiedByName = "fromEntityToGroupDto")
     @Named("fromEntityToAccountDto")
     AccountDto fromEntityToAccountDto(Account account);
 

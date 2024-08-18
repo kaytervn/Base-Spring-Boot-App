@@ -26,7 +26,7 @@ public class NotificationService {
 
     private <T> void sendMessage(T data, String cmd) {
         BaseMessageForm<T> form = new BaseMessageForm<>();
-        form.setApp(AppConstant.BACKEND_APP);
+        form.setApp(AppConstant.SPRING_APP);
         form.setCommand(cmd);
         form.setData(data);
         try {

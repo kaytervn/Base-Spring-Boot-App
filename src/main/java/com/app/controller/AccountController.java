@@ -6,6 +6,7 @@ import com.app.constant.ErrorCode;
 import com.app.dto.ApiMessageDto;
 import com.app.dto.ResponseListDto;
 import com.app.dto.account.AccountAdminDto;
+import com.app.dto.account.AccountDto;
 import com.app.dto.account.AccountForgetPasswordDto;
 import com.app.form.account.*;
 import com.app.mapper.AccountMapper;
@@ -27,6 +28,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -74,7 +76,7 @@ public class AccountController extends ABasicController {
 
     @PostMapping(value = "/create-admin", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ACC_C_A')")
-    public ApiMessageDto<String> createAdmin(@Valid @RequestBody CreateAccountAdminForm createAccountAdminForm) {
+    public ApiMessageDto<String> createAdmin(@Valid @RequestBody CreateAccountAdminForm createAccountAdminForm, BindingResult bindingResult) {
         if (accountRepository.findFirstByUsername(createAccountAdminForm.getUsername()).isPresent()) {
             return makeErrorResponse(ErrorCode.ACCOUNT_ERROR_USERNAME_EXISTED, "Username existed");
         }
@@ -98,7 +100,7 @@ public class AccountController extends ABasicController {
 
     @PutMapping(value = "/update-admin", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ACC_U_A')")
-    public ApiMessageDto<String> updateAdmin(@Valid @RequestBody UpdateAccountAdminForm updateAccountAdminForm) {
+    public ApiMessageDto<String> updateAdmin(@Valid @RequestBody UpdateAccountAdminForm updateAccountAdminForm, BindingResult bindingResult) {
         Account account = accountRepository.findById(updateAccountAdminForm.getId()).orElse(null);
         if (account == null) {
             return makeErrorResponse(ErrorCode.ACCOUNT_ERROR_NOT_FOUND, "Not found account");
@@ -145,16 +147,16 @@ public class AccountController extends ABasicController {
     }
 
     @GetMapping(value = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<AccountAdminDto> profile() {
+    public ApiMessageDto<AccountDto> profile() {
         Account account = accountRepository.findById(getCurrentUser()).orElse(null);
         if (account == null) {
             return makeErrorResponse(ErrorCode.ACCOUNT_ERROR_NOT_FOUND, "Not found account");
         }
-        return makeSuccessResponse(accountMapper.fromEntityToAccountAdminDto(account), "Get profile success");
+        return makeSuccessResponse(accountMapper.fromEntityToAccountDto(account), "Get profile success");
     }
 
     @PutMapping(value = "/update-profile-admin", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<String> updateProfileAdmin(@Valid @RequestBody UpdateProfileAdminForm updateProfileAdminForm) {
+    public ApiMessageDto<String> updateProfileAdmin(@Valid @RequestBody UpdateProfileAdminForm updateProfileAdminForm, BindingResult bindingResult) {
         Account account = accountRepository.findById(getCurrentUser()).orElse(null);
         if (account == null) {
             return makeErrorResponse(ErrorCode.ACCOUNT_ERROR_NOT_FOUND, "Not found account");
@@ -173,7 +175,7 @@ public class AccountController extends ABasicController {
     }
 
     @PutMapping(value = "/change-profile-password", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<String> changeProfilePassword(@Valid @RequestBody ChangeProfilePasswordForm changeProfilePasswordForm) {
+    public ApiMessageDto<String> changeProfilePassword(@Valid @RequestBody ChangeProfilePasswordForm changeProfilePasswordForm, BindingResult bindingResult) {
         Account account = accountRepository.findById(getCurrentUser()).orElse(null);
         if (account == null) {
             return makeErrorResponse(ErrorCode.ACCOUNT_ERROR_NOT_FOUND, "Not found account");
@@ -190,7 +192,7 @@ public class AccountController extends ABasicController {
     }
 
     @PostMapping(value = "/request-forget-password", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<AccountForgetPasswordDto> requestForgetPassword(@Valid @RequestBody RequestForgetPasswordForm forgetForm) {
+    public ApiMessageDto<AccountForgetPasswordDto> requestForgetPassword(@Valid @RequestBody RequestForgetPasswordForm forgetForm, BindingResult bindingResult) {
         Account account = accountRepository.findFirstByEmail(forgetForm.getEmail()).orElse(null);
         if (account == null) {
             return makeErrorResponse(ErrorCode.ACCOUNT_ERROR_NOT_FOUND, "Not found account");
@@ -200,7 +202,7 @@ public class AccountController extends ABasicController {
         account.setResetPasswordCode(otp);
         account.setResetPasswordTime(new Date());
         accountRepository.save(account);
-        apiService.sendEmail(account.getEmail(), "OTP: " + otp, "Request forget password successfully, please check email", false);
+        apiService.sendEmail(account.getEmail(), "OTP: " + otp, "Request Forget Password Confirmation!", false);
         String zipUserId = ZipUtils.zipString(account.getId() + ";" + otp);
         AccountForgetPasswordDto accountForgetPasswordDto = new AccountForgetPasswordDto();
         accountForgetPasswordDto.setUserId(zipUserId);
@@ -208,7 +210,7 @@ public class AccountController extends ABasicController {
     }
 
     @PostMapping(value = "/reset-password", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<String> forgetPassword(@Valid @RequestBody ResetPasswordForm resetForm) {
+    public ApiMessageDto<String> forgetPassword(@Valid @RequestBody ResetPasswordForm resetForm, BindingResult bindingResult) {
         String[] unzip = Objects.requireNonNull(ZipUtils.unzipString(resetForm.getUserId())).split(";", 2);
         Long id = ConvertUtils.convertStringToLong(unzip[0]);
         Account account = accountRepository.findById(id).orElse(null);
@@ -219,11 +221,11 @@ public class AccountController extends ABasicController {
             return makeErrorResponse(ErrorCode.ACCOUNT_ERROR_EXCEEDED_NUMBER_OF_INPUT_ATTEMPT_OTP, "Exceeded number of input attempt OTP");
         }
         boolean isOtpInvalid = !account.getResetPasswordCode().equals(resetForm.getOtp())
-                || (new Date().getTime() - account.getResetPasswordTime().getTime() >= AppConstant.MAX_ATTEMPT_FORGET_PASSWORD);
+                || (new Date().getTime() - account.getResetPasswordTime().getTime() >= AppConstant.MAX_TIME_FORGET_PASSWORD);
         if (isOtpInvalid) {
             account.setAttemptCode(account.getAttemptCode() + 1);
             accountRepository.save(account);
-            return makeErrorResponse(ErrorCode.ACCOUNT_ERROR_OTP_INVALID, "OTP code invalid or has expired");
+            return makeErrorResponse(ErrorCode.ACCOUNT_ERROR_OTP_INVALID, "OTP code is invalid or has expired");
         }
         account.setResetPasswordCode(null);
         account.setResetPasswordTime(null);

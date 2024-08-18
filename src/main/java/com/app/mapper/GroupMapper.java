@@ -42,10 +42,18 @@ public interface GroupMapper extends ABasicMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "kind", target = "kind")
+    @Mapping(source = "permissions", target = "permissions", qualifiedByName = "fromEntityListToPermissionDtoList")
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToGroupDto")
     GroupDto fromEntityToGroupDto(Group group);
 
     @IterableMapping(elementTargetType = GroupDto.class, qualifiedByName = "fromEntityToGroupDto")
     List<GroupDto> fromEntityListToGroupDtoList(List<Group> groups);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "kind", target = "kind")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("fromEntityToGroupDtoForAccount")
+    GroupDto fromEntityToGroupDtoForAccount(Group group);
 }
