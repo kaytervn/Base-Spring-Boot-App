@@ -15,8 +15,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.DateFormatter;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.*;
 
 import java.text.SimpleDateFormat;
@@ -32,20 +34,29 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(logInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/v1/api-docs", "/configuration/ui", "/swagger-resources/**",
-                        "/configuration/**", "/swagger-ui.html", "/webjars/**");
+        String[] excludedPaths = {"/v1/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**"};
+        registry.addInterceptor(logInterceptor).addPathPatterns("/**").excludePathPatterns(excludedPaths);
     }
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(new MappingJackson2HttpMessageConverter(objectMapper()));
+        Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json()
+                .serializationInclusion(JsonInclude.Include.NON_NULL)
+                .serializationInclusion(JsonInclude.Include.NON_EMPTY)
+                .dateFormat(new SimpleDateFormat(AppConstant.DATE_TIME_FORMAT))
+                .serializers(new LocalDateSerializer(DateTimeFormatter.ofPattern(AppConstant.DATE_FORMAT)))
+                .serializers(new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(AppConstant.DATE_TIME_FORMAT)))
+                .indentOutput(true);
+        converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
+        converters.add(new MappingJackson2XmlHttpMessageConverter(builder.createXmlMapper(true).build()));
+        converters.add(new ResourceHttpMessageConverter());
     }
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addFormatter(new DateFormatter(AppConstant.DATE_TIME_FORMAT));
+        DateFormatter dateFormatter = new DateFormatter(AppConstant.DATE_TIME_FORMAT);
+        dateFormatter.setLenient(true);
+        registry.addFormatter(dateFormatter);
     }
 
     @Override
@@ -56,17 +67,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
     public ObjectMapper objectMapper() {
-        return Jackson2ObjectMapperBuilder.json()
-                .serializationInclusion(JsonInclude.Include.NON_NULL)
-                .serializationInclusion(JsonInclude.Include.NON_EMPTY)
-                .dateFormat(new SimpleDateFormat(AppConstant.DATE_TIME_FORMAT))
-                .serializers(
-                        new LocalDateSerializer(DateTimeFormatter.ofPattern(AppConstant.DATE_FORMAT)),
-                        new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(AppConstant.DATE_TIME_FORMAT))
-                )
-                .indentOutput(true)
-                .featuresToDisable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                .build();
+        return new ObjectMapper()
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .setDateFormat(new SimpleDateFormat(AppConstant.DATE_TIME_FORMAT));
     }
 }
-

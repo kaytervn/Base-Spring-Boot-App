@@ -44,11 +44,14 @@ public class FileController {
     @Cacheable("images")
     public ResponseEntity<Resource> downloadFile(@PathVariable String folder, @PathVariable String fileName, HttpServletRequest request) {
         Resource resource = apiService.loadFileAsResource(folder, fileName);
-        String contentType = "application/octet-stream";
+        String contentType = null;
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (IOException ex) {
             log.warn("Could not determine file type.");
+        }
+        if (contentType == null) {
+            contentType = "application/octet-stream";
         }
         return ResponseEntity.ok()
                 .cacheControl(CacheControl.maxAge(7776000, TimeUnit.SECONDS))

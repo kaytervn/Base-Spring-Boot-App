@@ -20,6 +20,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
 public class ApiService {
     final static String[] UPLOAD_TYPES = {"LOGO", "AVATAR", "IMAGE", "DOCUMENT"};
     final static Map<String, Long> storeQRCodeRandom = new ConcurrentHashMap<>();
-    final static long MAX_FILE_SIZE_MB = 2;
+    final static long MAX_FILE_SIZE_MB = 5;
     @Autowired
     OTPService otpService;
     @Autowired
