@@ -27,7 +27,7 @@ public class Account extends Auditable<String> {
     @JoinColumn(name = "group_id")
     Group group;
     Date lastLogin;
-    String avatarPath;
+    String avatar;
     String resetPasswordCode;
     Date resetPasswordTime;
     @Column(name = "attempt_forget_password")

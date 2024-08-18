@@ -6,16 +6,14 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpdateProfileAdminForm {
-    String password;
-    @NotBlank(message = "oldPassword is required")
-    @ApiModelProperty(required = true)
-    String oldPassword;
     @NotBlank(message = "fullName is required")
-    @ApiModelProperty(required = true)
     String fullName;
-    String avatarPath;
+    String avatar;
+    @Size(min = 6, message = "oldPassword must be at least 6 characters long.")
+    String oldPassword;
 }

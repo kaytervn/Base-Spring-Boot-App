@@ -21,7 +21,7 @@ public class NotificationService {
     ObjectMapper objectMapper;
 
     @NonFinal
-    @Value("${rabbitmq.notification.queue}")
+    @Value("${rabbitmq.queue.name}")
     String queueName;
 
     private <T> void sendMessage(T data, String cmd) {

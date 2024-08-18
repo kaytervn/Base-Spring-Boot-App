@@ -15,7 +15,6 @@ import java.util.List;
 public class CreateGroupForm {
     @NotBlank(message = "name is required")
     String name;
-    @NotNull(message = "kind is required")
     @GroupKind
     Integer kind;
     @NotBlank(message = "description is required")

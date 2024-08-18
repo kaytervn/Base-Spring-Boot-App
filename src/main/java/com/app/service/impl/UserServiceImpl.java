@@ -1,7 +1,7 @@
 package com.app.service.impl;
 
 import com.app.constant.AppConstant;
-import com.app.constant.EnumDef;
+import com.app.constant.AppEnum;
 import com.app.model.Account;
 import com.app.repository.AccountRepository;
 import com.app.utils.JwtUtils;
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserDetailsService {
     public OAuth2AccessToken getAccessTokenForUser(ClientDetails client, TokenRequest tokenRequest, AuthorizationServerTokenServices tokenServices) {
         String phone = tokenRequest.getRequestParameters().get("phone");
         Account user = accountRepository.findAccountByPhone(phone)
-                .filter(u -> Objects.equals(EnumDef.STATUS_ACTIVE, u.getStatus()))
+                .filter(u -> Objects.equals(AppEnum.STATUS_ACTIVE, u.getStatus()))
                 .orElseThrow(() -> new UsernameNotFoundException("Invalid phone"));
         UserDetails userDetails = loadUserByUsername(user.getUsername());
         return createAccessToken(client, userDetails, AppConstant.GRANT_TYPE_USER, tokenServices);
@@ -93,21 +93,5 @@ public class UserServiceImpl implements UserDetailsService {
             }
         }
         return null;
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        Long userId = null;
-//        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-//            OAuth2AuthenticationDetails oauthDetails =
-//                    (OAuth2AuthenticationDetails) authentication.getDetails();
-//            if (oauthDetails != null) {
-//                Map<String, Object> map = (Map<String, Object>) oauthDetails.getDecodedDetails();
-//                String encodedData = (String) map.get("additional_info");
-//                //idStr -> json
-//                if (encodedData != null && !encodedData.isEmpty()) {
-//                    return JwtUtils.decode(encodedData);
-//                }
-//                return null;
-//            }
-//        }
-//        return null;
     }
 }

@@ -98,11 +98,5 @@ public final class DateUtils {
     public static Date convertUTCToVN(Date utcDate) {
         return Date.from(utcDate.toInstant().atZone(ZoneOffset.UTC).plusHours(7).toInstant());
     }
-
-    public static String convertDoubleToString(Double value) {
-        NumberFormat numberFormat = NumberFormat.getInstance();
-        numberFormat.setMaximumFractionDigits(0);
-        return numberFormat.format(value);
-    }
 }
 

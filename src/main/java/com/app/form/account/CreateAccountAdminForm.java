@@ -1,35 +1,33 @@
 package com.app.form.account;
 
 import com.app.validation.AccountKind;
-import io.swagger.annotations.ApiModelProperty;
+import com.app.validation.EmailConstraint;
+import com.app.validation.PhoneConstraint;
+import com.app.validation.UsernameConstraint;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
+import javax.validation.constraints.Size;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateAccountAdminForm {
-    @NotBlank(message = "username is required")
+    @UsernameConstraint
     String username;
-    @NotBlank(message = "password is required")
+    @Size(min = 6, message = "password must be at least 6 characters long.")
     String password;
     @NotBlank(message = "fullName is required")
     String fullName;
-    String avatarPath;
-    @Email
-    @NotBlank(message = "email is required")
+    String avatar;
+    @EmailConstraint
     String email;
+    @PhoneConstraint
     String phone;
-    @NotNull(message = "kind is required")
     @AccountKind
     Integer kind;
-    @NotNull(message = "status is required")
-    Integer status;
     @NotNull(message = "groupId is required")
     Long groupId;
 }

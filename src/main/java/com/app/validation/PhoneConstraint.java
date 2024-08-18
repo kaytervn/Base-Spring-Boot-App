@@ -1,7 +1,6 @@
 package com.app.validation;
 
-
-import com.app.validation.impl.GroupKindValidation;
+import com.app.validation.impl.PhoneValidation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,12 +8,12 @@ import java.lang.annotation.*;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = GroupKindValidation.class)
+@Constraint(validatedBy = PhoneValidation.class)
 @Documented
-public @interface GroupKind {
+public @interface PhoneConstraint {
     boolean allowNull() default false;
 
-    String message() default "Group kind is invalid";
+    String message() default "Invalid phone number format";
 
     Class<?>[] groups() default {};
 

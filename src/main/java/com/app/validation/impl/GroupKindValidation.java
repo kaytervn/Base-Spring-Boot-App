@@ -1,6 +1,6 @@
 package com.app.validation.impl;
 
-import com.app.constant.EnumDef;
+import com.app.constant.AppEnum;
 import com.app.validation.GroupKind;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -23,6 +23,6 @@ public class GroupKindValidation implements ConstraintValidator<GroupKind, Integ
         if (value == null) {
             return allowNull;
         }
-        return Set.of(EnumDef.GROUP_KIND_ADMIN, EnumDef.GROUP_KIND_MANAGER, EnumDef.GROUP_KIND_USER).contains(value);
+        return Set.of(AppEnum.GROUP_KIND_ADMIN, AppEnum.GROUP_KIND_MANAGER, AppEnum.GROUP_KIND_USER).contains(value);
     }
 }

@@ -1,15 +1,13 @@
 package com.app.model.criteria;
 
 import com.app.model.Account;
+import com.app.model.Group;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,11 +17,12 @@ import java.util.List;
 public class AccountCriteria {
     Long id;
     Integer kind;
-    Integer status;
     String username;
     String email;
     String fullName;
     String phone;
+    Long groupId;
+    Integer status;
 
     public Specification<Account> getCriteria() {
         return new Specification<Account>() {
@@ -47,6 +46,10 @@ public class AccountCriteria {
                 }
                 if (StringUtils.isNoneBlank(getFullName())) {
                     predicates.add(cb.like(cb.lower(root.get("fullName")), "%" + getFullName().toLowerCase() + "%"));
+                }
+                if (getGroupId() != null) {
+                    Join<Account, Group> joinGroup = root.join("group", JoinType.INNER);
+                    predicates.add(cb.equal(joinGroup.get("id"), getGroupId()));
                 }
                 return cb.and(predicates.toArray(new Predicate[0]));
             }

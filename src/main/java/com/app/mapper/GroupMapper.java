@@ -11,12 +11,11 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-        uses = {PermissionMapper.class} )
-public interface GroupMapper {
-
+        uses = {PermissionMapper.class})
+public interface GroupMapper extends ABasicMapper {
     @Mapping(source = "name", target = "name")
-    @Mapping(source = "description", target = "description")
     @Mapping(source = "kind", target = "kind")
+    @Mapping(source = "description", target = "description")
     @BeanMapping(ignoreByDefault = true)
     Group fromCreateGroupFormToEntity(CreateGroupForm createGroupForm);
 
@@ -27,8 +26,8 @@ public interface GroupMapper {
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
-    @Mapping(source = "description", target = "description")
     @Mapping(source = "kind", target = "kind")
+    @Mapping(source = "description", target = "description")
     @Mapping(source = "permissions", target = "permissions", qualifiedByName = "fromEntityListToPermissionDtoList")
     @Mapping(source = "status", target = "status")
     @Mapping(source = "createdDate", target = "createdDate")
@@ -43,7 +42,6 @@ public interface GroupMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "kind", target = "kind")
-    @Mapping(source = "permissions", target = "permissions", qualifiedByName = "fromEntityListToPermissionDtoList")
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToGroupDto")
     GroupDto fromEntityToGroupDto(Group group);

@@ -29,7 +29,7 @@ public final class AESUtils {
         return decrypt(SECRET_KEY, input, zipEnable);
     }
 
-    private static String encrypt(String encodeKey, String inputStr, boolean zipEnable) {
+    public static String encrypt(String encodeKey, String inputStr, boolean zipEnable) {
         try {
             Cipher cipher = Cipher.getInstance(AES);
             cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(encodeKey.getBytes(StandardCharsets.UTF_8), AES));
@@ -41,7 +41,7 @@ public final class AESUtils {
         }
     }
 
-    private static String decrypt(String encodeKey, String encryptedStr, boolean zipEnable) {
+    public static String decrypt(String encodeKey, String encryptedStr, boolean zipEnable) {
         try {
             Cipher cipher = Cipher.getInstance(AES);
             cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(encodeKey.getBytes(StandardCharsets.UTF_8), AES));

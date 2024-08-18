@@ -1,7 +1,7 @@
 package com.app.controller;
 
 import com.app.constant.AppConstant;
-import com.app.constant.EnumDef;
+import com.app.constant.AppEnum;
 import com.app.constant.ErrorCode;
 import com.app.dto.ApiMessageDto;
 import com.app.dto.ResponseListDto;
@@ -91,7 +91,7 @@ public class AccountController extends ABasicController {
         }
         Account account = accountMapper.fromCreateAccountAdminFormToEntity(createAccountAdminForm);
         account.setPassword(passwordEncoder.encode(createAccountAdminForm.getPassword()));
-        account.setKind(EnumDef.ACCOUNT_KIND_ADMIN);
+        account.setKind(AppEnum.ACCOUNT_KIND_ADMIN);
         account.setGroup(group);
         accountRepository.save(account);
         return makeSuccessResponse(null, "Create account admin success");
@@ -117,11 +117,11 @@ public class AccountController extends ABasicController {
         if (StringUtils.isNoneBlank(updateAccountAdminForm.getPassword())) {
             account.setPassword(passwordEncoder.encode(updateAccountAdminForm.getPassword()));
         }
-        if (StringUtils.isNoneBlank(updateAccountAdminForm.getAvatarPath())) {
-            if (!updateAccountAdminForm.getAvatarPath().equals(account.getAvatarPath())) {
-                apiService.deleteFile(account.getAvatarPath());
+        if (StringUtils.isNoneBlank(updateAccountAdminForm.getAvatar())) {
+            if (!updateAccountAdminForm.getAvatar().equals(account.getAvatar())) {
+                apiService.deleteFile(account.getAvatar());
             }
-            account.setAvatarPath(updateAccountAdminForm.getAvatarPath());
+            account.setAvatar(updateAccountAdminForm.getAvatar());
         }
         accountMapper.fromUpdateAccountAdminFormToEntity(updateAccountAdminForm, account);
         account.setGroup(group);
@@ -139,7 +139,7 @@ public class AccountController extends ABasicController {
         if (account.getIsSuperAdmin()) {
             return makeErrorResponse(ErrorCode.ACCOUNT_ERROR_NOT_ALLOW_DELETE_SUPPER_ADMIN, "Not allow to delete super admin");
         }
-        apiService.deleteFile(account.getAvatarPath());
+        apiService.deleteFile(account.getAvatar());
         accountRepository.deleteById(id);
         return makeSuccessResponse(null, "Delete account success");
     }
@@ -165,12 +165,12 @@ public class AccountController extends ABasicController {
         if (StringUtils.isNoneBlank(updateProfileAdminForm.getPassword())) {
             account.setPassword(passwordEncoder.encode(updateProfileAdminForm.getPassword()));
         }
-        if (StringUtils.isNoneBlank(updateProfileAdminForm.getAvatarPath())) {
-            if (!updateProfileAdminForm.getAvatarPath().equals(account.getAvatarPath())) {
+        if (StringUtils.isNoneBlank(updateProfileAdminForm.getAvatar())) {
+            if (!updateProfileAdminForm.getAvatar().equals(account.getAvatar())) {
                 //delete old image
-                apiService.deleteFile(account.getAvatarPath());
+                apiService.deleteFile(account.getAvatar());
             }
-            account.setAvatarPath(updateProfileAdminForm.getAvatarPath());
+            account.setAvatar(updateProfileAdminForm.getAvatar());
         }
         accountMapper.fromUpdateProfileAdminFormToEntity(updateProfileAdminForm, account);
         accountRepository.save(account);

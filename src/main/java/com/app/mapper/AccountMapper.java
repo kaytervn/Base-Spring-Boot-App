@@ -13,25 +13,28 @@ import java.util.List;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         uses = {GroupMapper.class})
-public interface AccountMapper {
-
-    @Mapping(source = "username", target = "username")
+public interface AccountMapper extends ABasicMapper {
     @Mapping(source = "fullName", target = "fullName")
-    @Mapping(source = "avatarPath", target = "avatarPath")
-    @Mapping(source = "email", target = "email")
+    @Mapping(source = "avatar", target = "avatar")
     @Mapping(source = "phone", target = "phone")
     @Mapping(source = "kind", target = "kind")
-    @Mapping(source = "status", target = "status")
+    @Mapping(target = "username", expression = "java(toLowerCase(createAccountAdminForm.getUsername()))")
+    @Mapping(target = "email", expression = "java(toLowerCase(createAccountAdminForm.getEmail()))")
     @BeanMapping(ignoreByDefault = true)
     Account fromCreateAccountAdminFormToEntity(CreateAccountAdminForm createAccountAdminForm);
 
     @Mapping(source = "fullName", target = "fullName")
-    @Mapping(source = "avatarPath", target = "avatarPath")
-    @Mapping(source = "email", target = "email")
+    @Mapping(source = "avatar", target = "avatar")
     @Mapping(source = "phone", target = "phone")
     @Mapping(source = "status", target = "status")
+    @Mapping(target = "email", expression = "java(toLowerCase(updateAccountAdminForm.getEmail()))")
     @BeanMapping(ignoreByDefault = true)
     void fromUpdateAccountAdminFormToEntity(UpdateAccountAdminForm updateAccountAdminForm, @MappingTarget Account account);
+
+    @Mapping(source = "fullName", target = "fullName")
+    @Mapping(source = "avatar", target = "avatar")
+    @BeanMapping(ignoreByDefault = true)
+    void fromUpdateProfileAdminFormToEntity(UpdateProfileAdminForm updateProfileAdminForm, @MappingTarget Account account);
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "kind", target = "kind")
@@ -39,7 +42,7 @@ public interface AccountMapper {
     @Mapping(source = "phone", target = "phone")
     @Mapping(source = "email", target = "email")
     @Mapping(source = "fullName", target = "fullName")
-    @Mapping(source = "avatarPath", target = "avatarPath")
+    @Mapping(source = "avatar", target = "avatar")
     @Mapping(source = "group", target = "group", qualifiedByName = "fromEntityToGroupDto")
     @Mapping(source = "lastLogin", target = "lastLogin")
     @Mapping(source = "isSuperAdmin", target = "isSuperAdmin")
@@ -59,22 +62,9 @@ public interface AccountMapper {
     @Mapping(source = "phone", target = "phone")
     @Mapping(source = "email", target = "email")
     @Mapping(source = "fullName", target = "fullName")
-    @Mapping(source = "group", target = "group", qualifiedByName = "fromEntityToGroupDto")
     @Named("fromEntityToAccountDto")
     AccountDto fromEntityToAccountDto(Account account);
 
     @IterableMapping(elementTargetType = AccountDto.class, qualifiedByName = "fromEntityToAccountDto")
     List<AccountDto> fromEntityListToAccountDtoList(List<Account> accounts);
-
-    @Mapping(source = "fullName", target = "fullName")
-    @Mapping(source = "avatarPath", target = "avatarPath")
-    @BeanMapping(ignoreByDefault = true)
-    void fromUpdateProfileAdminFormToEntity(UpdateProfileAdminForm updateProfileAdminForm, @MappingTarget Account account);
-
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "username", target = "username")
-    @Mapping(source = "phone", target = "phone")
-    @Mapping(source = "fullName", target = "fullName")
-    @Named("fromEntityToAccountDtoForNotificationGroup")
-    AccountDto fromEntityToAccountDtoForNotificationGroup(Account account);
 }

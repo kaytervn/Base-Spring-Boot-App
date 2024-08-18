@@ -1,6 +1,6 @@
 package com.app.configuration;
 
-import com.app.dto.AccountForTokenDto;
+import com.app.dto.account.AccountForTokenDto;
 import com.app.utils.ZipUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +54,8 @@ public class CustomTokenEnhancer implements TokenEnhancer {
                         + username + DELIM                   // username
                         + -1 + DELIM                         // tabletKind: loại máy tính bảng
                         + -1L + DELIM                        // orderId
-                        + account.getIsSuperAdmin()          // isSuperAdmin
+                        + account.getIsSuperAdmin() + DELIM  // isSuperAdmin
+                        + "<>"                               // tenantId
         );
         additionalInfo.put("additional_info", additionalInfoStr);
         return additionalInfo;

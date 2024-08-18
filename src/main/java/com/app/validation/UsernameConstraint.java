@@ -1,7 +1,7 @@
 package com.app.validation;
 
 
-import com.app.validation.impl.GroupKindValidation;
+import com.app.validation.impl.UsernameValidation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,14 +9,15 @@ import java.lang.annotation.*;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = GroupKindValidation.class)
+@Constraint(validatedBy = UsernameValidation.class)
 @Documented
-public @interface GroupKind {
+public @interface UsernameConstraint {
     boolean allowNull() default false;
 
-    String message() default "Group kind is invalid";
+    String message() default "Username is invalid";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 }
+

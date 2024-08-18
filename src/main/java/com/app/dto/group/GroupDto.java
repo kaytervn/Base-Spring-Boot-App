@@ -13,5 +13,4 @@ public class GroupDto {
     Long id;
     String name;
     Integer kind;
-    List<PermissionDto> permissions;
 }

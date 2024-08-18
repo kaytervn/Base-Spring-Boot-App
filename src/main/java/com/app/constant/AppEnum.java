@@ -1,6 +1,6 @@
 package com.app.constant;
 
-public interface EnumDef {
+public interface AppEnum {
     Integer ACCOUNT_KIND_ADMIN = 1;
     Integer ACCOUNT_KIND_MANAGER = 2;
     Integer ACCOUNT_KIND_USER = 3;
