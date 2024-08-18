@@ -11,7 +11,6 @@ import java.util.List;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface PermissionMapper extends ABasicMapper {
-
     @Mapping(source = "name", target = "name")
     @Mapping(source = "action", target = "action")
     @Mapping(source = "showMenu", target = "showMenu")

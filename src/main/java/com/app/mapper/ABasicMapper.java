@@ -12,7 +12,6 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ABasicMapper {
-
     @Named("encrypt")
     default String encrypt(String secretKey, String value) {
         return AESUtils.encrypt(secretKey, value, AppConstant.AES_ZIP_ENABLE);
