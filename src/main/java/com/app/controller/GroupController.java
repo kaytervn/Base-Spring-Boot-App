@@ -12,33 +12,36 @@ import com.app.model.Permission;
 import com.app.model.criteria.GroupCriteria;
 import com.app.repository.GroupRepository;
 import com.app.repository.PermissionRepository;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequestMapping("/v1/group")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@Slf4j
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class GroupController extends ABasicController {
     @Autowired
-    private GroupRepository groupRepository;
+    GroupRepository groupRepository;
     @Autowired
-    private PermissionRepository permissionRepository;
+    PermissionRepository permissionRepository;
     @Autowired
-    private GroupMapper groupMapper;
+    GroupMapper groupMapper;
 
     @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('GR_V')")
+    @PreAuthorize("hasRole('GRO_V')")
     public ApiMessageDto<GroupAdminDto> get(@PathVariable("id") Long id) {
         Group group = groupRepository.findById(id).orElse(null);
         if (group == null) {
@@ -48,7 +51,7 @@ public class GroupController extends ABasicController {
     }
 
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('GR_L')")
+    @PreAuthorize("hasRole('GRO_L')")
     public ApiMessageDto<ResponseListDto<List<GroupAdminDto>>> list(GroupCriteria groupCriteria, Pageable pageable) {
         Page<Group> groups = groupRepository.findAll(groupCriteria.getCriteria(), pageable);
         ResponseListDto<List<GroupAdminDto>> responseListObj = new ResponseListDto<>();
@@ -59,16 +62,16 @@ public class GroupController extends ABasicController {
     }
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('GR_C')")
-    public ApiMessageDto<String> create(@Valid @RequestBody CreateGroupForm createGroupForm, BindingResult bindingResult) {
-        Group groupByName = groupRepository.findFirstByName(createGroupForm.getName()).orElse(null);
-        if (groupByName != null) {
-            return makeErrorResponse(ErrorCode.GROUP_ERROR_NAME_EXISTED, "Name existed");
+    @PreAuthorize("hasRole('GRO_C')")
+    public ApiMessageDto<String> create(@Valid @RequestBody CreateGroupForm createGroupForm) {
+        if (groupRepository.findFirstByName(createGroupForm.getName()).isPresent()) {
+            return makeErrorResponse(ErrorCode.GROUP_ERROR_NAME_EXISTED, "Group name existed");
         }
-        List<Permission> permissions = new ArrayList<>();
-        for (int i = 0; i < createGroupForm.getPermissions().size(); i++) {
-            permissionRepository.findById(createGroupForm.getPermissions().get(i)).ifPresent(permissions::add);
-        }
+        List<Permission> permissions = createGroupForm.getPermissions().stream()
+                .map(permissionRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
         Group group = groupMapper.fromCreateGroupFormToEntity(createGroupForm);
         group.setPermissions(permissions);
         groupRepository.save(group);
@@ -76,25 +79,21 @@ public class GroupController extends ABasicController {
     }
 
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('GR_U')")
-    public ApiMessageDto<String> update(@Valid @RequestBody UpdateGroupForm updateGroupForm, BindingResult bindingResult) {
+    @PreAuthorize("hasRole('GRO_U')")
+    public ApiMessageDto<String> update(@Valid @RequestBody UpdateGroupForm updateGroupForm) {
         Group group = groupRepository.findById(updateGroupForm.getId()).orElse(null);
         if (group == null) {
             return makeErrorResponse(ErrorCode.GROUP_ERROR_NOT_FOUND, "Not found group");
         }
-        if (!group.getName().equals(updateGroupForm.getName())) {
-            Group groupByName = groupRepository.findFirstByName(updateGroupForm.getName()).orElse(null);
-            if (groupByName != null) {
-                return makeErrorResponse(ErrorCode.GROUP_ERROR_NAME_EXISTED, "Name existed");
-            }
+        if (updateGroupForm.getName() != null && !updateGroupForm.getName().equals(group.getName())
+                && groupRepository.findFirstByName(updateGroupForm.getName()).isPresent()) {
+            return makeErrorResponse(ErrorCode.GROUP_ERROR_NAME_EXISTED, "Group name existed");
         }
-        List<Permission> permissions = new ArrayList<>();
-        for (int i = 0; i < updateGroupForm.getPermissions().size(); i++) {
-            Permission permission = permissionRepository.findById(updateGroupForm.getPermissions().get(i)).orElse(null);
-            if (permission != null) {
-                permissions.add(permission);
-            }
-        }
+        List<Permission> permissions = updateGroupForm.getPermissions().stream()
+                .map(permissionRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
         groupMapper.fromUpdateGroupFormToEntity(updateGroupForm, group);
         group.setPermissions(permissions);
         groupRepository.save(group);

@@ -6,6 +6,8 @@ import com.app.form.permission.CreatePermissionForm;
 import com.app.mapper.PermissionMapper;
 import com.app.model.Permission;
 import com.app.repository.PermissionRepository;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,16 +22,17 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.Valid;
 import java.util.List;
 
+@Slf4j
+@ApiIgnore
 @RestController
 @RequestMapping("/v1/permission")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@Slf4j
-@ApiIgnore
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PermissionController extends ABasicController {
     @Autowired
-    private PermissionRepository permissionRepository;
+    PermissionRepository permissionRepository;
     @Autowired
-    private PermissionMapper permissionMapper;
+    PermissionMapper permissionMapper;
 
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('PER_L')")

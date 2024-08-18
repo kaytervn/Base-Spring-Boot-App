@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.Optional;
 
 public interface AccountRepository extends JpaRepository<Account, Long>, JpaSpecificationExecutor<Account> {
-    Optional<Account> findAccountByUsername(String username);
+    Optional<Account> findFirstByUsername(String username);
 
-    Optional<Account> findAccountByEmail(String email);
+    Optional<Account> findFirstByEmail(String email);
 
-    Optional<Account> findAccountByPhone(String phone);
+    Optional<Account> findFirstByPhone(String phone);
 }

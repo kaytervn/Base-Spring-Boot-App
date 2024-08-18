@@ -18,7 +18,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
@@ -36,11 +35,10 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserServiceImpl implements UserDetailsService {
     AccountRepository accountRepository;
-    PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String userId) {
-        Account user = accountRepository.findAccountByUsername(userId).orElse(null);
+        Account user = accountRepository.findFirstByUsername(userId).orElse(null);
         if (user == null) {
             throw new UsernameNotFoundException("Invalid username or password");
         }
@@ -64,7 +62,7 @@ public class UserServiceImpl implements UserDetailsService {
 
     public OAuth2AccessToken getAccessTokenForUser(ClientDetails client, TokenRequest tokenRequest, AuthorizationServerTokenServices tokenServices) {
         String phone = tokenRequest.getRequestParameters().get("phone");
-        Account user = accountRepository.findAccountByPhone(phone)
+        Account user = accountRepository.findFirstByPhone(phone)
                 .filter(u -> Objects.equals(AppEnum.STATUS_ACTIVE, u.getStatus()))
                 .orElseThrow(() -> new UsernameNotFoundException("Invalid phone"));
         UserDetails userDetails = loadUserByUsername(user.getUsername());
