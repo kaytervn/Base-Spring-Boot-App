@@ -99,35 +99,51 @@
         </createTable>
     </changeSet>
     <changeSet author="SPRING" id="1723860615924-5">
-        <addUniqueConstraint columnNames="name" constraintName="UC_DB_APP_GROUPNAME_COL" tableName="db_app_group"/>
+        <addUniqueConstraint columnNames="email" constraintName="UC_DB_APP_ACCOUNTEMAIL_COL"
+                             tableName="db_app_account"/>
     </changeSet>
     <changeSet author="SPRING" id="1723860615924-6">
+        <addUniqueConstraint columnNames="phone" constraintName="UC_DB_APP_ACCOUNTPHONE_COL"
+                             tableName="db_app_account"/>
+    </changeSet>
+    <changeSet author="SPRING" id="1723860615924-7">
+        <addUniqueConstraint columnNames="username" constraintName="UC_DB_APP_ACCOUNTUSERNAME_COL"
+                             tableName="db_app_account"/>
+    </changeSet>
+    <changeSet author="SPRING" id="1723860615924-8">
+        <addUniqueConstraint columnNames="name" constraintName="UC_DB_APP_GROUPNAME_COL" tableName="db_app_group"/>
+    </changeSet>
+    <changeSet author="SPRING" id="1723860615924-9">
         <addUniqueConstraint columnNames="name" constraintName="UC_DB_APP_PERMISSIONNAME_COL"
                              tableName="db_app_permission"/>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-7">
+    <changeSet author="SPRING" id="1723860615924-10">
         <addUniqueConstraint columnNames="permission_code" constraintName="UC_DB_APP_PERMISSIONPERMISSION_CODE_COL"
                              tableName="db_app_permission"/>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-8">
+    <changeSet author="SPRING" id="1723860615924-11">
+        <addUniqueConstraint columnNames="action" constraintName="UC_DB_APP_PERMISSIONACTION_COL"
+                             tableName="db_app_permission"/>
+    </changeSet>
+    <changeSet author="SPRING" id="1723860615924-12">
         <addForeignKeyConstraint baseColumnNames="group_id" baseTableName="db_app_permission_group"
                                  constraintName="FKes4r51n7un7jc9l7t1q980qji" deferrable="false"
                                  initiallyDeferred="false" referencedColumnNames="id" referencedTableName="db_app_group"
                                  validate="true"/>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-9">
+    <changeSet author="SPRING" id="1723860615924-13">
         <addForeignKeyConstraint baseColumnNames="group_id" baseTableName="db_app_account"
                                  constraintName="FKkk6hxu2diisfunj6jnc8xmdwl" deferrable="false"
                                  initiallyDeferred="false" referencedColumnNames="id" referencedTableName="db_app_group"
                                  validate="true"/>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-10">
+    <changeSet author="SPRING" id="1723860615924-14">
         <addForeignKeyConstraint baseColumnNames="permission_id" baseTableName="db_app_permission_group"
                                  constraintName="FKlki9egkswivk0w5yjiblcvhgm" deferrable="false"
                                  initiallyDeferred="false" referencedColumnNames="id"
                                  referencedTableName="db_app_permission" validate="true"/>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-11">
+    <changeSet author="SPRING" id="1723860615924-15">
         <createTable tableName="oauth_access_token">
             <column name="token_id" type="VARCHAR(255)"/>
             <column name="token" type="LONGBLOB"/>
@@ -138,7 +154,7 @@
             <column name="refresh_token" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-12">
+    <changeSet author="SPRING" id="1723860615924-16">
         <createTable tableName="oauth_approvals">
             <column name="userId" type="VARCHAR(255)"/>
             <column name="clientId" type="VARCHAR(255)"/>
@@ -152,7 +168,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-13">
+    <changeSet author="SPRING" id="1723860615924-17">
         <createTable tableName="oauth_client_details">
             <column name="client_id" type="VARCHAR(255)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -169,7 +185,7 @@
             <column name="autoapprove" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-14">
+    <changeSet author="SPRING" id="1723860615924-18">
         <createTable tableName="oauth_client_token">
             <column name="token_id" type="VARCHAR(255)"/>
             <column name="token" type="LONGBLOB"/>
@@ -178,20 +194,20 @@
             <column name="client_id" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-15">
+    <changeSet author="SPRING" id="1723860615924-19">
         <createTable tableName="oauth_code">
             <column name="code" type="VARCHAR(255)"/>
             <column name="authentication" type="LONGBLOB"/>
         </createTable>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-16">
+    <changeSet author="SPRING" id="1723860615924-20">
         <createTable tableName="oauth_refresh_token">
             <column name="token_id" type="VARCHAR(255)"/>
             <column name="token" type="LONGBLOB"/>
             <column name="authentication" type="LONGBLOB"/>
         </createTable>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-17">
+    <changeSet author="SPRING" id="1723860615924-21">
         <insert tableName="db_app_group">
             <column name="id" valueNumeric="15"/>
             <column name="name" value="ROLE SUPPER ADMIN"/>
@@ -205,7 +221,7 @@
             <column name="modified_date" valueDate="2023-09-30T04:45:04"/>
         </insert>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-18">
+    <changeSet author="SPRING" id="1723860615924-22">
         <insert tableName="db_app_permission">
             <column name="id" valueNumeric="6778614941024258"/>
             <column name="name" value="Get account"/>
@@ -375,7 +391,7 @@
             <column name="modified_date" valueDate="2022-09-21T04:34:33"/>
         </insert>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-19">
+    <changeSet author="SPRING" id="1723860615924-23">
         <insert tableName="db_app_permission_group">
             <column name="group_id" valueNumeric="15"/>
             <column name="permission_id" valueNumeric="6778614941024258"/>
@@ -425,7 +441,7 @@
             <column name="permission_id" valueNumeric="6778614941024270"/>
         </insert>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-20">
+    <changeSet author="SPRING" id="1723860615924-24">
         <insert tableName="db_app_account">
             <column name="id" valueNumeric="2"/>
             <column name="kind" valueNumeric="1"/>
@@ -446,10 +462,10 @@
             <column name="created_date" valueDate="2020-06-24T00:22:30"/>
             <column name="modified_by" value="admin"/>
             <column name="modified_date" valueDate="2023-04-16T14:52:55"/>
-            <column name="phone"/>
+            <column name="phone" value="0354333333"/>
         </insert>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-21">
+    <changeSet author="SPRING" id="1723860615924-25">
         <insert tableName="oauth_client_details">
             <column name="client_id" value="abc_client"/>
             <column name="resource_ids"/>
@@ -465,22 +481,22 @@
             <column name="autoapprove"/>
         </insert>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-22">
+    <changeSet author="SPRING" id="1723860615924-26">
         <createIndex indexName="FKi109re56lruai5trbtbtwswu6" tableName="db_app_permission_group">
             <column name="permission_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-23">
+    <changeSet author="SPRING" id="1723860615924-27">
         <createIndex indexName="FKkwktf6145nb9dqrgemft4isdi" tableName="db_app_permission_group">
             <column name="group_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-24">
+    <changeSet author="SPRING" id="1723860615924-28">
         <createIndex indexName="FKq43gkcct4py9h5wfjdwcpaj9w" tableName="db_app_account">
             <column name="group_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="SPRING" id="1723860615924-25">
+    <changeSet author="SPRING" id="1723860615924-29">
         <createIndex indexName="oauth_refresh_token_id" tableName="oauth_access_token">
             <column name="token_id"/>
         </createIndex>

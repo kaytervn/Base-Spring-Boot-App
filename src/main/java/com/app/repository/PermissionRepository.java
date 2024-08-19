@@ -10,4 +10,6 @@ public interface PermissionRepository extends JpaRepository<Permission, Long>, J
     Optional<Permission> findFirstByName(String name);
 
     Optional<Permission> findFirstByPermissionCode(String code);
+
+    Optional<Permission> findFirstByAction(String action);
 }

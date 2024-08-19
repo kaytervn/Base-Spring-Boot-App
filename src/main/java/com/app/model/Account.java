@@ -1,6 +1,5 @@
 package com.app.model;
 
-import com.app.constant.AppConstant;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -17,8 +16,11 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 public class Account extends Auditable<String> {
     Integer kind;
+    @Column(unique = true)
     String username;
+    @Column(unique = true)
     String phone;
+    @Column(unique = true)
     String email;
     @JsonIgnore
     String password;

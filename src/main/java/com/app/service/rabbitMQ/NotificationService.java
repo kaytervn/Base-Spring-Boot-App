@@ -19,12 +19,11 @@ public class NotificationService {
     RabbitMQService rabbitMQService;
     RabbitSender rabbitSender;
     ObjectMapper objectMapper;
-
     @NonFinal
     @Value("${rabbitmq.queue.name}")
     String queueName;
 
-    private <T> void sendMessage(T data, String cmd) {
+    public <T> void sendMessage(T data, String cmd) {
         BaseMessageForm<T> form = new BaseMessageForm<>();
         form.setApp(AppConstant.SPRING_APP);
         form.setCommand(cmd);

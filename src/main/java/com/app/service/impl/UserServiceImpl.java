@@ -5,10 +5,12 @@ import com.app.constant.AppEnum;
 import com.app.model.Account;
 import com.app.repository.AccountRepository;
 import com.app.utils.JwtUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,7 +22,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
@@ -38,6 +40,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserDetailsService {
     AccountRepository accountRepository;
     PasswordEncoder passwordEncoder;
+    ObjectMapper objectMapper;
 
     @Override
     public UserDetails loadUserByUsername(String userId) {
@@ -66,14 +69,17 @@ public class UserServiceImpl implements UserDetailsService {
     public OAuth2AccessToken getAccessTokenForUser(ClientDetails client, TokenRequest tokenRequest, AuthorizationServerTokenServices tokenServices) {
         String phone = tokenRequest.getRequestParameters().get("phone");
         String password = tokenRequest.getRequestParameters().get("password");
-        if (phone.isBlank()) {
-            throw new RuntimeException("Phone is required");
+        if (!(StringUtils.isNotBlank(phone) && phone.matches(AppConstant.PHONE_PATTERN))) {
+            throw new InvalidClientException("Invalid phone number format");
+        }
+        if (!(StringUtils.isNotBlank(password) && password.matches(AppConstant.PASSWORD_PATTERN))) {
+            throw new InvalidClientException("Password must be at least 6 characters");
         }
         Account user = accountRepository.findFirstByPhone(phone)
                 .filter(u -> Objects.equals(AppEnum.STATUS_ACTIVE, u.getStatus()))
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with this phone number"));
+                .orElseThrow(() -> new InvalidClientException("User not found with this phone number"));
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid password");
+            throw new InvalidClientException("Invalid password");
         }
         UserDetails userDetails = loadUserByUsername(user.getUsername());
         return createAccessToken(client, userDetails, AppConstant.GRANT_TYPE_USER, tokenServices);

@@ -1,6 +1,5 @@
 package com.app.model;
 
-import com.app.constant.AppConstant;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -19,6 +18,7 @@ import javax.persistence.Table;
 public class Permission extends Auditable<String> {
     @Column(unique = true)
     String name;
+    @Column(unique = true)
     String action;
     Boolean showMenu;
     @Column(columnDefinition = "text")

@@ -20,24 +20,24 @@ public class RabbitSender {
 
     public void send(String message, String queueName) {
         if (StringUtils.isBlank(message)) {
-            log.info("Cannot send an empty or null message");
+            log.warn("Cannot send an empty or null message");
             return;
         }
         createQueueIfNotExist(queueName);
         template.convertAndSend(queueName, message);
-        log.info("Sent '{}' to queue: {}", message, queueName);
+        log.warn("Sent '{}' to queue: {}", message, queueName);
     }
 
     public void createQueueIfNotExist(String queueName) {
         if (!isQueueExist(queueName)) {
-            log.info("Creating queue: {}", queueName);
+            log.warn("Creating queue: {}", queueName);
             rabbitAdmin.declareQueue(new Queue(queueName));
         }
     }
 
     public void removeQueue(String queueName) {
         if (isQueueExist(queueName)) {
-            log.info("Deleting queue: {}", queueName);
+            log.warn("Deleting queue: {}", queueName);
             rabbitAdmin.deleteQueue(queueName);
         }
     }
