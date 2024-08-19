@@ -12,6 +12,9 @@ public interface AppConstant {
     String APP_THREAD_POOL_EXECUTOR = "threadPoolExecutor";
     String APP_USER_SERVICE = "userService";
 
+    String APP_CONFIG_MAP = "applicationConfigMap";
+    String APP_PRIVATE_KEY = "privateKey";
+
     Integer MAX_ATTEMPT_FORGET_PASSWORD = 5;
     Integer MAX_TIME_FORGET_PASSWORD = 5 * 60 * 1000;
     Integer MAX_ATTEMPT_LOGIN = 5;

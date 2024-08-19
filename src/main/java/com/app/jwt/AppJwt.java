@@ -1,5 +1,6 @@
-package com.app.utils;
+package com.app.jwt;
 
+import com.app.utils.ZipUtils;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -10,7 +11,7 @@ import java.util.Objects;
 @Slf4j
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class JwtUtils {
+public class AppJwt {
     static final String DELIM = "\\|";
     static final String EMPTY_STRING = "<>";
 
@@ -34,11 +35,11 @@ public class JwtUtils {
                 isSuperAdmin.toString(), tenantId));
     }
 
-    public static JwtUtils decode(String input) {
+    public static AppJwt decode(String input) {
         try {
             String[] items = Objects.requireNonNull(ZipUtils.unzipString(input)).split(DELIM, 11);
             if (items.length >= 10) {
-                JwtUtils result = new JwtUtils();
+                AppJwt result = new AppJwt();
                 result.setAccountId(parseLong(items[0]));
                 result.setStoreId(parseLong(items[1]));
                 result.setKind(checkString(items[2]));

@@ -1,6 +1,7 @@
 package com.app;
 
 import com.app.component.AuditorAwareImpl;
+import com.app.constant.AppConstant;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +17,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 @SpringBootApplication
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
@@ -24,6 +27,11 @@ import java.util.TimeZone;
 @EnableScheduling
 @EnableAspectJAutoProxy
 public class Application {
+    @Bean(AppConstant.APP_CONFIG_MAP)
+    public ConcurrentMap<String, String> getAppConfigMap() {
+        return new ConcurrentHashMap<>();
+    }
+
     @Bean
     public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory) {
         return new RabbitAdmin(connectionFactory);

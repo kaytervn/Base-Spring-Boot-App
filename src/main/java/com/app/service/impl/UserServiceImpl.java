@@ -4,8 +4,7 @@ import com.app.constant.AppConstant;
 import com.app.constant.AppEnum;
 import com.app.model.Account;
 import com.app.repository.AccountRepository;
-import com.app.utils.JwtUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.app.jwt.AppJwt;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -40,7 +39,6 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserDetailsService {
     AccountRepository accountRepository;
     PasswordEncoder passwordEncoder;
-    ObjectMapper objectMapper;
 
     @Override
     public UserDetails loadUserByUsername(String userId) {
@@ -94,7 +92,7 @@ public class UserServiceImpl implements UserDetailsService {
     }
 
     @SuppressWarnings("unchecked")
-    public JwtUtils getAddInfoFromToken() {
+    public AppJwt getAddInfoFromToken() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             OAuth2AuthenticationDetails oauthDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
@@ -102,7 +100,7 @@ public class UserServiceImpl implements UserDetailsService {
                 Map<String, Object> decodedDetails = (Map<String, Object>) oauthDetails.getDecodedDetails();
                 String encodedData = (String) decodedDetails.get("additional_info");
                 if (encodedData != null && !encodedData.isEmpty()) {
-                    return JwtUtils.decode(encodedData);
+                    return AppJwt.decode(encodedData);
                 }
             }
         }

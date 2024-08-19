@@ -2,13 +2,10 @@ package com.app.controller;
 
 import com.app.dto.ApiMessageDto;
 import com.app.service.impl.UserServiceImpl;
-import com.app.utils.JwtUtils;
+import com.app.jwt.AppJwt;
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,13 +24,13 @@ public abstract class ABasicController {
         return getSessionFromToken().getTokenId();
     }
 
-    protected JwtUtils getSessionFromToken() {
+    protected AppJwt getSessionFromToken() {
         return userService.getAddInfoFromToken();
     }
 
     protected boolean isSuperAdmin() {
-        JwtUtils financeJwt = getSessionFromToken();
-        return financeJwt != null && financeJwt.getIsSuperAdmin();
+        AppJwt appJwt = getSessionFromToken();
+        return appJwt != null && appJwt.getIsSuperAdmin();
     }
 
     protected String getCurrentToken() {

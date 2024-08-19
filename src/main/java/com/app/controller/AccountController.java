@@ -15,7 +15,6 @@ import com.app.model.criteria.AccountCriteria;
 import com.app.repository.AccountRepository;
 import com.app.repository.GroupRepository;
 import com.app.service.ApiService;
-import com.app.service.rabbitMQ.NotificationService;
 import com.app.utils.ConvertUtils;
 import com.app.utils.ZipUtils;
 import lombok.AccessLevel;
@@ -52,13 +51,10 @@ public class AccountController extends ABasicController {
     ApiService apiService;
     @Autowired
     PasswordEncoder passwordEncoder;
-    @Autowired
-    NotificationService notificationService;
 
     @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ACC_V')")
     public ApiMessageDto<AccountAdminDto> get(@PathVariable("id") Long id) {
-        notificationService.sendMessage("Test Message", AppConstant.POST_NOTIFICATION_COMMAND);
         Account account = accountRepository.findById(id).orElse(null);
         if (account == null) {
             return makeErrorResponse(ErrorCode.ACCOUNT_ERROR_NOT_FOUND, "Not found account");

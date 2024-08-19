@@ -46,7 +46,6 @@
             <column name="name" type="VARCHAR(255)"/>
             <column name="description" type="TEXT"/>
             <column name="is_system_role" type="BIT"/>
-
             <column name="status" type="INT"/>
             <column name="created_by" type="VARCHAR(255)">
                 <constraints nullable="false"/>
