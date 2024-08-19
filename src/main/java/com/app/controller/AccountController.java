@@ -58,7 +58,7 @@ public class AccountController extends ABasicController {
     @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ACC_V')")
     public ApiMessageDto<AccountAdminDto> get(@PathVariable("id") Long id) {
-        notificationService.sendMessage("Test Message", AppConstant.BACKEND_POST_NOTIFICATION_COMMAND);
+        notificationService.sendMessage("Test Message", AppConstant.POST_NOTIFICATION_COMMAND);
         Account account = accountRepository.findById(id).orElse(null);
         if (account == null) {
             return makeErrorResponse(ErrorCode.ACCOUNT_ERROR_NOT_FOUND, "Not found account");

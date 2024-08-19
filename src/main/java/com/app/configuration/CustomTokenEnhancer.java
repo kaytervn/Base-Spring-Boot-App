@@ -46,16 +46,16 @@ public class CustomTokenEnhancer implements TokenEnhancer {
         additionalInfo.put("grant_type", grantType);
         String additionalInfoStr = ZipUtils.zipString(
                 account.getId() + DELIM
-                        + -1L + DELIM                        // storeId
-                        + account.getKind() + DELIM          // kind: token kind
-                        + "<>" + DELIM                       // permission
-                        + -1L + DELIM                        // deviceId: lưu ở table device để get firebase url
-                        + account.getKind() + DELIM          // userKind: loại user (admin hay gì?)
+                        + -1L + DELIM                        // storeId, long value
+                        + account.getKind() + DELIM          // kind: type of token
+                        + "<>" + DELIM                       // permission: empty string
+                        + -1L + DELIM                        // deviceId: stored in the device table to get the Firebase URL
+                        + account.getKind() + DELIM          // userKind: type of user (e.g., admin or other types)
                         + username + DELIM                   // username
-                        + -1 + DELIM                         // tabletKind: loại máy tính bảng
-                        + -1L + DELIM                        // orderId
+                        + -1 + DELIM                         // tabletKind: type of tablet, int value
+                        + -1L + DELIM                        // orderId, long value
                         + account.getIsSuperAdmin() + DELIM  // isSuperAdmin
-                        + "<>"                               // tenantId
+                        + "<>"                               // tenantId: empty string
         );
         additionalInfo.put("additional_info", additionalInfoStr);
         return additionalInfo;

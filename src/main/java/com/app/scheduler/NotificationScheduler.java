@@ -17,8 +17,8 @@ public class NotificationScheduler {
     NotificationService notificationService;
 
     @Scheduled(cron = "0 0 0 * * *", zone = "UTC")
-    // cron format: second | minute | hour | day of month | month | day of week
+    // Cron format: second | minute | hour | day of month | month | day of week
     public void sendNotification() {
-        notificationService.sendMessage("Test Message", AppConstant.BACKEND_POST_NOTIFICATION_COMMAND);
+        notificationService.sendMessage("Hello World!", AppConstant.POST_NOTIFICATION_COMMAND);
     }
 }

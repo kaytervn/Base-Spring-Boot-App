@@ -3,6 +3,9 @@ package com.app.constant;
 import com.app.service.ConfigurationService;
 
 public interface AppConstant {
+    String DATE_FORMAT = "dd/MM/yyyy";
+    String DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
+
     String APP_CONTROLLER_PACKAGE = "com.app.controller";
     String APP_ID_GENERATOR_STRATEGY = "com.app.service.id.IdGenerator";
     String APP_ID_GENERATOR_NAME = "idGenerator";
@@ -17,14 +20,11 @@ public interface AppConstant {
     String LOGIN_TYPE_INTERNAL = "LOGIN_TYPE_INTERNAL";
     String ROOT_DIRECTORY = ConfigurationService.getInstance().getString("file.upload-dir", "/tmp/upload");
 
-    String BACKEND_POST_NOTIFICATION_COMMAND = "BACKEND_POST_NOTIFICATION";
+    String POST_NOTIFICATION_COMMAND = "POST_NOTIFICATION";
     String SPRING_APP = "SPRING_APP";
 
     String GRANT_TYPE_PASSWORD = "password";
     String GRANT_TYPE_USER = "user";
-
-    String DATE_FORMAT = "dd/MM/yyyy";
-    String DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
 
     String PHONE_PATTERN = "^0[35789][0-9]{8}$";
     String PASSWORD_PATTERN = "^.{6,}$";
