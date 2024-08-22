@@ -1,7 +1,5 @@
 package com.app.constant;
 
-import com.app.service.ConfigurationService;
-
 public interface AppConstant {
     String DATE_FORMAT = "dd/MM/yyyy";
     String DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
@@ -21,7 +19,6 @@ public interface AppConstant {
 
     Boolean AES_ZIP_ENABLE = false;
     String LOGIN_TYPE_INTERNAL = "LOGIN_TYPE_INTERNAL";
-    String ROOT_DIRECTORY = ConfigurationService.getInstance().getString("file.upload-dir", "/tmp/upload");
 
     String POST_NOTIFICATION_COMMAND = "POST_NOTIFICATION";
     String SPRING_APP = "SPRING_APP";

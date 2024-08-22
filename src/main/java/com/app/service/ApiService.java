@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -36,6 +37,8 @@ public class ApiService {
     final static String[] UPLOAD_TYPES = {"LOGO", "AVATAR", "IMAGE", "DOCUMENT"};
     final static Map<String, Long> storeQRCodeRandom = new ConcurrentHashMap<>();
     final static long MAX_FILE_SIZE_MB = 5;
+    @Value("${file.upload-dir}")
+    String UPLOAD_DIRECTORY;
     @Autowired
     OTPService otpService;
     @Autowired
@@ -53,7 +56,7 @@ public class ApiService {
             String ext = FilenameUtils.getExtension(fileName);
             String finalFile = uploadFileForm.getType() + "_" + RandomStringUtils.randomAlphanumeric(10) + "." + ext;
             String typeFolder = File.separator + uploadFileForm.getType();
-            Path fileStorageLocation = Paths.get(AppConstant.ROOT_DIRECTORY + typeFolder).toAbsolutePath().normalize();
+            Path fileStorageLocation = Paths.get(UPLOAD_DIRECTORY + typeFolder).toAbsolutePath().normalize();
             Files.createDirectories(fileStorageLocation);
             Path targetLocation = fileStorageLocation.resolve(finalFile);
             long fileSizeMB = uploadFileForm.getFile().getSize() / (1024 * 1024);
@@ -76,13 +79,13 @@ public class ApiService {
     }
 
     public void deleteFile(String filePath) {
-        File file = new File(AppConstant.ROOT_DIRECTORY + filePath);
+        File file = new File(UPLOAD_DIRECTORY + filePath);
         if (file.exists()) file.delete();
     }
 
     public Resource loadFileAsResource(String folder, String fileName) {
         try {
-            Path fileStorageLocation = Paths.get(AppConstant.ROOT_DIRECTORY + File.separator + folder).toAbsolutePath().normalize();
+            Path fileStorageLocation = Paths.get(UPLOAD_DIRECTORY + File.separator + folder).toAbsolutePath().normalize();
             Path filePath = fileStorageLocation.resolve(fileName).normalize();
             Resource resource = new UrlResource(filePath.toUri());
             if (resource.exists()) {
@@ -96,7 +99,7 @@ public class ApiService {
 
     public InputStreamResource loadFileAsResourceExt(String folder, String fileName) {
         try {
-            File file = new File(AppConstant.ROOT_DIRECTORY + File.separator + folder + File.separator + fileName);
+            File file = new File(UPLOAD_DIRECTORY + File.separator + folder + File.separator + fileName);
             return new InputStreamResource(new FileInputStream(file));
         } catch (Exception ex) {
             log.error("Error loading file as resource ext", ex);
