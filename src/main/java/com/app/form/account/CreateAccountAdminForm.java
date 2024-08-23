@@ -24,6 +24,8 @@ public class CreateAccountAdminForm {
     String phone;
     @AccountKind
     Integer kind;
+    @StatusConstraint
+    Integer status;
     @NotNull(message = "groupId is required")
     Long groupId;
 }

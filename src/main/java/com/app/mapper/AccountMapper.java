@@ -18,6 +18,7 @@ public interface AccountMapper extends ABasicMapper {
     @Mapping(source = "avatar", target = "avatar")
     @Mapping(source = "phone", target = "phone")
     @Mapping(source = "kind", target = "kind")
+    @Mapping(source = "status", target = "status")
     @Mapping(target = "username", expression = "java(toLowerCase(createAccountAdminForm.getUsername()))")
     @Mapping(target = "email", expression = "java(toLowerCase(createAccountAdminForm.getEmail()))")
     @BeanMapping(ignoreByDefault = true)
