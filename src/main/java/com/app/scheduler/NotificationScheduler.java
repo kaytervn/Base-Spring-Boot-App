@@ -1,7 +1,7 @@
 package com.app.scheduler;
 
 import com.app.constant.AppConstant;
-import com.app.service.rabbitMQ.NotificationService;
+import com.app.notification.rabbitMQ.NotificationService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;

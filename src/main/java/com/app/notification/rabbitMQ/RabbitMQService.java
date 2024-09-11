@@ -1,4 +1,4 @@
-package com.app.service.rabbitMQ;
+package com.app.notification.rabbitMQ;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

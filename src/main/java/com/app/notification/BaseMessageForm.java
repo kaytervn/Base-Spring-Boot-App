@@ -1,4 +1,4 @@
-package com.app.form;
+package com.app.notification;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

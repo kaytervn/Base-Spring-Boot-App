@@ -1,7 +1,7 @@
-package com.app.service.rabbitMQ;
+package com.app.notification.rabbitMQ;
 
 import com.app.constant.AppConstant;
-import com.app.form.BaseMessageForm;
+import com.app.notification.BaseMessageForm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

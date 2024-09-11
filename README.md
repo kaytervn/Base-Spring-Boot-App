@@ -57,13 +57,14 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 
 | Step | Directory/Location                              | Instruction                                                                    |
 | ---- | ----------------------------------------------- | ------------------------------------------------------------------------------ |
-| 1.   | `src/main/java/<your-package>`                  | Refactor and rename the package to your desired name.                          |
-| 2.   | `pom.xml`                                       | Update `groupId`, `artifactId`, and `name`. Also, modify Liquibase properties. |
-| 3.   | `src/main/resources/application-dev.properties` | Update the database credentials and server `PORT`.                             |
-| 4.   | `src/main/java/<your-package>/model`            | Refactor the database table prefix name.                                       |
-| 5.   | `src/main/resources/liquibase`                  | Refactor the database table prefix name in the Liquibase changesets.           |
+| 1.   | `/<your-source-storage>`                        | Right-click -> Open in Terminal -> Run `git clone <HTTP-Git-URL>`              |
+| 2.   | `src/main/java/<your-package>`                  | Refactor and rename the package to your desired name.                          |
+| 3.   | `pom.xml`                                       | Update `groupId`, `artifactId`, and `name`. Also, modify Liquibase properties. |
+| 4.   | `src/main/resources/application-dev.properties` | Update the database credentials and server `PORT`.                             |
+| 5.   | `src/main/java/<your-package>/model`            | Refactor the database table prefix name.                                       |
+| 6.   | `src/main/resources/liquibase`                  | Refactor the database table prefix name in the Liquibase changesets.           |
 
-**6.** Delete the following modules in this order: `controller`, `mapper`, `dto`, `form`, `model/criteria`, `repository`, `validation` (if exists).
+**7.** Delete the following modules in this order: `controller`, `mapper`, `dto`, `form`, `model/criteria`, `repository`, `validation` (if exists).
 
 > **Modify these files:** `dto/ErrorCode.java`, `constant/<your-app>Constant.java`.
 
@@ -135,13 +136,15 @@ src/
 
 ---
 
-**RabbitMQ Set up:**
+**RabbitMQ Set up and Configuration:**
 
 ---
 
 **SourceTree Set up and Basic Operations:**
 
 ---
+
+**Tenant Configuration:**
 
 ```
 
