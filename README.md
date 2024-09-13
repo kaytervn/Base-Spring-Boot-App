@@ -44,7 +44,7 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 | ---- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------ |
 | 1.   | `src/main/resources/application-dev.properties` | Update the database credentials.                                                                 |
 | 2.   | `pom.xml`                                       | Update the Liquibase properties.                                                                 |
-| 3.   | Right-side Navbar                               | Navigate to Maven -> `<your-app>` -> Lifecycle -> clean.                                         |
+| 3.   | Right-side Navbar                               | Go to Maven -> `<your-app>` -> Lifecycle -> clean.                                         |
 | 4.   | Top Navbar                                      | Go to Build -> Build Project (Ctrl + F9) or Rebuild Project.                                     |
 | 5.   | Top Navbar                                      | Go to File -> Project Structure -> Select SDK Version 11.                                        |
 | 6.   | Run Source                                      | Run the application via `Spring Boot App` or create a new configuration (Application) to run it. |
@@ -77,7 +77,7 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 | Step | Directory/Location                                     | Instruction                                                            |
 | ---- | ------------------------------------------------------ | ---------------------------------------------------------------------- |
 | 1.   | `src/main/<your-package>/model`                        | Create a new model class.                                              |
-| 2.   | Right-side Navbar                                      | Navigate to Maven -> `<your-app>` -> Lifecycle -> clean.               |
+| 2.   | Right-side Navbar                                      | Go to Maven -> ```<your-app>``` -> Lifecycle -> clean.                     |
 | 3.   | Top Navbar                                             | Go to Build -> Build Project (Ctrl + F9) or Rebuild Project.           |
 | 4.   | Right-side Navbar                                      | Go to Maven -> `<your-app>` -> Plugins -> liquibase -> liquibase:diff. |
 | 5.   | `src/main/resources/liquibase/db.changelog-master.xml` | Apply the newly generated Liquibase changelog file.                    |
@@ -137,6 +137,8 @@ src/
 ---
 
 **RabbitMQ Set up and Configuration:**
+
+
 
 ---
 
