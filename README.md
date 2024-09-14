@@ -45,9 +45,7 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 
 ||
 |-|
-|
-
-<details>
+| <details>
 
   <summary><b>CRUD for a new Model</b></summary>
 
@@ -90,9 +88,7 @@ src/
 
 > **Note:** `MODEL` is a 2-3 character abbreviation of the model name (e.g., `SE_P` for `ServerProvider`).
 
-</details>
-
-|
+</details> |
 
 <details>
 
