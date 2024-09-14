@@ -40,7 +40,10 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 
 **4.** Ensure database is **created** before running application
 
-> [!NOTE] <br> > **Swagger UI:** `localhost:<PORT>/swagger-ui.html`
+> [!NOTE] 
+> **Swagger UI:** `localhost:<PORT>/swagger-ui.html`
+
+---
 
 <details>
 
@@ -88,6 +91,8 @@ src/
 </details>
 
 <details>
+
+---
 
 <summary><b>RabbitMQ Setup</b></summary>
 
