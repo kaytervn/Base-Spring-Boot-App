@@ -38,7 +38,8 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 
 **4.** Ensure database is **created** before running application
 
-> [!NOTE] > **Swagger UI:** `localhost:<PORT>/swagger-ui.html`
+> [!NOTE]
+> **Swagger UI:** `localhost:<PORT>/swagger-ui.html`
 
 <details>
 
@@ -106,4 +107,5 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 |                                                       **Controller Method Order**                                                        |
 | **get** (`MODEL_V`) → **list** (`MODEL_L`) → **autoComplete** → **create** (`MODEL_C`) → **update** (`MODEL_U`) → **delete** (`MODEL_D`) |
 
-> [!NOTE] > `MODEL` is a 2-3 character abbreviation of the model name (e.g., `SE_P` for `ServerProvider`).
+> [!NOTE]
+> `MODEL` is a 2-3 character abbreviation of the model name (e.g., `SE_P` for `ServerProvider`).
