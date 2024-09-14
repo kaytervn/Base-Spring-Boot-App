@@ -13,13 +13,13 @@ This is a base Spring Boot application that provides a foundation for building r
 **MySQL Dump:**
 
 ```cmd
-"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqldump" -u root -p <your-database-name> > D:\Downloads\dump_file.sql
+"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqldump" -u root -p <database-name> > D:\Downloads\dump_file.sql
 ```
 
 **MySQL Change Root Password:**
 
 ```cmd
-"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqladmin" -u root -p password <your-new-password>
+"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqladmin" -u root -p password <new-password>
 ```
 
 **Liquibase Changelog Export Data:**
