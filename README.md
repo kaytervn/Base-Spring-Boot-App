@@ -45,6 +45,7 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 3. Set **SDK** to Version **11** in **File** -> **Project Structure** (`Ctrl` + `Alt` + `Shift` + `S`)
 4. Ensure database is **created** before running application
 
+> [!NOTE]
 > **Swagger UI:** `localhost:<PORT>/swagger-ui.html`
 
 ---
