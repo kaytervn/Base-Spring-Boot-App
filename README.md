@@ -38,7 +38,7 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 
 **4.** Ensure database is **created** before running application
 
-> [!NOTE] 
+> [!NOTE]
 > **Swagger UI:** `localhost:<PORT>/swagger-ui.html`
 
 <details>
@@ -100,32 +100,11 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 
 **4.** Apply new changelog in `src/main/resources/liquibase/db.changelog-master.xml`
 
-|                         File Creation Order                          |
-| :------------------------------------------------------------------: |
-| `Repository` → `Criteria` → `Form` → `DTO` → `Mapper` → `Controller` |
-
-**Directory Structure**
-
-```
-src/
-├── controller/<ModelName>Controller.java
-│
-├── dto/<ModelName>/
-│   ├── <ModelName>Dto.java
-│   └── <ModelName>AdminDto.java
-│
-├── form/<ModelName>/
-│   ├── Create<ModelName>Form.java
-│   └── Update<ModelName>Form.java
-│
-├── mapper/<ModelName>Mapper.java
-├── model/criteria/<ModelName>Criteria.java
-└── repository/<ModelName>Repository.java
-```
-
-|                                                         Controller Method Order                                                          |
+|                                                           File Creation Order                                                            |
 | :--------------------------------------------------------------------------------------------------------------------------------------: |
+|                                   `Repository` → `Criteria` → `Form` → `DTO` → `Mapper` → `Controller`                                   |
+|                                                       **Controller Method Order**                                                        |
 | **get** (`MODEL_V`) → **list** (`MODEL_L`) → **autoComplete** → **create** (`MODEL_C`) → **update** (`MODEL_U`) → **delete** (`MODEL_D`) |
 
-> [!NOTE] 
+> [!NOTE]
 > `MODEL` is a 2-3 character abbreviation of the model name (e.g., `SE_P` for `ServerProvider`).
