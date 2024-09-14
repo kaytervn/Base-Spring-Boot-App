@@ -2,11 +2,9 @@
 
 This is a base Spring Boot application that provides a foundation for building robust and scalable web services.
 
-[BitBucket Projects](https://git.developteam.net/projects)
+- [BitBucket Projects](https://git.developteam.net/projects)
 
-[Gorgeous Swagger Converter](https://kaytervn.github.io/Gorgeous-Swagger-Converter-Web/)
-
-[.gitignore](.gitignore)
+- [Gorgeous Swagger Converter](https://kaytervn.github.io/Gorgeous-Swagger-Converter-Web/)
 
 ## Notes
 
@@ -42,56 +40,6 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 
 > [!NOTE] 
 > **Swagger UI:** `localhost:<PORT>/swagger-ui.html`
-
----
-
-<details>
-
-  <summary><b>CRUD for a new Model</b></summary>
-
-<br>
-
-**1.** Create model class in `src/main/<your-package>/model`
-
-**2.** Run **Maven** `clean` and rebuild project
-
-**3.** Generate **Liquibase** changelog: `Maven` → `Plugins` → `liquibase` → `liquibase:diff`
-
-**4.** Apply new changelog in `src/main/resources/liquibase/db.changelog-master.xml`
-
-|                         File Creation Order                          |
-| :------------------------------------------------------------------: |
-| `Repository` → `Criteria` → `Form` → `DTO` → `Mapper` → `Controller` |
-
-**Directory Structure**
-
-```
-src/
-├── controller/<ModelName>Controller.java
-│
-├── dto/<ModelName>/
-│   ├── <ModelName>Dto.java
-│   └── <ModelName>AdminDto.java
-│
-├── form/<ModelName>/
-│   ├── Create<ModelName>Form.java
-│   └── Update<ModelName>Form.java
-│
-├── mapper/<ModelName>Mapper.java
-├── model/criteria/<ModelName>Criteria.java
-└── repository/<ModelName>Repository.java
-```
-
-|                                                         Controller Method Order                                                          |
-| :--------------------------------------------------------------------------------------------------------------------------------------: |
-| **get** (`MODEL_V`) → **list** (`MODEL_L`) → **autoComplete** → **create** (`MODEL_C`) → **update** (`MODEL_U`) → **delete** (`MODEL_D`) |
-
-> **Note:** `MODEL` is a 2-3 character abbreviation of the model name (e.g., `SE_P` for `ServerProvider`).
-
-</details>
-
----
-
 
 <details>
 
@@ -142,8 +90,41 @@ src/
 
 ---
 
-**SourceTree Set up and Basic Operations:**
+### CRUD for a new Model
 
----
+**1.** Create model class in `src/main/<your-package>/model`
 
-**Create a custom grant type**
+**2.** Run **Maven** `clean` and rebuild project
+
+**3.** Generate **Liquibase** changelog: `Maven` → `Plugins` → `liquibase` → `liquibase:diff`
+
+**4.** Apply new changelog in `src/main/resources/liquibase/db.changelog-master.xml`
+
+|                         File Creation Order                          |
+| :------------------------------------------------------------------: |
+| `Repository` → `Criteria` → `Form` → `DTO` → `Mapper` → `Controller` |
+
+**Directory Structure**
+
+```
+src/
+├── controller/<ModelName>Controller.java
+│
+├── dto/<ModelName>/
+│   ├── <ModelName>Dto.java
+│   └── <ModelName>AdminDto.java
+│
+├── form/<ModelName>/
+│   ├── Create<ModelName>Form.java
+│   └── Update<ModelName>Form.java
+│
+├── mapper/<ModelName>Mapper.java
+├── model/criteria/<ModelName>Criteria.java
+└── repository/<ModelName>Repository.java
+```
+
+|                                                         Controller Method Order                                                          |
+| :--------------------------------------------------------------------------------------------------------------------------------------: |
+| **get** (`MODEL_V`) → **list** (`MODEL_L`) → **autoComplete** → **create** (`MODEL_C`) → **update** (`MODEL_U`) → **delete** (`MODEL_D`) |
+
+> **Note:** `MODEL` is a 2-3 character abbreviation of the model name (e.g., `SE_P` for `ServerProvider`).
