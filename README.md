@@ -44,7 +44,7 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 
 **2.** Run **Maven** `clean` and rebuild project
 
-**3.** Set **SDK** to Version **11** in **File** -> **Project Structure** (`Ctrl` + `Alt` + `Shift` + `S`)
+**3.** Set **SDK** to Version **11** in **File** → **Project Structure** (`Ctrl` + `Alt` + `Shift` + `S`)
 
 **4.** Ensure database is **created** before running application
 
@@ -52,19 +52,19 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 
 <details>
 
-<summary>CRUD for a new Model</summary>
+  <summary><div align="center">CRUD for a new Model</div></summary>
 
 **1.** Create model class in `src/main/<your-package>/model`
 
 **2.** Run **Maven** `clean` and rebuild project
 
-**3.** Generate **Liquibase** changelog: `Maven` -> `Plugins` -> `liquibase` -> `liquibase:diff`
+**3.** Generate **Liquibase** changelog: `Maven` → `Plugins` → `liquibase` → `liquibase:diff`
 
 **4.** Apply new changelog in `src/main/resources/liquibase/db.changelog-master.xml`
 
-|                            File Creation Order                            |
-| :-----------------------------------------------------------------------: |
-| `Repository` -> `Criteria` -> `Form` -> `DTO` -> `Mapper` -> `Controller` |
+|                         File Creation Order                          |
+| :------------------------------------------------------------------: |
+| `Repository` → `Criteria` → `Form` → `DTO` → `Mapper` → `Controller` |
 
 **Directory Structure**
 
@@ -85,10 +85,9 @@ src/
 └── repository/<ModelName>Repository.java
 ```
 
-|                                                            Controller Method Order                                                            |
-| :-------------------------------------------------------------------------------------------------------------------------------------------: |
-| **get** (`MODEL_V`) -> **list** (`MODEL_L`) -> **autoComplete** -> **create** (`MODEL_C`) -> **update** (`MODEL_U`) -> **delete** (`MODEL_D`) |
-|                                                                                                                                               |
+|                                                         Controller Method Order                                                          |
+| :--------------------------------------------------------------------------------------------------------------------------------------: |
+| **get** (`MODEL_V`) → **list** (`MODEL_L`) → **autoComplete** → **create** (`MODEL_C`) → **update** (`MODEL_U`) → **delete** (`MODEL_D`) |
 
 > **Note:** `MODEL` is a 2-3 character abbreviation of the model name (e.g., `SE_P` for `ServerProvider`).
 
