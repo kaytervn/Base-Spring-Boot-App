@@ -43,77 +43,10 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 > [!NOTE]
 > **Swagger UI:** `localhost:<PORT>/swagger-ui.html`
 
-<details>
-
-  <summary><b>CRUD for a new Model</b></summary>
-
-<br>
-
-**1.** Create model class in `src/main/<your-package>/model`
-
-**2.** Run **Maven** `clean` and rebuild project
-
-**3.** Generate **Liquibase** changelog: `Maven` → `Plugins` → `liquibase` → `liquibase:diff`
-
-**4.** Apply new changelog in `src/main/resources/liquibase/db.changelog-master.xml`
-
-|                         File Creation Order                          |
-| :------------------------------------------------------------------: |
-| `Repository` → `Criteria` → `Form` → `DTO` → `Mapper` → `Controller` |
-
-**Directory Structure**
-
-```
-src/
-├── controller/<ModelName>Controller.java
-│
-├── dto/<ModelName>/
-│   ├── <ModelName>Dto.java
-│   └── <ModelName>AdminDto.java
-│
-├── form/<ModelName>/
-│   ├── Create<ModelName>Form.java
-│   └── Update<ModelName>Form.java
-│
-├── mapper/<ModelName>Mapper.java
-├── model/criteria/<ModelName>Criteria.java
-└── repository/<ModelName>Repository.java
-```
-
-|                                                         Controller Method Order                                                          |
-| :--------------------------------------------------------------------------------------------------------------------------------------: |
-| **get** (`MODEL_V`) → **list** (`MODEL_L`) → **autoComplete** → **create** (`MODEL_C`) → **update** (`MODEL_U`) → **delete** (`MODEL_D`) |
-
-> **Note:** `MODEL` is a 2-3 character abbreviation of the model name (e.g., `SE_P` for `ServerProvider`).
-
-</details>
-
-<details>
-
-<summary><b>RabbitMQ Setup</b></summary>
-
-<br>
-
-**1.** Install RabbitMQ
-
-- In Terminal: Run `docker pull rabbitmq:3.13.6-management`
-- In Docker Desktop: Run `rabbitmq` **Image**
-
-- Set ports: `15672`:15672/tcp (**UI**), `5672`:5672/tcp (**AMQP**)
-
-**2.** Access Management UI
-
-- Open: http://localhost:15672/
-- Login: `guest` / `guest`
-
-**3.** Create Admin User
-
-- Go to **Admin** tab
-- Add new user with `Admin` tag
-
-**4.** Run application and login with new admin account
-
-</details>
+| **Topic**               | **Details** |
+|-------------------------|-------------|
+| **CRUD for a new Model** | <details><summary><b>CRUD for a new Model</b></summary><br> **1.** Create model class in `src/main/<your-package>/model`<br> **2.** Run **Maven** `clean` and rebuild project<br> **3.** Generate **Liquibase** changelog: `Maven` → `Plugins` → `liquibase` → `liquibase:diff`<br> **4.** Apply new changelog in `src/main/resources/liquibase/db.changelog-master.xml`<br><br> |                         File Creation Order                          |<br> | :------------------------------------------------------------------: |<br> | `Repository` → `Criteria` → `Form` → `DTO` → `Mapper` → `Controller` |<br><br> **Directory Structure**<br> ``` src/ ├── controller/<ModelName>Controller.java │ ├── dto/<ModelName>/ │   ├── <ModelName>Dto.java │   └── <ModelName>AdminDto.java │ ├── form/<ModelName>/ │   ├── Create<ModelName>Form.java │   └── Update<ModelName>Form.java │ ├── mapper/<ModelName>Mapper.java ├── model/criteria/<ModelName>Criteria.java └── repository/<ModelName>Repository.java ``` <br><br> |                                                         Controller Method Order                                                          |<br> | :--------------------------------------------------------------------------------------------------------------------------------------: |<br> | **get** (`MODEL_V`) → **list** (`MODEL_L`) → **autoComplete** → **create** (`MODEL_C`) → **update** (`MODEL_U`) → **delete** (`MODEL_D`) |<br><br> **Note:** `MODEL` is a 2-3 character abbreviation of the model name (e.g., `SE_P` for `ServerProvider`).<br><br></details> |
+| **RabbitMQ Setup**       | <details><summary><b>RabbitMQ Setup</b></summary><br> **1.** Install RabbitMQ<br>- In Terminal: Run `docker pull rabbitmq:3.13.6-management`<br>- In Docker Desktop: Run `rabbitmq` **Image**<br>- Set ports: `15672`:15672/tcp (**UI**), `5672`:5672/tcp (**AMQP**)<br> **2.** Access Management UI<br>- Open: http://localhost:15672/<br>- Login: `guest` / `guest`<br> **3.** Create Admin User<br>- Go to **Admin** tab<br>- Add new user with `Admin` tag<br> **4.** Run application and login with new admin account<br><br></details> |
 
 ---
 
