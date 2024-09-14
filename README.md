@@ -52,7 +52,9 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 
 <details>
 
-  <summary><div align="center">CRUD for a new Model</div></summary>
+  <summary><b>CRUD for a new Model</b></summary>
+
+<br>
 
 **1.** Create model class in `src/main/<your-package>/model`
 
