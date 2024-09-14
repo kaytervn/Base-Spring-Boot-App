@@ -90,9 +90,10 @@ src/
 
 </details>
 
-<details>
-
 ---
+
+
+<details>
 
 <summary><b>RabbitMQ Setup</b></summary>
 
