@@ -38,107 +38,95 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 
 ---
 
-**Starting the Application:**
+### Starting the Application
 
-| Step | Directory/Location                              | Instruction                                                                                      |
-| ---- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| 1.   | `src/main/resources/application-dev.properties` | Update the database credentials.                                                                 |
-| 2.   | `pom.xml`                                       | Update the Liquibase properties.                                                                 |
-| 3.   | Right-side Navbar                               | Go to Maven -> `<your-app>` -> Lifecycle -> clean.                                         |
-| 4.   | Top Navbar                                      | Go to Build -> Build Project (Ctrl + F9) or Rebuild Project.                                     |
-| 5.   | Top Navbar                                      | Go to File -> Project Structure -> Select SDK Version 11.                                        |
-| 6.   | Run Source                                      | Run the application via `Spring Boot App` or create a new configuration (Application) to run it. |
+1. Rename server PORT, database credentials in `application-dev.properties` and **Liquibase** properties in `pom.xml`
+2. Run **Maven** `clean` and rebuild project
+3. Set **SDK** to Version **11** in **File** -> **Project Structure** (`Ctrl` + `Alt` + `Shift` + `S`)
+4. Ensure database is **created** before running application
 
-> **Note**: Ensure that a database is created before running the application.
+> **Swagger UI:** `localhost:<PORT>/swagger-ui.html`
 
 ---
 
-**Cloning the Source Code:**
+### Cloning Source Code
 
-| Step | Directory/Location                              | Instruction                                                                    |
-| ---- | ----------------------------------------------- | ------------------------------------------------------------------------------ |
-| 1.   | `/<your-source-storage>`                        | Right-click -> Open in Terminal -> Run `git clone <HTTP-Git-URL>`              |
-| 2.   | `src/main/java/<your-package>`                  | Refactor and rename the package to your desired name.                          |
-| 3.   | `pom.xml`                                       | Update `groupId`, `artifactId`, and `name`. Also, modify Liquibase properties. |
-| 4.   | `src/main/resources/application-dev.properties` | Update the database credentials and server `PORT`.                             |
-| 5.   | `src/main/java/<your-package>/model`            | Refactor the database table prefix name.                                       |
-| 6.   | `src/main/resources/liquibase`                  | Refactor the database table prefix name in the Liquibase changesets.           |
-
-**7.** Delete the following modules in this order: `controller`, `mapper`, `dto`, `form`, `model/criteria`, `repository`, `validation` (if exists).
-
-> **Modify these files:** `dto/ErrorCode.java`, `constant/<your-app>Constant.java`.
-
-> **Keep the base modules:** `Account`, `Group`, `Permission`, `Setting`, `File`.
+1. Clone repository: `git clone <HTTP-Git-URL>`
+2. Refactor package in `src/main/java/<your-package>`
+3. Update `pom.xml`: `groupId`, `artifactId`, `name`, Liquibase properties
+4. Modify `application-dev.properties`: database credentials, server PORT
+5. Rename database table prefix in **models** and **Liquibase** changesets
+6. Delete classes in folders: `controller`, `mapper`, `dto`, `form`, `model/criteria`, `repository`, `validation`
+7. Modify: `dto/ErrorCode.java`, `constant/<your-app>Constant.java`
+8. Keep base modules: `Account`, `Group`, `Permission`, `Setting`, `File`
 
 ---
 
-**Applying CRUD for a New Model:**
+### CRUD for a new Model
 
-| Step | Directory/Location                                     | Instruction                                                            |
-| ---- | ------------------------------------------------------ | ---------------------------------------------------------------------- |
-| 1.   | `src/main/<your-package>/model`                        | Create a new model class.                                              |
-| 2.   | Right-side Navbar                                      | Go to Maven -> ```<your-app>``` -> Lifecycle -> clean.                     |
-| 3.   | Top Navbar                                             | Go to Build -> Build Project (Ctrl + F9) or Rebuild Project.           |
-| 4.   | Right-side Navbar                                      | Go to Maven -> `<your-app>` -> Plugins -> liquibase -> liquibase:diff. |
-| 5.   | `src/main/resources/liquibase/db.changelog-master.xml` | Apply the newly generated Liquibase changelog file.                    |
+1. Create model class in `src/main/<your-package>/model`
+2. Run **Maven** `clean` and rebuild project
+3. Generate **Liquibase** changelog: `Maven` -> `Plugins` -> `liquibase` -> `liquibase:diff`
+4. Apply new changelog in `src/main/resources/liquibase/db.changelog-master.xml`
 
-**6.** Create and implement the following files in this order: `repository` -> `model/criteria` -> `form (Create/Update)` -> `dto` -> `mapper` -> `controller`.
+**File Creation Order:** `Repository` -> `Criteria` -> `Form` -> `DTO` -> `Mapper` -> `Controller`
 
-**Directory Structure:**
+**Directory Structure**
 
-```plaintext
+```
 src/
+├── controller/<ModelName>Controller.java
 │
-├── controller/
-│   └── <your-model-name>Controller.java
+├── dto/<ModelName>/
+│   ├── <ModelName>Dto.java
+│   └── <ModelName>AdminDto.java
 │
-├── dto/
-│   └── <your-model-name>/
-│       ├── <your-model-name>Dto.java
-│       └── <your-model-name>AdminDto.java
+├── form/<ModelName>/
+│   ├── Create<ModelName>Form.java
+│   └── Update<ModelName>Form.java
 │
-├── form/
-│   └── <your-model-name>/
-│       ├── Create<your-model-name>Form.java
-│       └── Update<your-model-name>Form.java
-│
-├── mapper/
-│   └── <your-model-name>Mapper.java
-│
-├── model/
-│   └── criteria/
-│       └── <your-model-name>Criteria.java
-│
-└── repository/
-    └── <your-model-name>Repository.java
+├── mapper/<ModelName>Mapper.java
+├── model/criteria/<ModelName>Criteria.java
+└── repository/<ModelName>Repository.java
 ```
 
-**REST API Controller Order:**
+**Controller Method Order**
 
-1. **Methods should be written in the following order:**
+1. get (`MODEL_V`)
+2. list (`MODEL_L`)
+3. autoComplete
+4. create (`MODEL_C`)
+5. update (`MODEL_U`)
+6. delete (`MODEL_D`)
 
-   - `get` (`<MODEL-NAME>`\_V)
-   - `list` (`<MODEL-NAME>`\_L)
-   - `autoComplete`
-   - `create` (`<MODEL-NAME>`\_C)
-   - `update` (`<MODEL-NAME>`\_U)
-   - `delete` (`<MODEL-NAME>`\_D)
-
-2. **MODEL-NAME** refers to the permission code prefix, which is usually a 2 or 3 character abbreviation for the model.
-
-   For example, if the model is `ServerProvider`, the permission codes would be:
-
-   - `SE_P_V` for `get`
-   - `SE_P_L` for `list`
-   - `SE_P_C` for `create`
-   - `SE_P_U` for `update`
-   - `SE_P_D` for `delete`
+> **Note:** `MODEL` is a 2-3 character abbreviation of the model name (e.g., `SE_P` for `ServerProvider`).
 
 ---
 
-**RabbitMQ Set up and Configuration:**
+### RabbitMQ Setup and Configuration
 
+**1.** Install RabbitMQ
 
+- In Terminal: Run `docker pull rabbitmq:3.13.6-management`
+- In Docker Desktop: Run `rabbitmq` **Image**
+
+- Set ports: `15672`:15672/tcp (**UI**), `5672`:5672/tcp (**AMQP**)
+
+**2.** Access Management UI
+
+- Open: http://localhost:15672/
+- Login: `guest` / `guest`
+
+**3.** Create Admin User
+
+- Go to Admin tab
+- Add new user with `Admin` tag
+
+**4.** Run application and login with new admin account
+
+```java
+
+```
 
 ---
 
@@ -150,4 +138,9 @@ src/
 
 ```
 
+
 ```
+
+---
+
+**Create a custom grant type**
