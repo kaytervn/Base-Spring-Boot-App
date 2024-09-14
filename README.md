@@ -40,37 +40,31 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 
 ### Starting the Application
 
-1. Rename server PORT, database credentials in `application-dev.properties` and **Liquibase** properties in `pom.xml`
-2. Run **Maven** `clean` and rebuild project
-3. Set **SDK** to Version **11** in **File** -> **Project Structure** (`Ctrl` + `Alt` + `Shift` + `S`)
-4. Ensure database is **created** before running application
+**1.** Rename server PORT, database credentials in `application-dev.properties` and **Liquibase** properties in `pom.xml`
 
-> [!NOTE]
-> **Swagger UI:** `localhost:<PORT>/swagger-ui.html`
+**2.** Run **Maven** `clean` and rebuild project
 
----
+**3.** Set **SDK** to Version **11** in **File** -> **Project Structure** (`Ctrl` + `Alt` + `Shift` + `S`)
 
-### Cloning Source Code
+**4.** Ensure database is **created** before running application
 
-1. Clone repository: `git clone <HTTP-Git-URL>`
-2. Refactor package in `src/main/java/<your-package>`
-3. Update `pom.xml`: `groupId`, `artifactId`, `name`, Liquibase properties
-4. Modify `application-dev.properties`: database credentials, server PORT
-5. Rename database table prefix in **models** and **Liquibase** changesets
-6. Delete classes in folders: `controller`, `mapper`, `dto`, `form`, `model/criteria`, `repository`, `validation`
-7. Modify: `dto/ErrorCode.java`, `constant/<your-app>Constant.java`
-8. Keep base modules: `Account`, `Group`, `Permission`, `Setting`, `File`
+> [!NOTE] > **Swagger UI:** `localhost:<PORT>/swagger-ui.html`
 
----
+<details>
 
-### CRUD for a new Model
+<summary>CRUD for a new Model</summary>
 
-1. Create model class in `src/main/<your-package>/model`
-2. Run **Maven** `clean` and rebuild project
-3. Generate **Liquibase** changelog: `Maven` -> `Plugins` -> `liquibase` -> `liquibase:diff`
-4. Apply new changelog in `src/main/resources/liquibase/db.changelog-master.xml`
+**1.** Create model class in `src/main/<your-package>/model`
 
-**File Creation Order:** `Repository` -> `Criteria` -> `Form` -> `DTO` -> `Mapper` -> `Controller`
+**2.** Run **Maven** `clean` and rebuild project
+
+**3.** Generate **Liquibase** changelog: `Maven` -> `Plugins` -> `liquibase` -> `liquibase:diff`
+
+**4.** Apply new changelog in `src/main/resources/liquibase/db.changelog-master.xml`
+
+|                            File Creation Order                            |
+| :-----------------------------------------------------------------------: |
+| `Repository` -> `Criteria` -> `Form` -> `DTO` -> `Mapper` -> `Controller` |
 
 **Directory Structure**
 
@@ -91,16 +85,27 @@ src/
 └── repository/<ModelName>Repository.java
 ```
 
-**Controller Method Order**
-
-1. get (`MODEL_V`)
-2. list (`MODEL_L`)
-3. autoComplete
-4. create (`MODEL_C`)
-5. update (`MODEL_U`)
-6. delete (`MODEL_D`)
+|                                                            Controller Method Order                                                            |
+| :-------------------------------------------------------------------------------------------------------------------------------------------: |
+| **get** (`MODEL_V`) -> **list** (`MODEL_L`) -> **autoComplete** -> **create** (`MODEL_C`) -> **update** (`MODEL_U`) -> **delete** (`MODEL_D`) |
+|                                                                                                                                               |
 
 > **Note:** `MODEL` is a 2-3 character abbreviation of the model name (e.g., `SE_P` for `ServerProvider`).
+
+</details>
+
+---
+
+### Cloning Source Code
+
+1. Clone repository: `git clone <HTTP-Git-URL>`
+2. Refactor package in `src/main/java/<your-package>`
+3. Update `pom.xml`: `groupId`, `artifactId`, `name`, Liquibase properties
+4. Modify `application-dev.properties`: database credentials, server PORT
+5. Rename database table prefix in **models** and **Liquibase** changesets
+6. Delete classes in folders: `controller`, `mapper`, `dto`, `form`, `model/criteria`, `repository`, `validation`
+7. Modify: `dto/ErrorCode.java`, `constant/<your-app>Constant.java`
+8. Keep base modules: `Account`, `Group`, `Permission`, `Setting`, `File`
 
 ---
 
