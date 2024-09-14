@@ -48,7 +48,8 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 
 **4.** Ensure database is **created** before running application
 
-> [!NOTE] > **Swagger UI:** `localhost:<PORT>/swagger-ui.html`
+> [!NOTE]
+> **Swagger UI:** `localhost:<PORT>/swagger-ui.html`
 
 <details>
 
