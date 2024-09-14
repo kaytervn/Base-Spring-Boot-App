@@ -1,7 +1,7 @@
 package com.app.scheduler;
 
-import com.app.constant.AppConstant;
-import com.app.notification.rabbitMQ.NotificationService;
+import com.app.rabbitMQ.constant.RabbitMQConstant;
+import com.app.rabbitMQ.service.NotificationService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +19,6 @@ public class NotificationScheduler {
     @Scheduled(cron = "0 0 0 * * *", zone = "UTC")
     // Cron format: second | minute | hour | day of month | month | day of week
     public void sendNotification() {
-        notificationService.sendMessage("Hello World!", AppConstant.POST_NOTIFICATION_COMMAND);
+        notificationService.sendMessage("Hello World!", RabbitMQConstant.POST_NOTIFICATION_COMMAND);
     }
 }

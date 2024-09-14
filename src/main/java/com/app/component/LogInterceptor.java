@@ -1,6 +1,7 @@
 package com.app.component;
 
 import com.app.constant.AppConstant;
+import com.app.context.constant.ContextConstant;
 import com.app.service.impl.UserServiceImpl;
 import com.app.jwt.AppJwt;
 import lombok.AccessLevel;
@@ -24,11 +25,10 @@ import java.util.concurrent.ConcurrentMap;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LogInterceptor implements HandlerInterceptor {
-    static List<String> ALLOWED_URLS = Arrays.asList("/v1/account/**", "/v1/group/**", "/v1/permission/**");
     @Autowired
     UserServiceImpl userService;
     @Autowired
-    @Qualifier(AppConstant.APP_CONFIG_MAP)
+    @Qualifier(ContextConstant.APP_CONFIG_MAP)
     ConcurrentMap<String, String> concurrentMap;
 
     @Override
@@ -60,11 +60,12 @@ public class LogInterceptor implements HandlerInterceptor {
     }
 
     private void activateApp(HttpServletRequest request) {
+        List<String> allowedUrls = Arrays.asList("/v1/account/**", "/v1/group/**", "/v1/permission/**");
         AntPathMatcher pathMatcher = new AntPathMatcher();
         AppJwt appJwt = userService.getAddInfoFromToken();
-        if (appJwt != null && concurrentMap.get(AppConstant.APP_PRIVATE_KEY) == null) {
+        if (appJwt != null && concurrentMap.get(ContextConstant.APP_PRIVATE_KEY) == null) {
             boolean isNotSuperAdmin = !appJwt.getIsSuperAdmin();
-            boolean isUrlNotAllowed = ALLOWED_URLS.stream().noneMatch(pattern -> pathMatcher.match(pattern, request.getRequestURI()));
+            boolean isUrlNotAllowed = allowedUrls.stream().noneMatch(pattern -> pathMatcher.match(pattern, request.getRequestURI()));
             if (isNotSuperAdmin || isUrlNotAllowed) {
                 throw new AccessDeniedException("Not ready");
             }

@@ -39,7 +39,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     UserDetailsService userDetailsService;
     UserServiceImpl userService;
     @NonFinal
-    @Value("${qrauth.auth.signing.key}")
+    @Value("${auth.signing.key}")
     String signingKey;
 
     @Bean

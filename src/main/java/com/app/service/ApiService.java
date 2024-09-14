@@ -1,12 +1,10 @@
 package com.app.service;
 
-import com.app.constant.AppConstant;
 import com.app.dto.ApiMessageDto;
 import com.app.dto.UploadFileDto;
 import com.app.form.file.UploadFileForm;
 import com.app.model.Permission;
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -21,7 +19,6 @@ import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

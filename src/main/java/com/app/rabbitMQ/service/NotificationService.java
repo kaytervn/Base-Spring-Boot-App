@@ -1,7 +1,7 @@
-package com.app.notification.rabbitMQ;
+package com.app.rabbitMQ.service;
 
-import com.app.constant.AppConstant;
-import com.app.notification.BaseMessageForm;
+import com.app.rabbitMQ.constant.RabbitMQConstant;
+import com.app.rabbitMQ.form.BaseMessageForm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class NotificationService {
 
     public <T> void sendMessage(T data, String cmd) {
         BaseMessageForm<T> form = new BaseMessageForm<>();
-        form.setApp(AppConstant.SPRING_APP);
+        form.setApp(RabbitMQConstant.SPRING_APP);
         form.setCommand(cmd);
         form.setData(data);
         try {
@@ -33,8 +33,8 @@ public class NotificationService {
             rabbitMQService.createQueueIfNotExist(queueName);
             rabbitSender.send(msg, queueName);
         } catch (Exception e) {
-            log.error("Error sending notification: ", e);
-            throw new RuntimeException("Failed to send notification", e);
+            log.error("Error sending service: ", e);
+            throw new RuntimeException("Failed to send service", e);
         }
     }
 }

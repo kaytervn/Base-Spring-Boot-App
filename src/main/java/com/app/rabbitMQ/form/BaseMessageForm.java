@@ -1,4 +1,4 @@
-package com.app.notification;
+package com.app.rabbitMQ.form;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

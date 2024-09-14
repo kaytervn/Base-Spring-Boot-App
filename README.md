@@ -13,21 +13,13 @@ This is a base Spring Boot application that provides a foundation for building r
 **MySQL Dump:**
 
 ```cmd
-cd C:\Program Files\MySQL\MySQL Server 8.0\bin
-```
-
-```cmd
-mysqldump -u root -p <your-database-name> > D:\Downloads\dump_file.sql
+"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqldump" -u root -p <your-database-name> > D:\Downloads\dump_file.sql
 ```
 
 **MySQL Change Root Password:**
 
 ```cmd
-cd C:\Program Files\MySQL\MySQL Server 8.0\bin
-```
-
-```cmd
-mysqladmin -u root -p password <your-new-password>
+"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqladmin" -u root -p password <your-new-password>
 ```
 
 **Liquibase Changelog Export Data:**
@@ -48,8 +40,7 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 
 **4.** Ensure database is **created** before running application
 
-> [!NOTE]
-> **Swagger UI:** `localhost:<PORT>/swagger-ui.html`
+> [!NOTE] > **Swagger UI:** `localhost:<PORT>/swagger-ui.html`
 
 <details>
 
@@ -96,22 +87,11 @@ src/
 
 </details>
 
----
+<details>
 
-### Cloning Source Code
+<summary><b>RabbitMQ Setup</b></summary>
 
-1. Clone repository: `git clone <HTTP-Git-URL>`
-2. Refactor package in `src/main/java/<your-package>`
-3. Update `pom.xml`: `groupId`, `artifactId`, `name`, Liquibase properties
-4. Modify `application-dev.properties`: database credentials, server PORT
-5. Rename database table prefix in **models** and **Liquibase** changesets
-6. Delete classes in folders: `controller`, `mapper`, `dto`, `form`, `model/criteria`, `repository`, `validation`
-7. Modify: `dto/ErrorCode.java`, `constant/<your-app>Constant.java`
-8. Keep base modules: `Account`, `Group`, `Permission`, `Setting`, `File`
-
----
-
-### RabbitMQ Setup and Configuration
+<br>
 
 **1.** Install RabbitMQ
 
@@ -127,27 +107,36 @@ src/
 
 **3.** Create Admin User
 
-- Go to Admin tab
+- Go to **Admin** tab
 - Add new user with `Admin` tag
 
 **4.** Run application and login with new admin account
 
-```java
+</details>
 
-```
+---
+
+### Cloning Source Code
+
+**1.** Open Terminal: Run `git clone <HTTP-Git-URL>`
+
+**2.** Refactor package in `src/main/java/<your-package>`
+
+**3.** Update `pom.xml`: `groupId`, `artifactId`, `name`, **Liquibase** properties
+
+**4.** Modify `application-dev.properties`: database credentials, server **PORT**
+
+**5.** Rename database table prefix in **models** and **Liquibase** changesets
+
+**6.** Delete classes in folders: `controller`, `mapper`, `dto`, `form`, `model/criteria`, `repository`, `validation`
+
+**7.** Modify: `dto/ErrorCode.java`, `constant/<your-app>Constant.java`
+
+**8.** Keep base modules: `Account`, `Group`, `Permission`, `Setting`, `File`
 
 ---
 
 **SourceTree Set up and Basic Operations:**
-
----
-
-**Tenant Configuration:**
-
-```
-
-
-```
 
 ---
 
