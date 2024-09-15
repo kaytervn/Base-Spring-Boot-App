@@ -1,4 +1,4 @@
-package com.app.configuration;
+package com.app.config;
 
 import com.app.component.LogInterceptor;
 import com.app.constant.AppConstant;
@@ -34,7 +34,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        String[] excludedPaths = {"/v1/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**"};
+        String[] excludedPaths = {"/v1/api-docs", "/config/ui", "/swagger-resources/**", "/config/**", "/swagger-ui.html", "/webjars/**"};
         registry.addInterceptor(logInterceptor).addPathPatterns("/**").excludePathPatterns(excludedPaths);
     }
 

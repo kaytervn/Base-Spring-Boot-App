@@ -1,4 +1,4 @@
-package com.app.configuration;
+package com.app.config;
 
 import com.app.dto.account.AccountForTokenDto;
 import com.app.utils.ZipUtils;
@@ -28,18 +28,19 @@ public class CustomTokenEnhancer implements TokenEnhancer {
         Map<String, Object> additionalInfo = new HashMap<>();
         String username = authentication.getName();
         String grantType = authentication.getOAuth2Request().getGrantType();
+        String permission = authentication.getAuthorities().toString();
         if (grantType == null) {
             grantType = authentication.getOAuth2Request().getRequestParameters().get("grantType");
         }
         AccountForTokenDto account = getAccountByUsername(username);
         if (account != null) {
-            additionalInfo = createAdditionalInfo(account, username, grantType);
+            additionalInfo = createAdditionalInfo(account, username, grantType, permission);
         }
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         return accessToken;
     }
 
-    private Map<String, Object> createAdditionalInfo(AccountForTokenDto account, String username, String grantType) {
+    private Map<String, Object> createAdditionalInfo(AccountForTokenDto account, String username, String grantType, String permission) {
         Map<String, Object> additionalInfo = new HashMap<>();
         additionalInfo.put("user_id", account.getId());
         additionalInfo.put("user_kind", account.getKind());
@@ -48,7 +49,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
                 account.getId() + DELIM
                         + -1L + DELIM                        // storeId, long value
                         + account.getKind() + DELIM          // kind: type of token
-                        + "<>" + DELIM                       // permission: empty string
+                        + permission + DELIM                 // permission: empty string
                         + -1L + DELIM                        // deviceId: stored in the device table to get the Firebase URL
                         + account.getKind() + DELIM          // userKind: type of user (e.g., admin or other types)
                         + username + DELIM                   // username

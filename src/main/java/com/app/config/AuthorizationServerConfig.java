@@ -1,4 +1,4 @@
-package com.app.configuration;
+package com.app.config;
 
 import com.app.constant.AppConstant;
 import com.app.exception.oauth2.CustomOauthException;

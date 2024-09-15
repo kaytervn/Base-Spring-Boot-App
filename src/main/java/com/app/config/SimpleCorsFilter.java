@@ -1,4 +1,4 @@
-package com.app.configuration;
+package com.app.config;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;

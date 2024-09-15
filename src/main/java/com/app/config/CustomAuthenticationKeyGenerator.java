@@ -1,4 +1,4 @@
-package com.app.configuration;
+package com.app.config;
 
 import com.app.service.id.IdGenerator;
 import lombok.AccessLevel;

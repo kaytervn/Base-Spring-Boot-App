@@ -1,4 +1,4 @@
-package com.app.configuration;
+package com.app.config;
 
 import com.app.component.AuditorAwareImpl;
 import org.springframework.context.annotation.Bean;

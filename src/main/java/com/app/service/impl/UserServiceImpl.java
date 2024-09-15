@@ -6,10 +6,10 @@ import com.app.model.Account;
 import com.app.repository.AccountRepository;
 import com.app.jwt.AppJwt;
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,10 +32,12 @@ import java.util.stream.Collectors;
 
 @Service(value = AppConstant.APP_USER_SERVICE)
 @Slf4j
-@RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserServiceImpl implements UserDetailsService {
+    public String AUTH_SERVER_TOKEN = "";
+    @Autowired
     AccountRepository accountRepository;
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Override
@@ -103,5 +105,14 @@ public class UserServiceImpl implements UserDetailsService {
             }
         }
         return null;
+    }
+
+    public String getCurrentToken() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            return null;
+        }
+        OAuth2AuthenticationDetails oauthDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
+        return oauthDetails != null ? oauthDetails.getTokenValue() : null;
     }
 }

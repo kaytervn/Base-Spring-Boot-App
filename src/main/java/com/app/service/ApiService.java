@@ -1,7 +1,7 @@
 package com.app.service;
 
 import com.app.dto.ApiMessageDto;
-import com.app.dto.UploadFileDto;
+import com.app.dto.file.UploadFileDto;
 import com.app.form.file.UploadFileForm;
 import com.app.model.Permission;
 import lombok.AccessLevel;

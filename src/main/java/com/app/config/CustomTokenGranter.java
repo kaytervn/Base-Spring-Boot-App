@@ -1,10 +1,9 @@
-package com.app.configuration;
+package com.app.config;
 
 import com.app.constant.AppConstant;
 import com.app.service.impl.UserServiceImpl;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.provider.*;

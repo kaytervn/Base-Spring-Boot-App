@@ -1,7 +1,7 @@
 package com.app.controller;
 
 import com.app.dto.ApiMessageDto;
-import com.app.dto.UploadFileDto;
+import com.app.dto.file.UploadFileDto;
 import com.app.form.file.UploadFileForm;
 import com.app.service.ApiService;
 import com.google.common.net.HttpHeaders;

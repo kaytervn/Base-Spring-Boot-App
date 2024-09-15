@@ -1,4 +1,4 @@
-package com.app.configuration;
+package com.app.config;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     JsonToUrlEncodedAuthenticationFilter jsonFilter;
 
     static String[] PUBLIC_ENDPOINTS = {
-            "/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**",
+            "/v2/api-docs", "/config/ui", "/swagger-resources/**", "/config/**",
             "/swagger-ui.html", "/index", "/pub/**", "/api/token", "/api/auth/pwd/verify-token",
             "/api/auth/activate/resend", "/api/auth/pwd", "/api/auth/logout", "/actuator/**",
             "/v1/account/request-forget-password", "/v1/account/forget-password",

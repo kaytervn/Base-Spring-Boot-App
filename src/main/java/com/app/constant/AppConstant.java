@@ -15,7 +15,6 @@ public interface AppConstant {
     Integer MAX_ATTEMPT_LOGIN = 5;
 
     Boolean AES_ZIP_ENABLE = false;
-    String LOGIN_TYPE_INTERNAL = "LOGIN_TYPE_INTERNAL";
 
     String GRANT_TYPE_PASSWORD = "password";
     String GRANT_TYPE_USER = "user";

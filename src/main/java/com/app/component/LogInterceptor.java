@@ -1,7 +1,7 @@
 package com.app.component;
 
-import com.app.constant.AppConstant;
 import com.app.context.constant.ContextConstant;
+import com.app.multitenancy.tenant.TenantDBContext;
 import com.app.service.impl.UserServiceImpl;
 import com.app.jwt.AppJwt;
 import lombok.AccessLevel;
@@ -33,7 +33,7 @@ public class LogInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) {
-//        activateApp(request);
+        tenantResolver(request);
         long startTime = System.currentTimeMillis();
         request.setAttribute("startTime", startTime);
         log.debug("Starting call url: [{}]", getUrl(request));
@@ -59,7 +59,7 @@ public class LogInterceptor implements HandlerInterceptor {
         return requestURL.toString();
     }
 
-    private void activateApp(HttpServletRequest request) {
+    private void appVerification(HttpServletRequest request) {
         List<String> allowedUrls = Arrays.asList("/v1/account/**", "/v1/group/**", "/v1/permission/**");
         AntPathMatcher pathMatcher = new AntPathMatcher();
         AppJwt appJwt = userService.getAddInfoFromToken();
@@ -70,5 +70,11 @@ public class LogInterceptor implements HandlerInterceptor {
                 throw new AccessDeniedException("Not ready");
             }
         }
+    }
+
+    private void tenantResolver(HttpServletRequest request) {
+        AppJwt appJwt = userService.getAddInfoFromToken();
+        String tenantName = request.getHeader("X-tenant");
+        TenantDBContext.setCurrentTenant(tenantName != null ? tenantName : appJwt.getTenantId().split("&")[0]);
     }
 }
