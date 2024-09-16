@@ -75,6 +75,7 @@ public class LogInterceptor implements HandlerInterceptor {
     private void tenantResolver(HttpServletRequest request) {
         AppJwt appJwt = userService.getAddInfoFromToken();
         String tenantName = request.getHeader("X-tenant");
-        TenantDBContext.setCurrentTenant(tenantName != null ? tenantName : appJwt.getTenantId().split("&")[0]);
+        String jwtTenantId = appJwt.getTenantId() != null && appJwt.getTenantId().contains("&") ? appJwt.getTenantId().split("&")[0] : null;
+        TenantDBContext.setCurrentTenant(tenantName != null ? tenantName : jwtTenantId);
     }
 }
