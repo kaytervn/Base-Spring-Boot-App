@@ -1,4 +1,4 @@
-package com.app.multitenancy.feign.component;
+package com.app.multitenancy.component;
 
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -1,6 +1,5 @@
-package com.app.multitenancy.tenant.config;
+package com.app.multitenancy.tenant;
 
-import com.app.multitenancy.tenant.component.DataSourceBasedMultiTenantConnectionProviderImpl;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;

@@ -1,8 +1,8 @@
-package com.app.multitenancy.feign.service;
+package com.app.multitenancy.feign;
 
 import com.app.dto.ApiMessageDto;
-import com.app.multitenancy.feign.config.CustomFeignConfig;
-import com.app.multitenancy.tenant.dto.DbConfigDto;
+import com.app.multitenancy.config.CustomFeignConfig;
+import com.app.multitenancy.dto.DbConfigDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

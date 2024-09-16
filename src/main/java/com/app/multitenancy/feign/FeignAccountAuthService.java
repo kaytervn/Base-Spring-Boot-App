@@ -1,7 +1,7 @@
-package com.app.multitenancy.feign.service;
+package com.app.multitenancy.feign;
 
-import com.app.multitenancy.feign.config.CustomFeignConfig;
-import com.app.multitenancy.feign.dto.LoginAuthDto;
+import com.app.multitenancy.config.CustomFeignConfig;
+import com.app.multitenancy.dto.LoginAuthDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;

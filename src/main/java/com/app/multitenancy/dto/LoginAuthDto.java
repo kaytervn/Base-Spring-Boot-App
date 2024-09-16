@@ -1,4 +1,4 @@
-package com.app.multitenancy.feign.dto;
+package com.app.multitenancy.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;

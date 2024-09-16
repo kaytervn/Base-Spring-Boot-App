@@ -1,4 +1,4 @@
-package com.app.multitenancy.feign.config;
+package com.app.multitenancy.config;
 
 import com.app.exception.BadRequestException;
 import com.app.exception.ForbiddenException;

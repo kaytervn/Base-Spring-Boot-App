@@ -1,6 +1,6 @@
-package com.app.multitenancy.feign.config;
+package com.app.multitenancy.config;
 
-import com.app.multitenancy.feign.component.OAuth2FeignRequestInterceptor;
+import com.app.multitenancy.component.OAuth2FeignRequestInterceptor;
 import feign.Contract;
 import feign.Feign;
 import feign.RequestInterceptor;

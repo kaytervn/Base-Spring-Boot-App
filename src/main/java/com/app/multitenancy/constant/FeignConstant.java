@@ -1,4 +1,4 @@
-package com.app.multitenancy.feign.constant;
+package com.app.multitenancy.constant;
 
 public interface FeignConstant {
     String LOGIN_TYPE_INTERNAL = "LOGIN_TYPE_INTERNAL";

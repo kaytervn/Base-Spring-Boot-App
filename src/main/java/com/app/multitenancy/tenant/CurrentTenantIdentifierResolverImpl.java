@@ -1,7 +1,6 @@
-package com.app.multitenancy.tenant.config;
+package com.app.multitenancy.tenant;
 
-import com.app.multitenancy.tenant.TenantDBContext;
-import com.app.multitenancy.tenant.constant.TenantConstant;
+import com.app.multitenancy.constant.TenantConstant;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 
 public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentifierResolver {

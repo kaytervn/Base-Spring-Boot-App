@@ -1,4 +1,4 @@
-package com.app.multitenancy.tenant.config;
+package com.app.multitenancy.tenant;
 
 import lombok.AccessLevel;
 import lombok.Data;

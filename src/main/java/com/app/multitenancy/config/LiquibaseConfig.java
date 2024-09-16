@@ -1,4 +1,4 @@
-package com.app.multitenancy.feign.config;
+package com.app.multitenancy.config;
 
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.ObjectProvider;
@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 @ConditionalOnProperty(name = "multitenancy.tenant.liquibase.enabled", havingValue = "true", matchIfMissing = true)
 public class LiquibaseConfig {
     @Bean
-    @ConfigurationProperties("multitenancy.feign.liquibase")
+    @ConfigurationProperties("multitenancy.tenant.liquibase")
     public LiquibaseProperties tenantLiquibaseProperties() {
         return new LiquibaseProperties();
     }
@@ -34,7 +34,7 @@ public class LiquibaseConfig {
         liquibase.setDatabaseChangeLogLockTable(liquibaseProperties.getDatabaseChangeLogLockTable());
         liquibase.setDropFirst(liquibaseProperties.isDropFirst());
         liquibase.setShouldRun(false);
-        liquibase.setLabelFilter(liquibaseProperties.getLabels());
+        liquibase.setLabels(liquibaseProperties.getLabels());
         liquibase.setChangeLogParameters(liquibaseProperties.getParameters());
         liquibase.setRollbackFile(liquibaseProperties.getRollbackFile());
         liquibase.setTestRollbackOnUpdate(liquibaseProperties.isTestRollbackOnUpdate());

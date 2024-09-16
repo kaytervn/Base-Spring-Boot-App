@@ -1,10 +1,9 @@
-package com.app.multitenancy.tenant.component;
+package com.app.multitenancy.tenant;
 
 import com.app.dto.ApiMessageDto;
-import com.app.multitenancy.feign.service.FeignDbConfigAuthService;
-import com.app.multitenancy.tenant.config.TenantDatabaseConfigProperties;
-import com.app.multitenancy.tenant.constant.TenantConstant;
-import com.app.multitenancy.tenant.dto.DbConfigDto;
+import com.app.multitenancy.feign.FeignDbConfigAuthService;
+import com.app.multitenancy.constant.TenantConstant;
+import com.app.multitenancy.dto.DbConfigDto;
 import com.google.common.cache.*;
 import com.zaxxer.hikari.HikariDataSource;
 import liquibase.exception.LiquibaseException;

@@ -1,8 +1,8 @@
-package com.app.multitenancy.feign.config;
+package com.app.multitenancy.config;
 
-import com.app.multitenancy.feign.constant.FeignConstant;
-import com.app.multitenancy.feign.dto.LoginAuthDto;
-import com.app.multitenancy.feign.service.FeignAccountAuthService;
+import com.app.multitenancy.constant.FeignConstant;
+import com.app.multitenancy.dto.LoginAuthDto;
+import com.app.multitenancy.feign.FeignAccountAuthService;
 import com.app.service.impl.UserServiceImpl;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;

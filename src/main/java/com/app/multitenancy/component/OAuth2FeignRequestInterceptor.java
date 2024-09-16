@@ -1,8 +1,8 @@
-package com.app.multitenancy.feign.component;
+package com.app.multitenancy.component;
 
 import com.app.service.impl.UserServiceImpl;
-import com.app.multitenancy.feign.constant.FeignConstant;
-import com.app.multitenancy.feign.service.FeignAccountAuthService;
+import com.app.multitenancy.constant.FeignConstant;
+import com.app.multitenancy.feign.FeignAccountAuthService;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.AccessLevel;
