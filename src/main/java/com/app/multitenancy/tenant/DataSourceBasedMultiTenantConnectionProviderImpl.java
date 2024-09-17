@@ -64,7 +64,7 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
                 .removalListener((RemovalListener<String, DataSource>) removal -> {
                     HikariDataSource ds = (HikariDataSource) removal.getValue();
                     ds.close();
-                    log.info("Closed datasource: {}", ds.getPoolName());
+                    log.warn("Closed datasource: {}", ds.getPoolName());
                 })
                 .build(new CacheLoader<>() {
                     @Override
@@ -85,13 +85,13 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
             DbConfigDto defaultTenant = createDefaultTenantConfig();
             dataSourcesMtApp.asMap().put(defaultTenant.getName(), createAndConfigureDataSource(defaultTenant, false));
         }
-        log.info("selectAnyDataSource() called. Total tenants: {}", dataSourcesMtApp.size());
+        log.warn("selectAnyDataSource() called. Total tenants: {}", dataSourcesMtApp.size());
         return dataSourcesMtApp.asMap().values().iterator().next();
     }
 
     @Override
     protected DataSource selectDataSource(String tenantIdentifier) {
-        log.info("Getting datasource for tenant: {}", tenantIdentifier);
+        log.warn("Getting datasource for tenant: {}", tenantIdentifier);
         try {
             return dataSourcesMtApp.get(tenantIdentifier);
         } catch (ExecutionException e) {
@@ -125,7 +125,7 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
         ds.setMaximumPoolSize(dbConfig.getMaxConnection() != null ? dbConfig.getMaxConnection() : configProperties.getMaxPoolSize());
         ds.setIdleTimeout(configProperties.getIdleTimeout());
         ds.setPoolName(dbConfig.getName() + "-connection-pool");
-        log.info("Configured datasource for tenant: {}. Pool name: {}", dbConfig.getName(), ds.getPoolName());
+        log.warn("Configured datasource for tenant: {}. Pool name: {}", dbConfig.getName(), ds.getPoolName());
         if (!isBootstrap) {
             runLiquibase(ds, parseDatabaseNameFromUrl(dbConfig.getUrl()));
         }

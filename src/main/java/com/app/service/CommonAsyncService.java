@@ -39,13 +39,13 @@ public class CommonAsyncService {
 
     @Async
     public void pushToFirebase(String url, String data, HttpMethod httpMethod) {
-        log.info("Firebase URL push: {}", url);
+        log.warn("Firebase URL push: {}", url);
         taskExecutor.execute(() -> callFirebase(url, data, httpMethod));
     }
 
     @Async
     public void deleteFirebasePath(String url) {
-        log.info("Firebase URL delete: {}", url);
+        log.warn("Firebase URL delete: {}", url);
         taskExecutor.execute(() -> callFirebase(url, null, HttpMethod.DELETE));
     }
 

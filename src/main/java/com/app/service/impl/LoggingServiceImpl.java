@@ -58,7 +58,7 @@ public class LoggingServiceImpl implements LoggingService {
 
     private void logAsJson(String prefix, Object data) {
         try {
-            log.info("{}: {}", prefix, mapper.writeValueAsString(data));
+            log.warn("{}: {}", prefix, mapper.writeValueAsString(data));
         } catch (Exception e) {
             log.error("Error logging as JSON", e);
         }
