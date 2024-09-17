@@ -76,7 +76,7 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
     protected DataSource selectAnyDataSource() {
         if (dataSourcesMtApp.asMap().isEmpty()) {
             DbConfigDto defaultTenant = createDefaultTenantConfig();
-            dataSourcesMtApp.asMap().put(defaultTenant.getName(), createAndConfigureDataSource(defaultTenant, true));
+            dataSourcesMtApp.asMap().put(defaultTenant.getName(), createAndConfigureDataSource(defaultTenant, false));
         }
         log.info("selectAnyDataSource() called. Total tenants: {}", dataSourcesMtApp.size());
         return dataSourcesMtApp.asMap().values().iterator().next();
