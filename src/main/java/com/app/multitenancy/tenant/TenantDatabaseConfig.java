@@ -1,5 +1,6 @@
 package com.app.multitenancy.tenant;
 
+import com.app.multitenancy.constant.TenantConstant;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -62,7 +63,7 @@ public class TenantDatabaseConfig {
             @Qualifier("datasourceBasedMultitenantConnectionProvider") MultiTenantConnectionProvider connectionProvider,
             @Qualifier("currentTenantIdentifierResolver") CurrentTenantIdentifierResolver tenantResolver) {
         LocalContainerEntityManagerFactoryBean emfBean = new LocalContainerEntityManagerFactoryBean();
-        emfBean.setPackagesToScan("com.app.model", "com.app.repository");
+        emfBean.setPackagesToScan(TenantConstant.MODEL_PACKAGE, TenantConstant.REPOSITORY_PACKAGE);
         emfBean.setJpaVendorAdapter(jpaVendorAdapter());
         emfBean.setPersistenceUnitName("tenantdb-persistence-unit");
         Map<String, Object> properties = new HashMap<>();

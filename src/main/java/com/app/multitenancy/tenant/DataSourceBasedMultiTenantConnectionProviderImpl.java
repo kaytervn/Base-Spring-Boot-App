@@ -14,18 +14,24 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.cfg.Environment;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -48,6 +54,7 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
     @Qualifier("tenantLiquibaseProperties")
     LiquibaseProperties liquibaseProperties;
     ResourceLoader resourceLoader;
+    Boolean DDL_AUTO = false;
 
     @PostConstruct
     private void createCache() {
@@ -122,6 +129,9 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
         if (!isBootstrap) {
             runLiquibase(ds, parseDatabaseNameFromUrl(dbConfig.getUrl()));
         }
+        if (DDL_AUTO) {
+            runDdlAuto(ds, parseDatabaseNameFromUrl(dbConfig.getUrl()));
+        }
         return ds;
     }
 
@@ -156,5 +166,19 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
         liquibase.setRollbackFile(liquibaseProperties.getRollbackFile());
         liquibase.setTestRollbackOnUpdate(liquibaseProperties.isTestRollbackOnUpdate());
         return liquibase;
+    }
+
+    private void runDdlAuto(DataSource ds, String schema) {
+        LocalContainerEntityManagerFactoryBean emfBean = new LocalContainerEntityManagerFactoryBean();
+        emfBean.setDataSource(ds);
+        emfBean.setPackagesToScan(TenantConstant.MODEL_PACKAGE, TenantConstant.REPOSITORY_PACKAGE);
+        emfBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        emfBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(Environment.HBM2DDL_AUTO, "update");
+        properties.put(Environment.DEFAULT_SCHEMA, schema);
+        emfBean.setJpaPropertyMap(properties);
+        emfBean.setPersistenceUnitName(ds.toString());
+        emfBean.afterPropertiesSet();
     }
 }
