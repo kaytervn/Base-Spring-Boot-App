@@ -1,8 +1,6 @@
 package com.app.config;
 
 import com.app.constant.AppConstant;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,12 +8,11 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ThreadConfig {
     @Value("${thread.pool.size:10}")
-    int threadPoolSize;
+    private Integer threadPoolSize;
     @Value("${thread.pool.queue.size:150}")
-    int threadQueuePoolSize;
+    private Integer threadQueuePoolSize;
 
     @Bean(name = AppConstant.APP_THREAD_POOL_EXECUTOR)
     public TaskExecutor threadPoolTaskExecutor() {

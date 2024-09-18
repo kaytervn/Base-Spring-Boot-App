@@ -1,11 +1,10 @@
 package com.app.dto.account;
 
-import lombok.AccessLevel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.experimental.FieldDefaults;
 
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountForgetPasswordDto {
-    String userId;
+    @ApiModelProperty(name = "userId")
+    private String userId;
 }

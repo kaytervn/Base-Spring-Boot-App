@@ -1,16 +1,20 @@
 package com.app.dto.account;
 
-import lombok.AccessLevel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.experimental.FieldDefaults;
 
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountForTokenDto {
-    Long id;
-    Integer kind;
-    String username;
-    String email;
-    String fullName;
-    Boolean isSuperAdmin;
+    @ApiModelProperty(name = "id")
+    private Long id;
+    @ApiModelProperty(name = "kind")
+    private Integer kind;
+    @ApiModelProperty(name = "username")
+    private String username;
+    @ApiModelProperty(name = "email")
+    private String email;
+    @ApiModelProperty(name = "fullName")
+    private String fullName;
+    @ApiModelProperty(name = "isSuperAdmin")
+    private Boolean isSuperAdmin;
 }

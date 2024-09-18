@@ -1,22 +1,24 @@
 package com.app.form.group;
 
-import lombok.AccessLevel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpdateGroupForm {
-    @NotNull(message = "id is required")
-    Long id;
-    @NotBlank(message = "name is required")
-    String name;
-    @NotBlank(message = "description is required")
-    String description;
-    @NotNull(message = "permissions is required")
-    List<Long> permissions;
+    @NotNull(message = "id cannot be null")
+    @ApiModelProperty(name = "id", required = true)
+    private Long id;
+    @NotBlank(message = "name cannot be null")
+    @ApiModelProperty(name = "name", required = true)
+    private String name;
+    @NotBlank(message = "description cannot be null")
+    @ApiModelProperty(name = "description", required = true)
+    private String description;
+    @NotNull(message = "permissions cannot be null")
+    @ApiModelProperty(name = "permissions", required = true)
+    private List<Long> permissions;
 }

@@ -1,13 +1,12 @@
 package com.app.component;
 
-import com.app.context.constant.ContextConstant;
+import com.app.constant.AppConstant;
 import com.app.multitenancy.tenant.TenantDBContext;
 import com.app.service.impl.UserServiceImpl;
 import com.app.jwt.AppJwt;
-import lombok.AccessLevel;
 import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.AccessDeniedException;
@@ -23,17 +22,19 @@ import java.util.concurrent.ConcurrentMap;
 
 @Component
 @Slf4j
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class LogInterceptor implements HandlerInterceptor {
     @Autowired
-    UserServiceImpl userService;
+    private UserServiceImpl userService;
     @Autowired
-    @Qualifier(ContextConstant.APP_CONFIG_MAP)
-    ConcurrentMap<String, String> concurrentMap;
+    @Qualifier(AppConstant.APP_CONFIG_MAP)
+    private ConcurrentMap<String, String> concurrentMap;
 
     @Override
     public boolean preHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) {
-        tenantResolver(request);
+        AppJwt appJwt = userService.getAddInfoFromToken();
+        if (appJwt != null) {
+            tenantResolver(request, appJwt);
+        }
         long startTime = System.currentTimeMillis();
         request.setAttribute("startTime", startTime);
         log.debug("Starting call url: [{}]", getUrl(request));
@@ -59,11 +60,10 @@ public class LogInterceptor implements HandlerInterceptor {
         return requestURL.toString();
     }
 
-    private void appVerification(HttpServletRequest request) {
+    private void appVerifier(HttpServletRequest request, AppJwt appJwt) {
         List<String> allowedUrls = Arrays.asList("/v1/account/**", "/v1/group/**", "/v1/permission/**");
         AntPathMatcher pathMatcher = new AntPathMatcher();
-        AppJwt appJwt = userService.getAddInfoFromToken();
-        if (appJwt != null && concurrentMap.get(ContextConstant.APP_PRIVATE_KEY) == null) {
+        if (concurrentMap.get(AppConstant.APP_PRIVATE_KEY) == null) {
             boolean isNotSuperAdmin = !appJwt.getIsSuperAdmin();
             boolean isUrlNotAllowed = allowedUrls.stream().noneMatch(pattern -> pathMatcher.match(pattern, request.getRequestURI()));
             if (isNotSuperAdmin || isUrlNotAllowed) {
@@ -72,10 +72,12 @@ public class LogInterceptor implements HandlerInterceptor {
         }
     }
 
-    private void tenantResolver(HttpServletRequest request) {
-        AppJwt appJwt = userService.getAddInfoFromToken();
+    private void tenantResolver(HttpServletRequest request, AppJwt appJwt) {
         String tenantName = request.getHeader("X-tenant");
-        String jwtTenantId = appJwt.getTenantId() != null && appJwt.getTenantId().contains("&") ? appJwt.getTenantId().split("&")[0] : null;
-        TenantDBContext.setCurrentTenant(tenantName != null ? tenantName : jwtTenantId);
+        String tenantId = appJwt.getTenantId();
+        if (StringUtils.isBlank(tenantId) || StringUtils.isBlank(tenantName) || !tenantId.contains(tenantName)) {
+            TenantDBContext.setCurrentTenant(null);
+        }
+        TenantDBContext.setCurrentTenant(tenantName);
     }
 }

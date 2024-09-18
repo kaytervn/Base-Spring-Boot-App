@@ -4,10 +4,9 @@ import com.app.dto.ApiMessageDto;
 import com.app.dto.ApiResponse;
 import com.app.form.ErrorForm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AccessLevel;
 import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +25,9 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 @RestController
 @Slf4j
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-    ObjectMapper mapper = new ObjectMapper();
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiMessageDto<String>> handleNotFoundException(NotFoundException ex) {
@@ -60,7 +59,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         apiMessageDto.setResult(false);
         if (ex instanceof MyBindingException) {
             try {
-                List<ErrorForm> errorForms = Arrays.asList(mapper.readValue(ex.getMessage(), ErrorForm[].class));
+                List<ErrorForm> errorForms = Arrays.asList(objectMapper.readValue(ex.getMessage(), ErrorForm[].class));
                 apiMessageDto.setData(errorForms);
                 apiMessageDto.setMessage("Invalid form");
             } catch (Exception e) {

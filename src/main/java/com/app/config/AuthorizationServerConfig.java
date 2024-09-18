@@ -1,12 +1,9 @@
 package com.app.config;
 
-import com.app.constant.AppConstant;
+import com.app.constant.SecurityConstant;
 import com.app.exception.oauth2.CustomOauthException;
 import com.app.service.impl.UserServiceImpl;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,14 +28,15 @@ import java.util.*;
 
 @Configuration
 @EnableAuthorizationServer
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequiredArgsConstructor
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-    AuthenticationManager authenticationManager;
-    JdbcTemplate jdbcTemplate;
-    UserDetailsService userDetailsService;
-    UserServiceImpl userService;
-    @NonFinal
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private UserDetailsService userDetailsService;
+    @Autowired
+    private UserServiceImpl userService;
     @Value("${auth.signing.key}")
     String signingKey;
 
@@ -89,8 +87,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     private TokenGranter tokenGranter(AuthorizationServerEndpointsConfigurer endpoints) {
         List<TokenGranter> granters = new ArrayList<>(Collections.singletonList(endpoints.getTokenGranter()));
-        granters.add(new CustomTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory(), AppConstant.GRANT_TYPE_PASSWORD, userService));
-        granters.add(new CustomTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory(), AppConstant.GRANT_TYPE_USER, userService));
+        granters.add(new CustomTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory(), SecurityConstant.GRANT_TYPE_PASSWORD, userService));
+        granters.add(new CustomTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory(), SecurityConstant.GRANT_TYPE_USER, userService));
         return new CompositeTokenGranter(granters);
     }
 

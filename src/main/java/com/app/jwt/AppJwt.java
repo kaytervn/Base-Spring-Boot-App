@@ -1,32 +1,29 @@
 package com.app.jwt;
 
 import com.app.utils.ZipUtils;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Objects;
 
 @Slf4j
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AppJwt {
-    static final String DELIM = "\\|";
-    static final String EMPTY_STRING = "<>";
+    private static final String DELIM = "\\|";
+    private static final String EMPTY_STRING = "<>";
 
-    Long tokenId;
-    Long accountId = -1L;
-    Long storeId = -1L;
-    String kind = EMPTY_STRING;
-    String permission = EMPTY_STRING;
-    Long deviceId = -1L;
-    Integer userKind = -1;
-    String username = EMPTY_STRING;
-    Integer tabletKind = -1;
-    Long orderId = -1L;
-    Boolean isSuperAdmin = false;
-    String tenantId = EMPTY_STRING;
+    private Long tokenId;
+    private Long accountId = -1L;
+    private Long storeId = -1L;
+    private String kind = EMPTY_STRING;
+    private String permission = EMPTY_STRING;
+    private Long deviceId = -1L;
+    private Integer userKind = -1;
+    private String username = EMPTY_STRING;
+    private Integer tabletKind = -1;
+    private Long orderId = -1L;
+    private Boolean isSuperAdmin = false;
+    private String tenantId = EMPTY_STRING;
 
     public String toClaim() {
         return ZipUtils.zipString(String.join(DELIM,

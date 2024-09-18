@@ -1,8 +1,6 @@
 package com.app.multitenancy.tenant;
 
 import com.app.multitenancy.constant.TenantConstant;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.cfg.Environment;
@@ -27,12 +25,11 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = {"com.app.model", "com.app.repository"},
+        basePackages = {TenantConstant.MODEL_PACKAGE, TenantConstant.REPOSITORY_PACKAGE},
         entityManagerFactoryRef = "tenantEntityManagerFactory",
         transactionManagerRef = "tenantTransactionManager"
 )
 @Slf4j
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class TenantDatabaseConfig {
     @Autowired
     TenantDatabaseConfigProperties configProperties;

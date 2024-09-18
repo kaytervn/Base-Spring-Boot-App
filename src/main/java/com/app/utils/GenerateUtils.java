@@ -1,8 +1,7 @@
 package com.app.utils;
 
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.RandomStringUtils;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -14,11 +13,10 @@ import java.util.Base64;
 import java.util.Date;
 
 @Slf4j
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class Utils {
-    static String SECRET_KEY = "kpE8wG5jEX";
-    static String ALGORITHM = "AES";
-    static String CIPHER_INSTANCE = "AES/ECB/PKCS5Padding";
+public class GenerateUtils {
+    private static final String SECRET_KEY = "kpE8wG5jEX";
+    private static final String ALGORITHM = "AES";
+    private static final String CIPHER_INSTANCE = "AES/ECB/PKCS5Padding";
 
     private static SecretKeySpec getSecretKey() {
         try {
@@ -70,5 +68,9 @@ public class Utils {
             log.error("Error generating random string", e);
             return null;
         }
+    }
+
+    public static String generateRandomString(int length) {
+        return RandomStringUtils.randomAlphanumeric(length).toLowerCase();
     }
 }

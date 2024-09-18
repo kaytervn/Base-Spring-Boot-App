@@ -17,6 +17,7 @@ public interface PermissionMapper extends ABasicMapper {
     @Mapping(source = "description", target = "description")
     @Mapping(source = "groupName", target = "groupName")
     @Mapping(source = "permissionCode", target = "permissionCode")
+    @Mapping(source = "isSystem", target = "isSystem")
     @BeanMapping(ignoreByDefault = true)
     Permission fromCreatePermissionFormToEntity(CreatePermissionForm createPermissionForm);
 
@@ -30,6 +31,7 @@ public interface PermissionMapper extends ABasicMapper {
     @Mapping(source = "status", target = "status")
     @Mapping(source = "createdDate", target = "createdDate")
     @Mapping(source = "modifiedDate", target = "modifiedDate")
+    @Mapping(source = "isSystem", target = "isSystem")
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToPermissionAdminDto")
     PermissionAdminDto fromEntityToPermissionAdminDto(Permission permission);

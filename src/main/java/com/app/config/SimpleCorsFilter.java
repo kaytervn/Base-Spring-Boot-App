@@ -1,7 +1,5 @@
 package com.app.config;
 
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -15,11 +13,10 @@ import java.io.IOException;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SimpleCorsFilter extends OncePerRequestFilter {
-    static String ALLOWED_HEADERS = "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization";
-    static String ALLOWED_METHODS = "GET,HEAD,OPTIONS,POST,PUT,DELETE";
-    static String MAX_AGE = "3600";
+    private final static String ALLOWED_HEADERS = "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization";
+    private final static String ALLOWED_METHODS = "GET,HEAD,OPTIONS,POST,PUT,DELETE";
+    private final static String MAX_AGE = "3600";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

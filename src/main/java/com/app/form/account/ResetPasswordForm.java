@@ -1,19 +1,20 @@
 package com.app.form.account;
 
 import com.app.validation.PasswordConstraint;
-import lombok.AccessLevel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
 
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ResetPasswordForm {
-    @NotBlank(message = "otp is required")
-    String otp;
-    @NotBlank(message = "userId is required")
-    String userId;
+    @NotBlank(message = "otp cannot be null")
+    @ApiModelProperty(name = "otp", required = true)
+    private String otp;
+    @NotBlank(message = "userId cannot be null")
+    @ApiModelProperty(name = "userId", required = true)
+    private String userId;
     @PasswordConstraint
-    String newPassword;
+    @ApiModelProperty(name = "newPassword", required = true)
+    private String newPassword;
 }

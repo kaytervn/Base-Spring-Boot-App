@@ -1,29 +1,31 @@
 package com.app.model;
 
+import com.app.constant.AppConstant;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "db_app_permission")
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @EntityListeners(AuditingEntityListener.class)
 public class Permission extends Auditable<String> {
+    @Id
+    @GeneratedValue(generator = AppConstant.APP_ID_GENERATOR_NAME)
+    @GenericGenerator(name = AppConstant.APP_ID_GENERATOR_NAME, strategy = AppConstant.APP_ID_GENERATOR_STRATEGY)
+    private Long id;
     @Column(unique = true)
-    String name;
+    private String name;
     @Column(unique = true)
-    String action;
-    Boolean showMenu;
+    private String action;
+    private Boolean showMenu;
     @Column(columnDefinition = "text")
-    String description;
-    String groupName;
+    private String description;
+    private String groupName;
     @Column(unique = true)
-    String permissionCode;
+    private String permissionCode;
+    private Boolean isSystem;
 }

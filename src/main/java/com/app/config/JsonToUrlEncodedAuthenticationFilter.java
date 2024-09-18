@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 public class JsonToUrlEncodedAuthenticationFilter extends OncePerRequestFilter {
-
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {

@@ -1,7 +1,5 @@
 package com.app.service;
 
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
@@ -12,12 +10,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class OTPService {
-    static int TWO_HOURS = 2 * 60 * 60 * 1000;
-    SecureRandom secureRandom;
-    List<Integer> numberRand;
-    Map<String, Long> storeOrderSttForCheck = new ConcurrentHashMap<>();
+    private static final int TWO_HOURS = 2 * 60 * 60 * 1000;
+    private final SecureRandom secureRandom;
+    private final List<Integer> numberRand;
+    private final Map<String, Long> storeOrderSttForCheck = new ConcurrentHashMap<>();
 
     public OTPService() throws NoSuchAlgorithmException {
         secureRandom = SecureRandom.getInstance("SHA1PRNG");

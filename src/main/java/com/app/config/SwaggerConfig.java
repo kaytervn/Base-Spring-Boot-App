@@ -1,8 +1,6 @@
 package com.app.config;
 
 import com.app.constant.AppConstant;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -18,9 +16,8 @@ import java.util.Set;
 @Configuration
 @EnableSwagger2
 @Import(BeanValidatorPluginsConfiguration.class)
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SwaggerConfig {
-    static Set<String> CONSUMES_PRODUCES = Set.of("application/json");
+    private final static Set<String> CONSUMES_PRODUCES = Set.of("application/json");
 
     @Bean
     public Docket storeAuthApi() {

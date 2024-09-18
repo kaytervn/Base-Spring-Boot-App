@@ -1,23 +1,20 @@
 package com.app.multitenancy.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.experimental.FieldDefaults;
 
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoginAuthDto {
     @JsonProperty("access_token")
-    String accessToken;
+    private String accessToken;
     @JsonProperty("token_type")
-    String tokenType;
+    private String tokenType;
     @JsonProperty("refresh_token")
-    String refreshToken;
+    private String refreshToken;
     @JsonProperty("user_id")
-    Long userId;
+    private Long userId;
     @JsonProperty("user_kind")
-    Integer userKind;
+    private Integer userKind;
     @JsonProperty("grant_type")
-    String grantType;
+    private String grantType;
 }

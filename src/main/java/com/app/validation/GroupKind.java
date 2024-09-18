@@ -1,6 +1,5 @@
 package com.app.validation;
 
-
 import com.app.validation.impl.GroupKindValidation;
 
 import javax.validation.Constraint;
@@ -13,10 +12,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface GroupKind {
     boolean allowNull() default false;
-
     String message() default "Group kind is invalid";
-
     Class<?>[] groups() default {};
-
     Class<? extends Payload>[] payload() default {};
 }

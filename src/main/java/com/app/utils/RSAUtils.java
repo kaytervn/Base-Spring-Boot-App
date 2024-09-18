@@ -1,7 +1,5 @@
 package com.app.utils;
 
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.Cipher;
@@ -13,10 +11,9 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 @Slf4j
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RSAUtils {
-    static String RSA_ALGORITHM = "RSA";
-    static int KEY_SIZE = 512;
+    private static final String RSA_ALGORITHM = "RSA";
+    private static final int KEY_SIZE = 512;
 
     public static String encrypt(String publicKeyStr, String data) {
         return performCipherOperation(publicKeyStr, data.getBytes(StandardCharsets.UTF_8), Cipher.ENCRYPT_MODE, true);

@@ -1,17 +1,17 @@
 package com.app.validation.impl;
 
-import com.app.constant.AppEnum;
+import com.app.constant.AppConstant;
 import com.app.validation.GroupKind;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.Set;
+import java.util.List;
 
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class GroupKindValidation implements ConstraintValidator<GroupKind, Integer> {
-    boolean allowNull;
+    private boolean allowNull;
+    private static final List<Integer> VALID_VALUES = List.of(
+            AppConstant.GROUP_KIND_ADMIN, AppConstant.GROUP_KIND_USER, AppConstant.GROUP_KIND_MANAGER
+    );
 
     @Override
     public void initialize(GroupKind constraintAnnotation) {
@@ -20,9 +20,6 @@ public class GroupKindValidation implements ConstraintValidator<GroupKind, Integ
 
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
-        if (value == null) {
-            return allowNull;
-        }
-        return Set.of(AppEnum.GROUP_KIND_ADMIN, AppEnum.GROUP_KIND_MANAGER, AppEnum.GROUP_KIND_USER).contains(value);
+        return value == null ? allowNull : VALID_VALUES.contains(value);
     }
 }

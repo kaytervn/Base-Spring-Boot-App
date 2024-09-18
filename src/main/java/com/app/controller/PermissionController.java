@@ -6,8 +6,6 @@ import com.app.form.permission.CreatePermissionForm;
 import com.app.mapper.PermissionMapper;
 import com.app.model.Permission;
 import com.app.repository.PermissionRepository;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,18 +25,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/permission")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PermissionController extends ABasicController {
     @Autowired
-    PermissionRepository permissionRepository;
+    private PermissionRepository permissionRepository;
     @Autowired
-    PermissionMapper permissionMapper;
+    private PermissionMapper permissionMapper;
 
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('PER_L')")
     public ApiMessageDto<List<Permission>> list() {
         ApiMessageDto<List<Permission>> apiMessageDto = new ApiMessageDto<>();
-        Page<Permission> accounts = permissionRepository.findAll(PageRequest.of(0, 1000, Sort.by(new Sort.Order(Sort.Direction.DESC, "createdDate"))));
+        Page<Permission> accounts = permissionRepository.findAll(PageRequest.of(0, Integer.MAX_VALUE, Sort.by(new Sort.Order(Sort.Direction.DESC, "createdDate"))));
         apiMessageDto.setData(accounts.getContent());
         apiMessageDto.setMessage("Get permissions list success");
         return apiMessageDto;

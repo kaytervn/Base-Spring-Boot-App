@@ -2,6 +2,7 @@ package com.app.controller;
 
 import com.app.constant.AppConstant;
 import com.app.constant.ErrorCode;
+import com.app.constant.SecurityConstant;
 import com.app.dto.ApiMessageDto;
 import com.app.dto.ResponseListDto;
 import com.app.dto.account.AccountAdminDto;
@@ -17,12 +18,11 @@ import com.app.repository.GroupRepository;
 import com.app.service.ApiService;
 import com.app.utils.ConvertUtils;
 import com.app.utils.ZipUtils;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,18 +39,17 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/v1/account")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountController extends ABasicController {
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
     @Autowired
-    GroupRepository groupRepository;
+    private GroupRepository groupRepository;
     @Autowired
-    AccountMapper accountMapper;
+    private AccountMapper accountMapper;
     @Autowired
-    ApiService apiService;
+    private ApiService apiService;
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ACC_V')")
@@ -73,8 +72,20 @@ public class AccountController extends ABasicController {
         return makeSuccessResponse(responseListObj, "Get list account success");
     }
 
+    @GetMapping(value = "/auto-complete", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<ResponseListDto<List<AccountDto>>> autoComplete(AccountCriteria accountCriteria) {
+        Pageable pageable = PageRequest.of(0, 10);
+        accountCriteria.setStatus(AppConstant.STATUS_ACTIVE);
+        Page<Account> accounts = accountRepository.findAll(accountCriteria.getCriteria(), pageable);
+        ResponseListDto<List<AccountDto>> responseListObj = new ResponseListDto<>();
+        responseListObj.setContent(accountMapper.fromEntityListToAccountDtoListAutoComplete(accounts.getContent()));
+        responseListObj.setTotalPages(accounts.getTotalPages());
+        responseListObj.setTotalElements(accounts.getTotalElements());
+        return makeSuccessResponse(responseListObj, "Get list account success");
+    }
+
     @PostMapping(value = "/create-admin", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('ACC_C_A')")
+    @PreAuthorize("hasRole('ACC_C_AD')")
     public ApiMessageDto<String> createAdmin(@Valid @RequestBody CreateAccountAdminForm createAccountAdminForm, BindingResult bindingResult) {
         if (accountRepository.findFirstByUsername(createAccountAdminForm.getUsername()).isPresent()) {
             return makeErrorResponse(ErrorCode.ACCOUNT_ERROR_USERNAME_EXISTED, "Username existed");
@@ -97,18 +108,16 @@ public class AccountController extends ABasicController {
     }
 
     @PutMapping(value = "/update-admin", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('ACC_U_A')")
+    @PreAuthorize("hasRole('ACC_U_AD')")
     public ApiMessageDto<String> updateAdmin(@Valid @RequestBody UpdateAccountAdminForm updateAccountAdminForm, BindingResult bindingResult) {
         Account account = accountRepository.findById(updateAccountAdminForm.getId()).orElse(null);
         if (account == null) {
             return makeErrorResponse(ErrorCode.ACCOUNT_ERROR_NOT_FOUND, "Not found account");
         }
-        if (updateAccountAdminForm.getEmail() != null && !updateAccountAdminForm.getEmail().equals(account.getEmail())
-                && accountRepository.findFirstByEmail(updateAccountAdminForm.getEmail()).isPresent()) {
+        if (!updateAccountAdminForm.getEmail().equals(account.getEmail()) && accountRepository.findFirstByEmail(updateAccountAdminForm.getEmail()).isPresent()) {
             return makeErrorResponse(ErrorCode.ACCOUNT_ERROR_EMAIL_EXISTED, "Email existed");
         }
-        if (updateAccountAdminForm.getPhone() != null && !updateAccountAdminForm.getPhone().equals(account.getPhone())
-                && accountRepository.findFirstByPhone(updateAccountAdminForm.getPhone()).isPresent()) {
+        if (!updateAccountAdminForm.getPhone().equals(account.getPhone()) && accountRepository.findFirstByPhone(updateAccountAdminForm.getPhone()).isPresent()) {
             return makeErrorResponse(ErrorCode.ACCOUNT_ERROR_PHONE_EXISTED, "Phone existed");
         }
         Group group = groupRepository.findById(updateAccountAdminForm.getGroupId()).orElse(null);

@@ -4,8 +4,6 @@ import com.app.multitenancy.constant.FeignConstant;
 import com.app.multitenancy.dto.LoginAuthDto;
 import com.app.multitenancy.feign.FeignAccountAuthService;
 import com.app.service.impl.UserServiceImpl;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,18 +19,17 @@ import java.util.TimeZone;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties({LiquibaseProperties.class})
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ApplicationFeignConfig {
     @Autowired
-    FeignAccountAuthService accountAuthService;
+    private FeignAccountAuthService accountAuthService;
     @Autowired
-    UserServiceImpl userService;
+    private UserServiceImpl userService;
     @Value("${auth.internal.username}")
-    String username;
+    private String username;
     @Value("${auth.internal.password}")
-    String password;
+    private String password;
 
-    @PostConstruct
+//    @PostConstruct
     public void initialize() {
         MultiValueMap<String, String> request = new LinkedMultiValueMap<>();
         request.add("grant_type", "password");

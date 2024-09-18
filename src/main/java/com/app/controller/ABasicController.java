@@ -3,18 +3,15 @@ package com.app.controller;
 import com.app.dto.ApiMessageDto;
 import com.app.service.impl.UserServiceImpl;
 import com.app.jwt.AppJwt;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class ABasicController {
     @Autowired
-    UserServiceImpl userService;
+    private UserServiceImpl userService;
 
     protected long getCurrentUser() {
         return getSessionFromToken().getAccountId();

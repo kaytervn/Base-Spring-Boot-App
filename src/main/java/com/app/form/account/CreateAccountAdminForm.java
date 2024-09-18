@@ -1,31 +1,38 @@
 package com.app.form.account;
 
 import com.app.validation.*;
-import lombok.AccessLevel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateAccountAdminForm {
     @UsernameConstraint
-    String username;
+    @ApiModelProperty(name = "username", required = true)
+    private String username;
     @PasswordConstraint
-    String password;
-    @NotBlank(message = "fullName is required")
-    String fullName;
-    String avatar;
+    @ApiModelProperty(name = "password", required = true)
+    private String password;
+    @NotBlank(message = "fullName cannot be null")
+    @ApiModelProperty(name = "fullName", required = true)
+    private String fullName;
+    @ApiModelProperty(name = "avatar")
+    private String avatar;
     @EmailConstraint
-    String email;
+    @ApiModelProperty(name = "email", required = true)
+    private String email;
     @PhoneConstraint
-    String phone;
+    @ApiModelProperty(name = "phone", required = true)
+    private String phone;
     @AccountKind
-    Integer kind;
+    @ApiModelProperty(name = "kind", required = true)
+    private Integer kind;
     @StatusConstraint
-    Integer status;
-    @NotNull(message = "groupId is required")
-    Long groupId;
+    @ApiModelProperty(name = "status", required = true)
+    private Integer status;
+    @NotNull(message = "groupId cannot be null")
+    @ApiModelProperty(name = "groupId", required = true)
+    private Long groupId;
 }

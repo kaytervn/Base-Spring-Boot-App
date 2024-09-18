@@ -1,12 +1,10 @@
 package com.app.service.impl;
 
 import com.app.constant.AppConstant;
-import com.app.constant.AppEnum;
+import com.app.constant.SecurityConstant;
 import com.app.model.Account;
 import com.app.repository.AccountRepository;
 import com.app.jwt.AppJwt;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +28,14 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Service(value = AppConstant.APP_USER_SERVICE)
 @Slf4j
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@Service(value = AppConstant.APP_USER_SERVICE)
 public class UserServiceImpl implements UserDetailsService {
     public String AUTH_SERVER_TOKEN = "";
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String userId) {
@@ -61,7 +58,7 @@ public class UserServiceImpl implements UserDetailsService {
     public OAuth2AccessToken getAccessToken(ClientDetails client, TokenRequest tokenRequest, AuthorizationServerTokenServices tokenServices) {
         String username = tokenRequest.getRequestParameters().get("username");
         UserDetails userDetails = loadUserByUsername(username);
-        return createAccessToken(client, userDetails, AppConstant.GRANT_TYPE_PASSWORD, tokenServices);
+        return createAccessToken(client, userDetails, SecurityConstant.GRANT_TYPE_PASSWORD, tokenServices);
     }
 
     public OAuth2AccessToken getAccessTokenForUser(ClientDetails client, TokenRequest tokenRequest, AuthorizationServerTokenServices tokenServices) {
@@ -74,13 +71,13 @@ public class UserServiceImpl implements UserDetailsService {
             throw new InvalidClientException("Password must be at least 6 characters");
         }
         Account user = accountRepository.findFirstByPhone(phone)
-                .filter(u -> Objects.equals(AppEnum.STATUS_ACTIVE, u.getStatus()))
+                .filter(u -> Objects.equals(AppConstant.STATUS_ACTIVE, u.getStatus()))
                 .orElseThrow(() -> new InvalidClientException("User not found with this phone number"));
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new InvalidClientException("Invalid password");
         }
         UserDetails userDetails = loadUserByUsername(user.getUsername());
-        return createAccessToken(client, userDetails, AppConstant.GRANT_TYPE_USER, tokenServices);
+        return createAccessToken(client, userDetails, SecurityConstant.GRANT_TYPE_USER, tokenServices);
     }
 
     private OAuth2AccessToken createAccessToken(ClientDetails client, UserDetails userDetails, String grantType, AuthorizationServerTokenServices tokenServices) {
@@ -109,10 +106,6 @@ public class UserServiceImpl implements UserDetailsService {
 
     public String getCurrentToken() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof AnonymousAuthenticationToken) {
-            return null;
-        }
-        OAuth2AuthenticationDetails oauthDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
-        return oauthDetails != null ? oauthDetails.getTokenValue() : null;
+        return (authentication instanceof AnonymousAuthenticationToken) ? null : ((OAuth2AuthenticationDetails) authentication.getDetails()).getTokenValue();
     }
 }

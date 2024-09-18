@@ -12,10 +12,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface PasswordConstraint {
     boolean allowNull() default false;
-
     String message() default "Password must be at least 6 characters";
-
     Class<?>[] groups() default {};
-
     Class<? extends Payload>[] payload() default {};
 }

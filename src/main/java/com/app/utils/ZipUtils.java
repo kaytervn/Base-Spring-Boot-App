@@ -28,8 +28,8 @@ public class ZipUtils {
 
     public static String unzipString(String input) {
         try (ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.getDecoder().decode(input));
-             InflaterInputStream inflaterStream = new InflaterInputStream(inputStream, new Inflater())) {
-            return new String(inflaterStream.readAllBytes(), StandardCharsets.UTF_8);
+             InflaterInputStream inflaterInputStream = new InflaterInputStream(inputStream, new Inflater())) {
+            return new String(inflaterInputStream.readAllBytes(), StandardCharsets.UTF_8);
         } catch (Exception e) {
             log.error("Error unzipping string", e);
             return null;

@@ -1,19 +1,25 @@
 package com.app.dto.permission;
 
 import com.app.dto.ABasicAdminDto;
-import lombok.AccessLevel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.FieldDefaults;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PermissionAdminDto extends ABasicAdminDto {
-    String name;
-    String action;
-    Boolean showMenu;
-    String description;
-    String groupName;
-    String permissionCode;
+    @ApiModelProperty(name = "name")
+    private String name;
+    @ApiModelProperty(name = "action")
+    private String action;
+    @ApiModelProperty(name = "showMenu")
+    private Boolean showMenu;
+    @ApiModelProperty(name = "description")
+    private String description;
+    @ApiModelProperty(name = "groupName")
+    private String groupName;
+    @ApiModelProperty(name = "permissionCode")
+    private String permissionCode;
+    @ApiModelProperty(name = "isSystem")
+    private Boolean isSystem;
 }

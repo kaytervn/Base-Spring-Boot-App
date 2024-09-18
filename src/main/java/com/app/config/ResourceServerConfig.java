@@ -1,8 +1,6 @@
 package com.app.config;
 
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,19 +16,18 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 @Configuration
 @EnableResourceServer
-@RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
-    JwtAccessTokenConverter jwtAccessTokenConverter;
-    JsonToUrlEncodedAuthenticationFilter jsonFilter;
-
-    static String[] PUBLIC_ENDPOINTS = {
+    private final static String[] PUBLIC_ENDPOINTS = {
             "/v2/api-docs", "/config/ui", "/swagger-resources/**", "/config/**",
             "/swagger-ui.html", "/index", "/pub/**", "/api/token", "/api/auth/pwd/verify-token",
             "/api/auth/activate/resend", "/api/auth/pwd", "/api/auth/logout", "/actuator/**",
             "/v1/account/request-forget-password", "/v1/account/forget-password",
             "/v1/file/download/**"
     };
+    @Autowired
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
+    @Autowired
+    private JsonToUrlEncodedAuthenticationFilter jsonFilter;
 
     @Bean
     public DefaultTokenServices tokenServices() {
@@ -54,7 +51,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
-        resources.resourceId("spring-app");
+        resources.resourceId("app");
     }
 }
 

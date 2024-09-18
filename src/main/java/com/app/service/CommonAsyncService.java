@@ -1,8 +1,8 @@
 package com.app.service;
 
 import com.app.constant.AppConstant;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
+
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,15 +16,14 @@ import java.util.Collections;
 
 @Service
 @Slf4j
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CommonAsyncService {
     @Autowired
-    EmailService emailService;
+    private EmailService emailService;
     @Autowired
-    RestTemplate restTemplate;
+    private RestTemplate restTemplate;
+    @Autowired
     @Qualifier(AppConstant.APP_THREAD_POOL_EXECUTOR)
-    @Autowired
-    TaskExecutor taskExecutor;
+    private TaskExecutor taskExecutor;
 
     @Async
     public void sendEmail(String email, String msg, String subject, boolean html) {

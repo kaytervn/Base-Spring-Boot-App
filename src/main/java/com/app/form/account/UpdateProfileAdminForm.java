@@ -1,18 +1,19 @@
 package com.app.form.account;
 
 import com.app.validation.PasswordConstraint;
-import lombok.AccessLevel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
 
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpdateProfileAdminForm {
-    @NotBlank(message = "fullName is required")
-    String fullName;
-    String avatar;
+    @NotBlank(message = "fullName cannot be null")
+    @ApiModelProperty(name = "fullName", required = true)
+    private String fullName;
+    @ApiModelProperty(name = "avatar")
+    private String avatar;
     @PasswordConstraint
-    String oldPassword;
+    @ApiModelProperty(name = "oldPassword", required = true)
+    private String oldPassword;
 }

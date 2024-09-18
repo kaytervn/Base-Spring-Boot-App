@@ -1,22 +1,20 @@
 package com.app.rabbitMQ.service;
 
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RabbitSender {
-    RabbitTemplate template;
-    RabbitAdmin rabbitAdmin;
+    @Autowired
+    private RabbitTemplate template;
+    @Autowired
+    private RabbitAdmin rabbitAdmin;
 
     public void send(String message, String queueName) {
         if (StringUtils.isBlank(message)) {

@@ -1,25 +1,22 @@
 package com.app.multitenancy.tenant;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.experimental.FieldDefaults;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties("multitenancy.tenant.datasource")
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@ConfigurationProperties("multitenancy.tenant.datasource")
 public class TenantDatabaseConfigProperties {
-    Long connectionTimeout;
-    Integer maxPoolSize;
-    Long idleTimeout;
-    Integer minIdle;
-    String dialect;
-    boolean showSql;
-    String ddlAuto;
-    String url;
-    String username;
-    String password;
-    String driverClassName;
+    private Long connectionTimeout;
+    private Integer maxPoolSize;
+    private Long idleTimeout;
+    private Integer minIdle;
+    private String dialect;
+    private boolean showSql;
+    private String ddlAuto;
+    private String url;
+    private String username;
+    private String password;
+    private String driverClassName;
 }

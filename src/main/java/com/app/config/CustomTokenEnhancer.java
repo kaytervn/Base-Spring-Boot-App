@@ -2,9 +2,7 @@ package com.app.config;
 
 import com.app.dto.account.AccountForTokenDto;
 import com.app.utils.ZipUtils;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,12 +14,11 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import java.util.HashMap;
 import java.util.Map;
 
+@AllArgsConstructor
 @Slf4j
-@RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CustomTokenEnhancer implements TokenEnhancer {
-    JdbcTemplate jdbcTemplate;
-    static String DELIM = "|";
+    private JdbcTemplate jdbcTemplate;
+    private final static String DELIM = "|";
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {

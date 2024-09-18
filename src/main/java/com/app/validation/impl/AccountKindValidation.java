@@ -1,17 +1,17 @@
 package com.app.validation.impl;
 
-import com.app.constant.AppEnum;
+import com.app.constant.AppConstant;
 import com.app.validation.AccountKind;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.Set;
+import java.util.List;
 
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountKindValidation implements ConstraintValidator<AccountKind, Integer> {
-    boolean allowNull;
+    private boolean allowNull;
+    private static final List<Integer> VALID_VALUES = List.of(
+            AppConstant.ACCOUNT_KIND_ADMIN, AppConstant.ACCOUNT_KIND_USER, AppConstant.ACCOUNT_KIND_MANAGER
+    );
 
     @Override
     public void initialize(AccountKind constraintAnnotation) {
@@ -20,9 +20,6 @@ public class AccountKindValidation implements ConstraintValidator<AccountKind, I
 
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
-        if (value == null) {
-            return allowNull;
-        }
-        return Set.of(AppEnum.ACCOUNT_KIND_ADMIN, AppEnum.ACCOUNT_KIND_MANAGER, AppEnum.ACCOUNT_KIND_USER).contains(value);
+        return value == null ? allowNull : VALID_VALUES.contains(value);
     }
 }

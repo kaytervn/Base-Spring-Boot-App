@@ -1,20 +1,17 @@
 package com.app.service;
 
 import com.app.constant.AppConstant;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
+
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 
 @Service
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ExcelService {
-    static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(AppConstant.DATE_TIME_FORMAT);
+    private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(AppConstant.DATE_TIME_FORMAT);
 
     public CellStyle createBorderCellStyle(Workbook workbook) {
         CellStyle style = workbook.createCellStyle();

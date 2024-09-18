@@ -4,8 +4,6 @@ import com.app.dto.ApiMessageDto;
 import com.app.dto.file.UploadFileDto;
 import com.app.form.file.UploadFileForm;
 import com.app.model.Permission;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -29,23 +27,21 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ApiService {
-    final static String[] UPLOAD_TYPES = {"LOGO", "AVATAR", "IMAGE", "DOCUMENT"};
-    final static Map<String, Long> storeQRCodeRandom = new ConcurrentHashMap<>();
-    final static long MAX_FILE_SIZE_MB = 5;
+    private final static String[] UPLOAD_TYPES = {"LOGO", "AVATAR", "IMAGE", "DOCUMENT"};
+    private final static Map<String, Long> storeQRCodeRandom = new ConcurrentHashMap<>();
     @Value("${file.upload-dir}")
-    String UPLOAD_DIRECTORY;
+    private String UPLOAD_DIRECTORY;
     @Autowired
-    OTPService otpService;
+    private OTPService otpService;
     @Autowired
-    CommonAsyncService commonAsyncService;
+    private CommonAsyncService commonAsyncService;
 
     public ApiMessageDto<UploadFileDto> storeFile(UploadFileForm uploadFileForm) {
         ApiMessageDto<UploadFileDto> apiMessageDto = new ApiMessageDto<>();
         if (!Arrays.asList(UPLOAD_TYPES).contains(uploadFileForm.getType().toUpperCase())) {
             apiMessageDto.setResult(false);
-            apiMessageDto.setMessage("Type is required in LOGO, AVATAR, IMAGE or DOCUMENT.");
+            apiMessageDto.setMessage("Type cannot be null in LOGO, AVATAR, IMAGE or DOCUMENT");
             return apiMessageDto;
         }
         try {
@@ -56,12 +52,6 @@ public class ApiService {
             Path fileStorageLocation = Paths.get(UPLOAD_DIRECTORY + typeFolder).toAbsolutePath().normalize();
             Files.createDirectories(fileStorageLocation);
             Path targetLocation = fileStorageLocation.resolve(finalFile);
-            long fileSizeMB = uploadFileForm.getFile().getSize() / (1024 * 1024);
-            if (fileSizeMB > MAX_FILE_SIZE_MB) {
-                apiMessageDto.setResult(false);
-                apiMessageDto.setMessage("File size exceeds the maximum limit of " + MAX_FILE_SIZE_MB + " MB.");
-                return apiMessageDto;
-            }
             Files.copy(uploadFileForm.getFile().getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             UploadFileDto uploadFileDto = new UploadFileDto();
             uploadFileDto.setFilePath(typeFolder + File.separator + finalFile);

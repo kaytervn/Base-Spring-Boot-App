@@ -1,6 +1,5 @@
 package com.app.validation;
 
-
 import com.app.validation.impl.UsernameValidation;
 
 import javax.validation.Constraint;
@@ -13,11 +12,8 @@ import java.lang.annotation.*;
 @Documented
 public @interface UsernameConstraint {
     boolean allowNull() default false;
-
     String message() default "Username is invalid";
-
     Class<?>[] groups() default {};
-
     Class<? extends Payload>[] payload() default {};
 }
 

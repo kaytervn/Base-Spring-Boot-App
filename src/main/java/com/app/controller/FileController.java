@@ -5,8 +5,8 @@ import com.app.dto.file.UploadFileDto;
 import com.app.form.file.UploadFileForm;
 import com.app.service.ApiService;
 import com.google.common.net.HttpHeaders;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
+
+;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -27,13 +27,12 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/v1/file")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileController {
     @Autowired
-    ApiService apiService;
+    private ApiService apiService;
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('FIL_U')")
+    @PreAuthorize("hasRole('FILE_U')")
     public ApiMessageDto<UploadFileDto> upload(@Valid UploadFileForm uploadFileForm, BindingResult bindingResult) {
         ApiMessageDto<UploadFileDto> apiMessageDto = apiService.storeFile(uploadFileForm);
         apiMessageDto.setResult(true);
@@ -48,7 +47,7 @@ public class FileController {
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (IOException ex) {
-            log.warn("Could not determine file type.");
+            log.warn("Could not determine file type");
         }
         if (contentType == null) {
             contentType = "application/octet-stream";
@@ -56,7 +55,7 @@ public class FileController {
         return ResponseEntity.ok()
                 .cacheControl(CacheControl.maxAge(7776000, TimeUnit.SECONDS))
                 .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
                 .body(resource);
     }
 }

@@ -1,16 +1,13 @@
 package com.app.dto;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.experimental.FieldDefaults;
 
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ApiMessageDto<T> {
-    Boolean result = true;
-    String code = null;
-    T data = null;
-    String message = null;
-    String firebaseUrl;
-    String urlBase;
+    private Boolean result = true;
+    private String code = null;
+    private T data = null;
+    private String message = null;
+    private String firebaseUrl;
+    private String urlBase;
 }

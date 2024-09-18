@@ -4,29 +4,35 @@ import com.app.validation.EmailConstraint;
 import com.app.validation.PasswordConstraint;
 import com.app.validation.PhoneConstraint;
 import com.app.validation.StatusConstraint;
-import lombok.AccessLevel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpdateAccountAdminForm {
-    @NotNull(message = "id is required")
-    Long id;
+    @NotNull(message = "id cannot be null")
+    @ApiModelProperty(name = "id", required = true)
+    private Long id;
     @PasswordConstraint
-    String password;
-    @NotBlank(message = "fullName is required")
-    String fullName;
-    String avatar;
+    @ApiModelProperty(name = "password", required = true)
+    private String password;
+    @NotBlank(message = "fullName cannot be null")
+    @ApiModelProperty(name = "fullName", required = true)
+    private String fullName;
+    @ApiModelProperty(name = "avatar")
+    private String avatar;
     @EmailConstraint
-    String email;
+    @ApiModelProperty(name = "email", required = true)
+    private String email;
     @PhoneConstraint
-    String phone;
+    @ApiModelProperty(name = "phone", required = true)
+    private String phone;
     @StatusConstraint
-    Integer status;
-    @NotNull(message = "groupId is required")
-    Long groupId;
+    @ApiModelProperty(name = "status", required = true)
+    private Integer status;
+    @NotNull(message = "groupId cannot be null")
+    @ApiModelProperty(name = "groupId", required = true)
+    private Long groupId;
 }

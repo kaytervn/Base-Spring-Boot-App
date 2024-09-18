@@ -1,7 +1,5 @@
 package com.app.utils;
 
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.Cipher;
@@ -16,23 +14,13 @@ import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
 @Slf4j
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public final class AESUtils {
-    static String SECRET_KEY = "cututusethayema1";
-    static String AES = "AES";
+    private static final String AES_ALGORITHM = "AES";
 
-    public static String encrypt(String input, boolean zipEnable) {
-        return encrypt(SECRET_KEY, input, zipEnable);
-    }
-
-    public static String decrypt(String input, boolean zipEnable) {
-        return decrypt(SECRET_KEY, input, zipEnable);
-    }
-
-    public static String encrypt(String encodeKey, String inputStr, boolean zipEnable) {
+    public static String encrypt(String secretKey, String inputStr, boolean zipEnable) {
         try {
-            Cipher cipher = Cipher.getInstance(AES);
-            cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(encodeKey.getBytes(StandardCharsets.UTF_8), AES));
+            Cipher cipher = Cipher.getInstance(AES_ALGORITHM);
+            cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), AES_ALGORITHM));
             byte[] outputBytes = cipher.doFinal(inputStr.getBytes(StandardCharsets.UTF_8));
             return Base64.getEncoder().encodeToString(zipEnable ? zip(outputBytes) : outputBytes);
         } catch (Exception ex) {
@@ -41,10 +29,10 @@ public final class AESUtils {
         }
     }
 
-    public static String decrypt(String encodeKey, String encryptedStr, boolean zipEnable) {
+    public static String decrypt(String secretKey, String encryptedStr, boolean zipEnable) {
         try {
-            Cipher cipher = Cipher.getInstance(AES);
-            cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(encodeKey.getBytes(StandardCharsets.UTF_8), AES));
+            Cipher cipher = Cipher.getInstance(AES_ALGORITHM);
+            cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), AES_ALGORITHM));
             byte[] decodedBytes = Base64.getDecoder().decode(encryptedStr.getBytes(StandardCharsets.UTF_8));
             byte[] decryptedBytes = cipher.doFinal(zipEnable ? unzip(decodedBytes) : decodedBytes);
             return new String(decryptedBytes, StandardCharsets.UTF_8);
@@ -75,10 +63,10 @@ public final class AESUtils {
 
     public static SecretKey generateAESKey(int keysize) {
         try {
-            if (Cipher.getMaxAllowedKeyLength(AES) < keysize) {
+            if (Cipher.getMaxAllowedKeyLength(AES_ALGORITHM) < keysize) {
                 throw new InvalidParameterException("Key size of " + keysize + " not supported in this runtime");
             }
-            KeyGenerator keyGen = KeyGenerator.getInstance(AES);
+            KeyGenerator keyGen = KeyGenerator.getInstance(AES_ALGORITHM);
             keyGen.init(keysize);
             return keyGen.generateKey();
         } catch (NoSuchAlgorithmException e) {
@@ -89,7 +77,7 @@ public final class AESUtils {
 
     public static SecretKey decodeBase64ToAESKey(String encodedKey) {
         byte[] keyData = Base64.getDecoder().decode(encodedKey);
-        return new SecretKeySpec(keyData, AES);
+        return new SecretKeySpec(keyData, AES_ALGORITHM);
     }
 
     public static String encodeAESKeyToBase64(SecretKey aesKey) {

@@ -12,10 +12,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface PhoneConstraint {
     boolean allowNull() default false;
-
     String message() default "Invalid phone number format";
-
     Class<?>[] groups() default {};
-
     Class<? extends Payload>[] payload() default {};
 }

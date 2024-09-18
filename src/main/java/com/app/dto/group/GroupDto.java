@@ -1,17 +1,19 @@
 package com.app.dto.group;
 
 import com.app.dto.permission.PermissionDto;
-import lombok.AccessLevel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class GroupDto {
-    Long id;
-    String name;
-    Integer kind;
-    List<PermissionDto> permissions;
+    @ApiModelProperty(name = "id")
+    private Long id;
+    @ApiModelProperty(name = "name")
+    private String name;
+    @ApiModelProperty(name = "kind")
+    private Integer kind;
+    @ApiModelProperty(name = "permissions")
+    private List<PermissionDto> permissions;
 }

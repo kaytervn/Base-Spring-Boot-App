@@ -8,7 +8,6 @@ import org.hibernate.id.IdentifierGenerator;
 import java.io.Serializable;
 
 public class IdGenerator implements IdentifierGenerator {
-
     @Override
     public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException {
         ReuseId reuseId = (ReuseId) o;

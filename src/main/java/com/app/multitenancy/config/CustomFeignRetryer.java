@@ -7,8 +7,6 @@ import com.app.multitenancy.dto.LoginAuthDto;
 import com.app.multitenancy.feign.FeignAccountAuthService;
 import feign.RetryableException;
 import feign.Retryer;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,12 +17,11 @@ import org.springframework.util.MultiValueMap;
 
 @Slf4j
 @Component
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CustomFeignRetryer implements Retryer {
-    static final int DEFAULT_BACKOFF = 1000;
-    final int maxAttempts;
-    final long backoff;
-    int attempt = 0;
+    private static final int DEFAULT_BACKOFF = 1000;
+    private final int maxAttempts;
+    private final long backoff;
+    private int attempt = 0;
 
     @Autowired
     public CustomFeignRetryer(@Value("${feign.client.retryer.config.maxAttempt}") int maxAttempts) {

@@ -5,9 +5,7 @@ import com.app.multitenancy.constant.FeignConstant;
 import com.app.multitenancy.feign.FeignAccountAuthService;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +18,16 @@ import java.util.*;
 @Data
 @Slf4j
 @Component
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class OAuth2FeignRequestInterceptor implements RequestInterceptor {
-    static final String AUTHORIZATION_HEADER = "Authorization";
-    static final String BEARER_TOKEN_TYPE = "Bearer";
-    static final String BASIC_AUTH_TYPE = "Basic";
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String BEARER_TOKEN_TYPE = "Bearer";
+    private static final String BASIC_AUTH_TYPE = "Basic";
     @Value("${auth.internal.basic.username}")
-    String internalAuthUsername;
+    private String internalAuthUsername;
     @Value("${auth.internal.basic.password}")
-    String internalAuthPassword;
+    private String internalAuthPassword;
     @Autowired
-    UserServiceImpl userService;
+    private UserServiceImpl userService;
 
     @Override
     public void apply(RequestTemplate template) {

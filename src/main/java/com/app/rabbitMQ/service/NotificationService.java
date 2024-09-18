@@ -3,25 +3,22 @@ package com.app.rabbitMQ.service;
 import com.app.rabbitMQ.constant.RabbitMQConstant;
 import com.app.rabbitMQ.form.BaseMessageForm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class NotificationService {
-    RabbitMQService rabbitMQService;
-    RabbitSender rabbitSender;
-    ObjectMapper objectMapper;
-    @NonFinal
+    @Autowired
+    private RabbitMQService rabbitMQService;
+    @Autowired
+    private RabbitSender rabbitSender;
+    @Autowired
+    private ObjectMapper objectMapper;
     @Value("${rabbitmq.queue.name}")
-    String queueName;
+    private String queueName;
 
     public <T> void sendMessage(T data, String cmd) {
         BaseMessageForm<T> form = new BaseMessageForm<>();

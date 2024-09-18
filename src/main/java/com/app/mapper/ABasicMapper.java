@@ -14,18 +14,18 @@ import org.mapstruct.ReportingPolicy;
 public interface ABasicMapper {
     @Named("encrypt")
     default String encrypt(String secretKey, String value) {
-        return AESUtils.encrypt(secretKey, value, AppConstant.AES_ZIP_ENABLE);
+        return AESUtils.encrypt(secretKey, value, AppConstant.AES_ZIP_ENABLED);
     }
 
     @Named("decrypt")
     default String decrypt(String secretKey, String value) {
-        return AESUtils.decrypt(secretKey, value, AppConstant.AES_ZIP_ENABLE);
+        return AESUtils.decrypt(secretKey, value, AppConstant.AES_ZIP_ENABLED);
     }
 
     @Named("decryptAndEncrypt")
     default String decryptAndEncrypt(KeyWrapperDto keyWrapper, String value) {
-        String decryptedValue = AESUtils.decrypt(keyWrapper.getDecryptKey(), value, AppConstant.AES_ZIP_ENABLE);
-        return AESUtils.encrypt(keyWrapper.getEncryptKey(), decryptedValue, AppConstant.AES_ZIP_ENABLE);
+        String decryptedValue = AESUtils.decrypt(keyWrapper.getDecryptKey(), value, AppConstant.AES_ZIP_ENABLED);
+        return AESUtils.encrypt(keyWrapper.getEncryptKey(), decryptedValue, AppConstant.AES_ZIP_ENABLED);
     }
 
     @Named("convertDoubleToString")

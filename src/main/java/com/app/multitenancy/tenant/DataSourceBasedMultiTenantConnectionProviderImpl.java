@@ -8,11 +8,9 @@ import com.google.common.cache.*;
 import com.zaxxer.hikari.HikariDataSource;
 import liquibase.exception.LiquibaseException;
 import liquibase.integration.spring.SpringLiquibase;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.cfg.Environment;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
@@ -39,22 +37,21 @@ import java.util.concurrent.TimeUnit;
 @Setter
 @Component
 @Slf4j
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl implements ResourceLoaderAware {
-    LoadingCache<String, DataSource> dataSourcesMtApp;
+    private LoadingCache<String, DataSource> dataSourcesMtApp;
     @Autowired
-    TenantDatabaseConfigProperties configProperties;
+    private TenantDatabaseConfigProperties configProperties;
     @Autowired
-    FeignDbConfigAuthService dbConfigAuthService;
+    private FeignDbConfigAuthService dbConfigAuthService;
     @Value("${multitenancy.datasource-cache.maximumSize}")
-    Long maximumSize;
+    private Long maximumSize;
     @Value("${multitenancy.datasource-cache.expireAfterAccess}")
-    Integer expireAfterAccess;
+    private Integer expireAfterAccess;
     @Autowired
     @Qualifier("tenantLiquibaseProperties")
-    LiquibaseProperties liquibaseProperties;
-    ResourceLoader resourceLoader;
-    Boolean DDL_AUTO = false;
+    private LiquibaseProperties liquibaseProperties;
+    private ResourceLoader resourceLoader;
+    private Boolean DDL_AUTO = false;
 
     @PostConstruct
     private void createCache() {

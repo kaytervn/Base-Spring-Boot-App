@@ -2,19 +2,21 @@ package com.app.dto.group;
 
 import com.app.dto.ABasicAdminDto;
 import com.app.dto.permission.PermissionDto;
-import lombok.AccessLevel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class GroupAdminDto extends ABasicAdminDto {
-    String name;
-    String description;
-    Integer kind;
-    List<PermissionDto> permissions;
+    @ApiModelProperty(name = "name")
+    private String name;
+    @ApiModelProperty(name = "description")
+    private String description;
+    @ApiModelProperty(name = "kind")
+    private Integer kind;
+    @ApiModelProperty(name = "permissions")
+    private List<PermissionDto> permissions;
 }

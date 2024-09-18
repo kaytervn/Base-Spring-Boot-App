@@ -1,16 +1,18 @@
 package com.app.dto;
 
-import lombok.AccessLevel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
 
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ABasicAdminDto {
-    Long id;
-    Integer status;
-    Date modifiedDate;
-    Date createdDate;
+    @ApiModelProperty(name = "id")
+    private Long id;
+    @ApiModelProperty(name = "status")
+    private Integer status;
+    @ApiModelProperty(name = "modifiedDate")
+    private Date modifiedDate;
+    @ApiModelProperty(name = "createdDate")
+    private Date createdDate;
 }

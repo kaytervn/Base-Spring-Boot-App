@@ -1,8 +1,9 @@
 package com.app.model;
 
+import com.app.constant.AppConstant;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -12,28 +13,31 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "db_app_account")
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @EntityListeners(AuditingEntityListener.class)
 public class Account extends Auditable<String> {
-    Integer kind;
+    @Id
+    @GeneratedValue(generator = AppConstant.APP_ID_GENERATOR_NAME)
+    @GenericGenerator(name = AppConstant.APP_ID_GENERATOR_NAME, strategy = AppConstant.APP_ID_GENERATOR_STRATEGY)
+    private Long id;
+    private Integer kind;
     @Column(unique = true)
-    String username;
+    private String username;
     @Column(unique = true)
-    String phone;
+    private String phone;
     @Column(unique = true)
-    String email;
+    private String email;
     @JsonIgnore
-    String password;
-    String fullName;
+    private String password;
+    private String fullName;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
-    Group group;
-    Date lastLogin;
-    String avatar;
-    String resetPasswordCode;
-    Date resetPasswordTime;
+    private Group group;
+    private Date lastLogin;
+    private String avatar;
+    private String resetPasswordCode;
+    private Date resetPasswordTime;
     @Column(name = "attempt_forget_password")
-    Integer attemptCode;
-    Integer attemptLogin;
-    Boolean isSuperAdmin = false;
+    private Integer attemptCode;
+    private Integer attemptLogin;
+    private Boolean isSuperAdmin = false;
 }

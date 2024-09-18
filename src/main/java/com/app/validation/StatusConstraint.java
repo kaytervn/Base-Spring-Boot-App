@@ -1,6 +1,5 @@
 package com.app.validation;
 
-
 import com.app.validation.impl.StatusValidation;
 
 import javax.validation.Constraint;
@@ -13,10 +12,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface StatusConstraint {
     boolean allowNull() default false;
-
     String message() default "Status is invalid";
-
     Class<?>[] groups() default {};
-
     Class<? extends Payload>[] payload() default {};
 }

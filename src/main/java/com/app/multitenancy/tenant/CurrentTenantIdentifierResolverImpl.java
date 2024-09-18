@@ -4,7 +4,7 @@ import com.app.multitenancy.constant.TenantConstant;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 
 public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentifierResolver {
-    String defaultTenant = TenantConstant.DEFAULT_TENANT_ID;
+    private static final String defaultTenant = TenantConstant.DEFAULT_TENANT_ID;
 
     @Override
     public String resolveCurrentTenantIdentifier() {

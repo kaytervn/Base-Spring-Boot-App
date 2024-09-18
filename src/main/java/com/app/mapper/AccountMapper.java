@@ -69,4 +69,14 @@ public interface AccountMapper extends ABasicMapper {
 
     @IterableMapping(elementTargetType = AccountDto.class, qualifiedByName = "fromEntityToAccountDto")
     List<AccountDto> fromEntityListToAccountDtoList(List<Account> accounts);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "username", target = "username")
+    @Mapping(source = "fullName", target = "fullName")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("fromEntityToAccountDtoAutoComplete")
+    AccountDto fromEntityToAccountDtoAutoComplete(Account account);
+
+    @IterableMapping(elementTargetType = AccountDto.class, qualifiedByName = "fromEntityToAccountDtoAutoComplete")
+    List<AccountDto> fromEntityListToAccountDtoListAutoComplete(List<Account> accounts);
 }

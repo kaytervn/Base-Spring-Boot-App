@@ -2,10 +2,9 @@ package com.app.service.impl;
 
 import com.app.service.LoggingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
+
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +16,9 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class LoggingServiceImpl implements LoggingService {
-    ObjectMapper mapper;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
     public void log(HttpServletRequest request, HttpServletResponse response, Object body) {
@@ -58,7 +56,7 @@ public class LoggingServiceImpl implements LoggingService {
 
     private void logAsJson(String prefix, Object data) {
         try {
-            log.warn("{}: {}", prefix, mapper.writeValueAsString(data));
+            log.warn("{}: {}", prefix, objectMapper.writeValueAsString(data));
         } catch (Exception e) {
             log.error("Error logging as JSON", e);
         }
