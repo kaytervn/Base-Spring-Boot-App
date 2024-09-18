@@ -9,7 +9,6 @@ import javax.validation.ConstraintValidatorContext;
 
 public class UsernameValidation implements ConstraintValidator<UsernameConstraint, String> {
     private boolean allowNull;
-    private static final String PATTERN = AppConstant.USERNAME_PATTERN;
 
     @Override
     public void initialize(UsernameConstraint constraintAnnotation) {
@@ -18,6 +17,6 @@ public class UsernameValidation implements ConstraintValidator<UsernameConstrain
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
-        return StringUtils.isBlank(value) ? allowNull : StringUtils.isNotBlank(value) && value.matches(PATTERN);
+        return StringUtils.isBlank(value) ? allowNull : StringUtils.isNotBlank(value) && value.matches(AppConstant.USERNAME_PATTERN);
     }
 }

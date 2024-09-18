@@ -9,9 +9,6 @@ import java.util.List;
 
 public class BooleanValueValidation implements ConstraintValidator<BooleanValueConstraint, Integer> {
     private boolean allowNull;
-    private static final List<Integer> VALID_VALUES = List.of(
-            AppConstant.BOOLEAN_TRUE, AppConstant.BOOLEAN_FALSE
-    );
 
     @Override
     public void initialize(BooleanValueConstraint constraintAnnotation) {
@@ -20,6 +17,9 @@ public class BooleanValueValidation implements ConstraintValidator<BooleanValueC
 
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
-        return value == null ? allowNull : VALID_VALUES.contains(value);
+        return value == null ? allowNull : List.of(
+                AppConstant.BOOLEAN_TRUE,
+                AppConstant.BOOLEAN_FALSE
+        ).contains(value);
     }
 }

@@ -9,7 +9,6 @@ import javax.validation.ConstraintValidatorContext;
 
 public class PasswordValidation implements ConstraintValidator<PasswordConstraint, String> {
     private boolean allowNull;
-    private static final String PATTERN = AppConstant.PASSWORD_PATTERN;
 
     @Override
     public void initialize(PasswordConstraint constraintAnnotation) {
@@ -18,6 +17,6 @@ public class PasswordValidation implements ConstraintValidator<PasswordConstrain
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
-        return StringUtils.isBlank(value) ? allowNull : StringUtils.isNotBlank(value) && value.matches(PATTERN);
+        return StringUtils.isBlank(value) ? allowNull : StringUtils.isNotBlank(value) && value.matches(AppConstant.PASSWORD_PATTERN);
     }
 }

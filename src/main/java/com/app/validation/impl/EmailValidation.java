@@ -9,7 +9,6 @@ import javax.validation.ConstraintValidatorContext;
 
 public class EmailValidation implements ConstraintValidator<EmailConstraint, String> {
     private boolean allowNull;
-    private static final String PATTERN = AppConstant.EMAIL_PATTERN;
 
     @Override
     public void initialize(EmailConstraint constraintAnnotation) {
@@ -18,6 +17,6 @@ public class EmailValidation implements ConstraintValidator<EmailConstraint, Str
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
-        return StringUtils.isBlank(value) ? allowNull : StringUtils.isNotBlank(value) && value.matches(PATTERN);
+        return StringUtils.isBlank(value) ? allowNull : StringUtils.isNotBlank(value) && value.matches(AppConstant.EMAIL_PATTERN);
     }
 }

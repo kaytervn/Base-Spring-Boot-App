@@ -9,9 +9,6 @@ import java.util.List;
 
 public class AccountKindValidation implements ConstraintValidator<AccountKind, Integer> {
     private boolean allowNull;
-    private static final List<Integer> VALID_VALUES = List.of(
-            AppConstant.ACCOUNT_KIND_ADMIN, AppConstant.ACCOUNT_KIND_USER, AppConstant.ACCOUNT_KIND_MANAGER
-    );
 
     @Override
     public void initialize(AccountKind constraintAnnotation) {
@@ -20,6 +17,10 @@ public class AccountKindValidation implements ConstraintValidator<AccountKind, I
 
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
-        return value == null ? allowNull : VALID_VALUES.contains(value);
+        return value == null ? allowNull : List.of(
+                AppConstant.ACCOUNT_KIND_ADMIN,
+                AppConstant.ACCOUNT_KIND_USER,
+                AppConstant.ACCOUNT_KIND_MANAGER
+        ).contains(value);
     }
 }

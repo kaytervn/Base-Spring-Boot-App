@@ -9,7 +9,6 @@ import javax.validation.ConstraintValidatorContext;
 
 public class PhoneValidation implements ConstraintValidator<PhoneConstraint, String> {
     private boolean allowNull;
-    private static final String PATTERN = AppConstant.PHONE_PATTERN;
 
     @Override
     public void initialize(PhoneConstraint constraintAnnotation) {
@@ -18,6 +17,6 @@ public class PhoneValidation implements ConstraintValidator<PhoneConstraint, Str
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
-        return StringUtils.isBlank(value) ? allowNull : StringUtils.isNotBlank(value) && value.matches(PATTERN);
+        return StringUtils.isBlank(value) ? allowNull : StringUtils.isNotBlank(value) && value.matches(AppConstant.PHONE_PATTERN);
     }
 }
