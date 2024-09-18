@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SettingRepository extends JpaRepository<Setting, Long>, JpaSpecificationExecutor<Setting> {
-    Optional<Setting> findFirstByKeyName(String keyName);
     Optional<Setting> findFirstByGroupNameAndKeyName(String groupName, String keyName);
     @Query("SELECT s FROM Setting s WHERE s.keyName IN :keyNames AND s.isSystem = :isSystem")
     List<Setting> findByKeyNames(@Param("keyNames") List<String> keyNames, @Param("isSystem") Boolean isSystem);
