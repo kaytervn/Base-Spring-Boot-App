@@ -29,7 +29,7 @@ public class ApplicationFeignConfig {
     @Value("${auth.internal.password}")
     private String password;
 
-    @PostConstruct
+//    @PostConstruct
     public void initialize() {
         MultiValueMap<String, String> request = new LinkedMultiValueMap<>();
         request.add("grant_type", "password");

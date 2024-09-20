@@ -51,7 +51,6 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
     @Qualifier("tenantLiquibaseProperties")
     private LiquibaseProperties liquibaseProperties;
     private ResourceLoader resourceLoader;
-    private Boolean DDL_AUTO = false;
 
     @PostConstruct
     private void createCache() {
@@ -126,9 +125,6 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
         if (!isBootstrap) {
             runLiquibase(ds, parseDatabaseNameFromUrl(dbConfig.getUrl()));
         }
-        if (DDL_AUTO) {
-            runDdlAuto(ds, parseDatabaseNameFromUrl(dbConfig.getUrl()));
-        }
         return ds;
     }
 
@@ -165,6 +161,7 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
         return liquibase;
     }
 
+    /** DataSource Config to Run DDL Auto **/
     private void runDdlAuto(DataSource ds, String schema) {
         LocalContainerEntityManagerFactoryBean emfBean = new LocalContainerEntityManagerFactoryBean();
         emfBean.setDataSource(ds);

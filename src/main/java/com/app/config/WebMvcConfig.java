@@ -72,6 +72,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .setDateFormat(new SimpleDateFormat(AppConstant.DATE_TIME_FORMAT));
     }
 
+    /** Application context hashmap **/
     @Bean(AppConstant.APP_CONFIG_MAP)
     public ConcurrentMap<String, String> getApplicationConfigMap() {
         return new ConcurrentHashMap<>();
